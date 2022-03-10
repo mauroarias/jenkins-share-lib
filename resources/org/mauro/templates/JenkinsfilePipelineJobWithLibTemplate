@@ -1,0 +1,5 @@
+@Library("pipeline-jenkins-lib@__version__") _
+
+__PIPELINE__ {
+    
+}
