@@ -69,7 +69,7 @@ def getBranch (type) {
     sh "echo 'get branch with type ${type}'"
     switch(type) {
         case 'maven java8':
-            return 'java8'
+            return 'wip-0.1.0'//'java8'
         case 'maven java11':
             return 'java11'
         default:
