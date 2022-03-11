@@ -45,10 +45,6 @@ def getRepositoryApiPath () {
     return "${getBaseApiPath()}repositories/${BITBUCKET_USER}/"
 }
 
-def cloneRepoWithBranch (branche, repository) {
-    sh "git clone -b ${branche} ${getPath()}${repository}"
-}
-
 def getPath () {
     return "https://${getAuth()}@bitbucket.org/${BITBUCKET_USER}/"
 }
@@ -65,10 +61,6 @@ def addRemote (repository, remote) {
 def getRepos (projectName) {
     projectNameKey = "${projectName}".toString().toUpperCase()
     return sh(script: "curl --user ${getAuth()} -X GET --url '${getRepositoryApiPath()}?q=project.key%3D+%22${projectNameKey}%22&pagelen=100' --header 'Accept: application/json' | jq -r '.values[] | .name'", returnStdout: true)
-}
-
-def cloneRepo (repository) {
-    sh "git clone ${getPath()}${repository}"
 }
 
 def getPathRepo(repository) {

@@ -41,29 +41,19 @@ def isRepositoryExits (type, repo) {
     }
 }
 
-def cloneRepoWithBranch (type, branche, repository) {
+def cloneRepoWithBranch (branche, repository) {
     sh "rm -rf ${repository}"
     sh "echo 'cloning repo in ${type}'"
-    if ("${type}" == 'gitHub') {
-        def gitHub = new org.mauro.git.GitHub()
-        gitHub.cloneRepoWithBranch("${branche}", "${repository}")
-    } else if ("${type}" == 'bitBucket') {
-        def bitBucket = new org.mauro.git.BitBucket()
-        bitBucket.cloneRepoWithBranch("${branche}", "${repository}")
-    }
+    def constants = new org.mauro.Constants()
+    sh "git clone -b '${branche}' '${constants.getRepoTemplate()}/${repository}'"
     return
 }
 
-def cloneRepo (type, repository) {
+def cloneRepo (repository) {
     sh "rm -rf ${repository}"
     sh "echo 'cloning repo in ${type}'"
-    if ("${type}" == 'gitHub') {
-        def gitHub = new org.mauro.git.GitHub()
-        gitHub.cloneRepo("${repository}")
-    } else if ("${type}" == 'bitBucket') {
-        def bitBucket = new org.mauro.git.BitBucket()
-        bitBucket.cloneRepo("${repository}")
-    }
+    def constants = new org.mauro.Constants()
+    sh "git clone '${constants.getRepoTemplate()}/${repository}'"
 }
 
 def createRepo (type, repository, projectName) {

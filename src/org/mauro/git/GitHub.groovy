@@ -19,10 +19,6 @@ def getPath () {
     return "https://${GIT_HUB_USER}:${GIT_HUB_TOKEN}@github.com/${GIT_HUB_USER}/"
 }
 
-def cloneRepoWithBranch (branche, repository) {
-    sh "git clone -b '${branche}' '${getPath()}${repository}'"
-}
-
 def createRepo (repository) {
     sh "curl -H \"Authorization: token ${GIT_HUB_TOKEN}\" --data '{\"name\":\"${repository}\"}' ${getApiUri()}"
 }
@@ -37,10 +33,6 @@ def addRemote (repository, remote) {
 
 def getRepos () {
     return sh(script: "curl -H \"Authorization: token ${GIT_HUB_TOKEN}\" -X GET ${getApiUri()} | jq -r '.[] | .name'", returnStdout: true)
-}
-
-def cloneRepo (repository) {
-    sh "git clone ${getPath()}${repository}"
 }
 
 def getPathRepo(repository) {

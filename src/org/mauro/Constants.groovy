@@ -1,5 +1,9 @@
 package org.mauro
 
+def getRepoTemplate() {
+    return 'https://github.com/mauroarias'
+}
+
 def getMavenAgent() {
     return 'maven:3.8.1-adoptopenjdk-11'
 }
