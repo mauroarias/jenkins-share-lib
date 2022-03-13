@@ -43,15 +43,13 @@ def isRepositoryExits (type, repo) {
 
 def cloneRepoWithBranch (branche, repository) {
     sh "rm -rf ${repository}"
-    def constants = new org.mauro.Constants()
-    sh "git clone -b '${branche}' '${constants.getRepoTemplate()}/${repository}'"
+    sh "git clone -b '${branche}' '${Constants.getRepoTemplate()}/${repository}'"
     return
 }
 
 def cloneRepo (repository) {
     sh "rm -rf ${repository}"
-    def constants = new org.mauro.Constants()
-    sh "git clone '${constants.getRepoTemplate()}/${repository}'"
+    sh "git clone '${Constants.getRepoTemplate()}/${repository}'"
 }
 
 def createRepo (type, repository, projectName) {

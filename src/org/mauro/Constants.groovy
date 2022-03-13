@@ -1,51 +1,57 @@
 package org.mauro
 
-def getRepoTemplate() {
-    return 'https://github.com/mauroarias'
-}
+final class Constants {
+    private final static repoTemplate = 'https://github.com/mauroarias'
+    private final static defaultAgent = 'alpine'
+    private final static mavenAgent = 'maven:3.8.1-adoptopenjdk-11'
+    private final static mavenTemplate = 'template-maven-app'
+    private final static commonHost = 'localhost'
 
-def getDefaultAgent () {
-    return 'alpine'
-}
+    static String getRepoTemplate() {
+        return repoTemplate
+    }
 
-def getMavenAgent() {
-    return 'maven:3.8.1-adoptopenjdk-11'
-}
+    static String getDefaultAgent () {
+        return defaultAgent
+    }
 
-def getMavenTemplate() {
-    return 'template-maven-app'
-}
+    static String getMavenAgent() {
+        return mavenAgent
+    }
 
-def getCommonHost() {
-    return 'localhost'
-}
+    static String getMavenTemplate() {
+        return mavenTemplate
+    }
 
-def getCommonURI() {
-    return "http://${getCommonHost()}"
-}
+    static String getCommonHost() {
+        return commonHost
+    }
 
-def getJenkinsHost() {
-    return "${getCommonURI()}:8080"
-}
+    static String getCommonURI() {
+        return "http://${getCommonHost()}"
+    }
 
-def getSonarHost() {
-    return "${getCommonURI()}:9000"
-}
+    static String getJenkinsHost() {
+        return "${getCommonURI()}:8080"
+    }
 
-def getDockerRepository () {
-    return "${getCommonHost()}:5000"
-}
+    static String getSonarHost() {
+        return "${getCommonURI()}:9000"
+    }
 
-def getDockerRepositoryDev () {
-    return getDockerRepository ()
-}
+    static String getDockerRepository () {
+        return "${getCommonHost()}:5000"
+    }
 
-def getDockerRepositoryStage () {
-    return getDockerRepository ()
-}
+    static String getDockerRepositoryDev () {
+        return getDockerRepository ()
+    }
 
-def getDockerRepositoryProd () {
-    return getDockerRepository ()
-}
+    static getDockerRepositoryStage () {
+        return getDockerRepository ()
+    }
 
-return this
+    static String getDockerRepositoryProd () {
+        return getDockerRepository ()
+    }
+}

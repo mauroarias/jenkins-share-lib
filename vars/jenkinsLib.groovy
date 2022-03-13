@@ -1,6 +1,5 @@
 def downloadJenkinsCli () {
-    def constants = new org.mauro.Constants()
-    jenkinsHost = constants.getJenkinsHost()
+    jenkinsHost = Constants.getJenkinsHost()
     sh "wget '${jenkinsHost}/jnlpJars/jenkins-cli.jar'"
 }
 

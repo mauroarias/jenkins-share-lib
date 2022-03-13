@@ -8,8 +8,7 @@ def validateEnvVars () {
 }
 
 def createProject (project, repository) {
-    def constants = new org.mauro.Constants()
-    sonarHost = constants.getJenkinsHost()
+    sonarHost = Constants.getJenkinsHost()
     sh "curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' -u ${getCredentials()} -d 'project=${project}&name=${repository}' '${sonarHost.getSonarHost()}/api/projects/create?'"
 }
 

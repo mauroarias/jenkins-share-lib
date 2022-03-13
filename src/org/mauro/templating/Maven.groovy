@@ -17,13 +17,11 @@ def getgroupId () {
 }
 
 def getTemplate () {
-    def constants = new org.mauro.Constants()
-    return constants.getMavenTemplate()
+    return Constants.getMavenTemplate()
 }
 
 def getAgent () {
-    def constants = new org.mauro.Constants()
-    return constants.getMavenAgent()
+    return Constants.getMavenAgent()
 }
 
 def build () {
@@ -40,8 +38,7 @@ def publishTestCoverageReport () {
 }
 
 def pushSonarAnalyse (project, token, repository) {
-    def constants = new org.mauro.Constants()
-    sonarHost = constants.getSonarHost()
+    sonarHost = Constants.getSonarHost()
     sh "mvn clean verify sonar:sonar -Dsonar.projectKey=${project} -Dsonar.host.url=${sonarHost} -Dsonar.login=${token} -Dsonar.projectName=${repository}"
 }
 
