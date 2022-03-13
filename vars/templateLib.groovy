@@ -5,7 +5,7 @@ def getTemplates () {
 
 def getDefaultAgent () {
     def constants = new org.mauro.Constants()
-    return maven.getAppServiceName()
+    return constants.getDefaultAgent()
 }
 
 

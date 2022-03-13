@@ -4,7 +4,7 @@ def getRepoTemplate() {
     return 'https://github.com/mauroarias'
 }
 
-def getDefaultTemplate () {
+def getDefaultAgent () {
     return 'alpine'
 }
 
