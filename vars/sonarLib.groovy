@@ -7,8 +7,32 @@ def validateEnvVars () {
     }
 }
 
-def createProject() {
+def createProject (project, repository) {
     def constants = new org.mauro.Constants()
     sonarHost = constants.getJenkinsHost()
-    sh "curl -i -X POST -H 'Content-Type: application/x-www-form-urlencoded' -u 'admin:passwd' -d 'project=Our&organization=test&name=some' '${sonarHost.getSonarHost()}http://localhost:9000/api/projects/create?'"
+    sh "curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' -u ${getCredentials()} -d 'project=${project}&name=${repository}' '${sonarHost.getSonarHost()}/api/projects/create?'"
+}
+
+def isprojectExists (project, repository) {
+    found = sh(script: "curl -X GET -H 'Content-Type: application/json' -u ${getCredentials()} '${sonarHost.getSonarHost()}/api/projects/search?projects=${project}' | jq -r '.components[] | .name' | grep '${repository}'", returnStdout: true)
+    return found != ''
+}
+
+def createProjetIfNotExists (project, repository) {
+    if (!isprojectExists("${project}", "${repository}")) {
+        createProject("${project}", "${repository}")
+    }
+}
+
+def getToken () {
+    return sh(script: "curl -X GET -H 'Content-Type: application/json' -u ${getCredentials()} '${sonarHost.getSonarHost()}/api/user_tokens/generate?name=token1' | jq -r '.token'", returnStdout: true)
+}
+
+def pushSonarAnalyse (type, project, repository) {
+    token = getToken()
+    pushSonarAnalyse("${project}", "${token}", "${repository}") {
+}
+
+def getCredentials () {
+    return "'${SONAR_USER}:${SONAR_PASSWORD}'"
 }

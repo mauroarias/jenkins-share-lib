@@ -4,6 +4,10 @@ def getRepoTemplate() {
     return 'https://github.com/mauroarias'
 }
 
+def getDefaultTemplate () {
+    return 'alpine'
+}
+
 def getMavenAgent() {
     return 'maven:3.8.1-adoptopenjdk-11'
 }

@@ -1,3 +1,19 @@
+def getTemplates () {
+    def templateTypes = libraryResource 'org/mauro/templates/templates.yaml'
+    return sh(script: "echo 'templateTypes' | yq '.types[] | .fullName'", returnStdout: true)
+}
+
+def getDefaultAgent () {
+    def constants = new org.mauro.Constants()
+    return maven.getAppServiceName()
+}
+
+
+
+
+
+
+
 def getAppVersion (type) {
     sh "echo 'get App Version with ${type}'"
     switch(type) {
@@ -109,4 +125,37 @@ def getCdVersion () {
 
 def getCiPipeline () {
     return 'pipelineCi'
+}
+
+def build (type) {
+    sh "echo 'build with type ${type}'"
+    switch(type) {
+        case 'maven':
+            def maven = new org.mauro.templating.Maven()
+            return maven.build()
+        default:
+            error('template no supported...!')
+    }
+}
+
+def getOutFolder (type) {
+    sh "echo 'get Out Folder with type ${type}'"
+    switch(type) {
+        case 'maven':
+            def maven = new org.mauro.templating.Maven()
+            return maven.getOutFolder()
+        default:
+            error('template no supported...!')
+    }
+}
+
+def publishTestCoverageReport (type) {
+    sh "echo 'publish test coverage report with type ${type}'"
+    switch(type) {
+        case 'maven':
+            def maven = new org.mauro.templating.Maven()
+            return maven.publishTestCoverageReport()
+        default:
+            error('template no supported...!')
+    }
 }

@@ -8,11 +8,11 @@ def getprojects () {
     return sh(script: "java -jar jenkins-cli.jar -s ${jenkinsHost}/ -webSocket list-jobs | grep 'PRJ-' | sed 's/PRJ-//g'", returnStdout: true)
 }
 
-def createJenkinsMultibranchJobWithLib (gitRemote, repository, project, name, repoOwner, repoUrl) {
+def createJenkinsMultibranchJobWithLib (gitDstRemote, repository, project, name, repoOwner, repoUrl) {
     def template = ""
-    if ("${gitRemote}" == 'gitHub') {
+    if ("${gitDstRemote}" == 'gitHub') {
         template = libraryResource 'org/mauro/templates/createMultibranchJobWithLibGitHub.xml'
-    } else if ("${gitRemote}" == 'bitBucket') {
+    } else if ("${gitDstRemote}" == 'bitBucket') {
         template = libraryResource 'org/mauro/templates/createMultibranchJobWithLibBitBucket.xml'
     }
     configName="./config${currentBuild.startTimeInMillis}.xml"
@@ -82,11 +82,6 @@ def archivingArtifacts (artifacts) {
 }
  
 def publishingHTML(name, title, reportDir, files, allowMissing = false) {
-    publishHTML([allowMissing: "${allowMissing}", 
-                 alwaysLinkToLastBuild: false, 
-                 keepAll: true,
-                 reportDir: "${reportDir}",
-                 reportFiles: "${files}",
-                 reportName: "${name}",
-                 reportTitles: "${title}"])
+    def tools = new org.mauro.Tools()
+    tools.publishingHTML(name, title, reportDir, files, allowMissing)
 }
