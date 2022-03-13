@@ -1,12 +1,36 @@
+def prepareLib () {
+    def constantInst = new org.mauro.Constants()
+    def toolsInst = new org.mauro.Tools()
+    def vaultInst = new org.mauro.Vault()
+    def mavenInst = new org.mauro.templating.Maven()
+    def githubInst = new org.mauro.git.GitHub()
+    def bitBucketInst = new org.mauro.git.BitBucket()
+}
+
 def downloadJenkinsCli () {
-    def constants = new org.mauro.Constants()
-    jenkinsHost = constants.getJenkinsHost()
-    sh "wget '${jenkinsHost}/jnlpJars/jenkins-cli.jar'"
+    sh "wget '${constantInst.getJenkinsHost()}/jnlpJars/jenkins-cli.jar'"
 }
 
 def getprojects () {
-    return sh(script: "java -jar jenkins-cli.jar -s ${jenkinsHost}/ -webSocket list-jobs | grep 'PRJ-' | sed 's/PRJ-//g'", returnStdout: true)
+    return sh(script: "java -jar jenkins-cli.jar -s ${constantInst.getJenkinsHost()}/ -webSocket list-jobs | grep 'PRJ-' | sed 's/PRJ-//g'", returnStdout: true)
 }
+
+def createProjectIfNotExits (projectName) {
+    def template = libraryResource 'org/mauro/templates/createProject.xml'
+    configFileName="./config${currentBuild.startTimeInMillis}.xml" 
+    sh "echo 'creating project ${projectName}'"
+    sh "echo '${template}' > ${configFileName}"
+    sh "sed -i 's/<description>/<description>${projectName}/' ${configFileName}"
+    sh "java -jar jenkins-cli.jar -s ${constantInst.getJenkinsHost()}/ -webSocket create-job PRJ-${projectName} < ${configFileName}"
+    sh "rm ${configFileName}"
+}
+
+
+
+
+
+
+
 
 def createJenkinsMultibranchJobWithLib (gitDstRemote, repository, project, name, repoOwner, repoUrl) {
     def template = ""
@@ -20,16 +44,6 @@ def createJenkinsMultibranchJobWithLib (gitDstRemote, repository, project, name,
     sh "echo '${template}' > ${configName}"
     sh "sed -i 's!__name__!${name}!g; s!__repository__!${repository}!g; s!__repository_owner__!${repoOwner}!g; s!__repository_url__!${repoUrl}!g' ${configName}"
     sh "java -jar jenkins-cli.jar -s ${jenkinsHost}/ -webSocket create-job PRJ-${project}/${repository} < ${configName}"
-    sh "rm ${configName}"
-}
-
-def createProjectIfNotExits (name) {
-    def template = libraryResource 'org/mauro/templates/createProject.xml'
-    configName="./config${currentBuild.startTimeInMillis}.xml" 
-    sh "echo 'creating project ${name}'"
-    sh "echo '${template}' > ${configName}"
-    sh "sed -i 's/<description>/<description>${name}/' ${configName}"
-    sh "java -jar jenkins-cli.jar -s ${jenkinsHost}/ -webSocket create-job PRJ-${name} < ${configName}"
     sh "rm ${configName}"
 }
 
