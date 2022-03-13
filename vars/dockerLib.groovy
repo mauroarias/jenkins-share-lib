@@ -1,13 +1,15 @@
 def getDockerRepositoryDev () {
-    return Constants.getDockerRepositoryDev()
+    return constants.getDockerRepositoryDev()
 }
 
 def getDockerRepositoryStage () {
-    return Constants.getDockerRepositoryStage()
+    def constants = new org.mauro.Constants()
+    return constants.getDockerRepositoryStage()
 }
 
 def getDockerRepositoryProd () {
-    return Constants.getDockerRepositoryProd()
+    def constants = new org.mauro.Constants()
+    return constants.getDockerRepositoryProd()
 }
 
 def getDockerTagSufixDev () {

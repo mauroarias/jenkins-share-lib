@@ -4,7 +4,8 @@ def getTemplates () {
 }
 
 def getDefaultAgent () {
-    return Constants.getDefaultAgent()
+    def constants = new org.mauro.Constants()
+    return constants.getDefaultAgent()
 }
 
 
