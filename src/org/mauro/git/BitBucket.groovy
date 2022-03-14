@@ -1,6 +1,6 @@
 package org.mauro.git
 
-class bitBucket implements Serializable {
+class BitBucket implements Serializable {
     def validateEnvVars () {
         if ("${BITBUCKET_PASSWD}" == '') {   
             error("gitHub password not defined...!")
