@@ -11,7 +11,7 @@ class ConfigLib implements Serializable {
 
     def public static ConfigLib getConfig () {
         if (configLibInst == null) {
-            configLibInst = new configLib()
+            configLibInst = new ConfigLib()
         }
         return configLibInst
     }
