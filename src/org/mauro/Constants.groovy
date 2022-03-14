@@ -1,6 +1,6 @@
 package org.mauro
 
-class Constants {
+class Constants implements Serializable {
 
     def private static String repoTemplate = 'https://github.com/mauroarias'
     def private static String defaultAgent = 'alpine'
