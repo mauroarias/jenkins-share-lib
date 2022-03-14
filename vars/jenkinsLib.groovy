@@ -1,4 +1,4 @@
-import org.mauro.Constants
+import org.mauro.config.Constants
 import org.mauro.Tools
 import org.mauro.Vault
 import org.mauro.templating.Maven

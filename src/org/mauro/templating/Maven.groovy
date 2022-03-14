@@ -1,6 +1,6 @@
 package org.mauro.templating
 
-import org.mauro.Constants
+import org.mauro.config.Constants
 
 def public getAppVersion () {
     return sh(script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true).trim()

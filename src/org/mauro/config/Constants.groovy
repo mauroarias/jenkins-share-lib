@@ -1,31 +1,25 @@
-package org.mauro
+package org.mauro.config
 
 class Constants implements Serializable {
 
-    def private static String repoTemplate = 'https://github.com/mauroarias'
-    def private static String defaultAgent = 'alpine'
-    def private static String mavenAgent = 'maven:3.8.1-adoptopenjdk-11'
-    def private static String mavenTemplate = 'template-maven-app'
-    def private static String lacalHost = 'localhost'
-    
     def public static String getRepoTemplate() {
-        return repoTemplate
+        return 'https://github.com/mauroarias'
     }
 
     def public static String getDefaultAgent () {
-        return defaultAgent
+        return 'alpine'
     }
 
     def public static String getMavenAgent() {
-        return mavenAgent
+        return 'maven:3.8.1-adoptopenjdk-11'
     }
 
     def public static String getMavenTemplate() {
-        return mavenTemplate
+        return 'template-maven-app'
     }
 
     def public static String getCommonHost() {
-        return lacalHost
+        return 'localhost'
     }
 
     def public static String getCommonURI() {

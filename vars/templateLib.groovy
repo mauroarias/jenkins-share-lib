@@ -1,12 +1,14 @@
-import org.mauro.Constants
+import org.mauro.config.Constants
+import org.mauro.config.ConfigLib
+
+def getDefaultAgent () {
+    ConfigLib.getConfig().executeTest()
+    return Constants.getDefaultAgent()
+}
 
 def getTemplates () {
     def templateTypeList = libraryResource 'org/mauro/templates/templates.yaml'
     return sh(script: "echo '${templateTypeList}' | yq '.types[] | .fullName'", returnStdout: true)
-}
-
-def getDefaultAgent () {
-    return Constants.getDefaultAgent()
 }
 
 

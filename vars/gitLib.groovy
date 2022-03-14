@@ -1,4 +1,4 @@
-import org.mauro.Constants
+import org.mauro.config.Constants
 
 def public commitAndPushRepo (remote, branche, message) {
     sh "git add -A"

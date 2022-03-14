@@ -1,4 +1,4 @@
-import org.mauro.Constants
+import org.mauro.config.Constants
 
 def public validateEnvVars () {
     if ("${SONAR_USER}" == '') {   
