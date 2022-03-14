@@ -1,6 +1,7 @@
 package org.mauro.config
-package org.mauro.git.GitHub
-package org.mauro.git.BitBucket
+
+import org.mauro.git.GitHub
+import org.mauro.git.BitBucket
 
 class ConfigLib implements Serializable {
 
