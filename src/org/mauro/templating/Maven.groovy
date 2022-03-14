@@ -1,48 +1,46 @@
 package org.mauro.templating
 
-def getAppVersion () {
+import org.mauro.Constants
+
+def public getAppVersion () {
     return sh(script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true).trim()
 }
 
-def getAppServiceName () {
+def public getAppServiceName () {
     return sh(script: 'mvn help:evaluate -Dexpression=project.name -q -DforceStdout', returnStdout: true).trim()
 }
 
-def getArtifactId () {
+def public getArtifactId () {
     return sh(script: 'mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout', returnStdout: true).trim()
 }
 
-def getgroupId () {
+def public getgroupId () {
     return sh(script: 'mvn help:evaluate -Dexpression=project.groupId -q -DforceStdout', returnStdout: true).trim()
 }
 
-def getTemplate () {
-    def constants = new org.mauro.Constants()
-    return constants.getMavenTemplate()
+def public getTemplate () {
+    return Constants.getMavenTemplate()
 }
 
-def getAgent () {
-    def constants = new org.mauro.Constants()
-    return constants.getMavenAgent()
+def public getAgent () {
+    return Constants.getMavenAgent()
 }
 
-def build () {
+def public build () {
     sh 'mvn clean package'
 }
 
-def getOutFolder () {
+def public getOutFolder () {
     return 'target/'
 }
 
-def publishTestCoverageReport () {
+def public publishTestCoverageReport () {
     def tools = new org.mauro.Tools()
     tools.publishingHTML('code coverage', 'code coverage report', 'target/jacoco-report/', 'index.html', true)
 }
 
-def pushSonarAnalyse (project, token, repository) {
-    def constants = new org.mauro.Constants()
-    sonarHost = constants.getSonarHost()
-    sh "mvn clean verify sonar:sonar -Dsonar.projectKey=${project} -Dsonar.host.url=${sonarHost} -Dsonar.login=${token} -Dsonar.projectName=${repository}"
+def public pushSonarAnalyse (project, token, repository) {
+    sh "mvn clean verify sonar:sonar -Dsonar.projectKey=${project} -Dsonar.host.url=${Constants.getSonarHost()} -Dsonar.login=${token} -Dsonar.projectName=${repository}"
 }
 
 return this

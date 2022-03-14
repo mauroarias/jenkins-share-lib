@@ -1,3 +1,6 @@
+import 
+
+
 def getTemplates () {
     def templateTypeList = libraryResource 'org/mauro/templates/templates.yaml'
     return sh(script: "echo '${templateTypeList}' | yq '.types[] | .fullName'", returnStdout: true)

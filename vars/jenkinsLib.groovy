@@ -1,19 +1,19 @@
-include org.mauro.Constants
-include org.mauro.Tools
-include org.mauro.Vault
-include org.mauro.templating.Maven
-include org.mauro.git.GitHub
-include org.mauro.git.BitBucket
+import org.mauro.Constants
+import org.mauro.Tools
+import org.mauro.Vault
+import org.mauro.templating.Maven
+import org.mauro.git.GitHub
+import org.mauro.git.BitBucket
 
-def downloadJenkinsCli () {
+def public downloadJenkinsCli () {
     sh "wget '${Constants.getJenkinsHost()}/jnlpJars/jenkins-cli.jar'"
 }
 
-def getprojects () {
+def public getprojects () {
     return sh(script: "java -jar jenkins-cli.jar -s ${Constants.getJenkinsHost()}/ -webSocket list-jobs | grep 'PRJ-' | sed 's/PRJ-//g'", returnStdout: true)
 }
 
-def createProjectIfNotExits (projectName) {
+def public createProjectIfNotExits (projectName) {
     def template = libraryResource 'org/mauro/templates/createProject.xml'
     configFileName="./config${currentBuild.startTimeInMillis}.xml" 
     sh "echo 'creating project ${projectName}'"
@@ -30,7 +30,7 @@ def createProjectIfNotExits (projectName) {
 
 
 
-def createJenkinsMultibranchJobWithLib (gitDstRemote, repository, project, name, repoOwner, repoUrl) {
+def public createJenkinsMultibranchJobWithLib (gitDstRemote, repository, project, name, repoOwner, repoUrl) {
     def template = ""
     if ("${gitDstRemote}" == 'gitHub') {
         template = libraryResource 'org/mauro/templates/createMultibranchJobWithLibGitHub.xml'
@@ -45,7 +45,7 @@ def createJenkinsMultibranchJobWithLib (gitDstRemote, repository, project, name,
     sh "rm ${configName}"
 }
 
-def createJenkinsPipelineFileWithLib (library, version) {
+def public createJenkinsPipelineFileWithLib (library, version) {
     if ("${library}" == null || "${library}".equals('')) {
         error('new library must be defined...!')
     }
@@ -61,12 +61,12 @@ def createJenkinsPipelineFileWithLib (library, version) {
     return "${jenkinsFile}"
 }
 
-def createPipelineJobWithLib (name, library, version, project, repository) {
+def public createPipelineJobWithLib (name, library, version, project, repository) {
     file = createJenkinsPipelineFileWithLib("${library}", "${version}")
     createPipelineJob("${name}", "${file}", "${project}", "${repository}")
 }
 
-def createPipelineJob (name, file, project, repository) {
+def public createPipelineJob (name, file, project, repository) {
     configName="./config${currentBuild.startTimeInMillis}.xml" 
     def template = libraryResource 'org/mauro/templates/createPipelineJobTemplate.xml'
     sh "echo 'creating pipeline job ${name}'"
@@ -80,20 +80,20 @@ def createPipelineJob (name, file, project, repository) {
     sh "rm ${configName}"
 }
 
-def cleanWorkSpace () {
+def public cleanWorkSpace () {
     def tools = new org.mauro.Tools()
     tools.cleanWorkSpace()
 }
 
-def stash (name, includes, excludes, useDefaultExcludes = true) {
-    stash name: "${name}" , includes: "${includes}" , excludes: "${excludes}" , allowEmpty: false , useDefaultExcludes: "${useDefaultExcludes}" 
+def public stash (name, imports, excludes, useDefaultExcludes = true) {
+    stash name: "${name}" , imports: "${imports}" , excludes: "${excludes}" , allowEmpty: false , useDefaultExcludes: "${useDefaultExcludes}" 
 }
 
-def archivingArtifacts (artifacts) {
+def public archivingArtifacts (artifacts) {
     archiveArtifacts(allowEmptyArchive: false, artifacts: "${artifacts}", onlyIfSuccessful: false)
 }
  
-def publishingHTML(name, title, reportDir, files, allowMissing = false) {
+def public publishingHTML(name, title, reportDir, files, allowMissing = false) {
     def tools = new org.mauro.Tools()
     tools.publishingHTML(name, title, reportDir, files, allowMissing)
 }

@@ -1,58 +1,58 @@
 package org.mauro
 
-public class Constants {
+class Constants {
 
-    private static String repoTemplate = 'https://github.com/mauroarias'
-    private static String defaultAgent = 'alpine'
-    private static String mavenAgent = 'maven:3.8.1-adoptopenjdk-11'
-    private static String mavenTemplate = 'template-maven-app'
-    private static String lacalHost = 'localhost'
+    def private static String repoTemplate = 'https://github.com/mauroarias'
+    def private static String defaultAgent = 'alpine'
+    def private static String mavenAgent = 'maven:3.8.1-adoptopenjdk-11'
+    def private static String mavenTemplate = 'template-maven-app'
+    def private static String lacalHost = 'localhost'
     
-    public static String getRepoTemplate() {
+    def public static String getRepoTemplate() {
         return repoTemplate
     }
 
-    public static String getDefaultAgent () {
+    def public static String getDefaultAgent () {
         return defaultAgent
     }
 
-    public static String getMavenAgent() {
+    def public static String getMavenAgent() {
         return mavenAgent
     }
 
-    public static String getMavenTemplate() {
+    def public static String getMavenTemplate() {
         return mavenTemplate
     }
 
-    public static String getCommonHost() {
+    def public static String getCommonHost() {
         return lacalHost
     }
 
-    public static String getCommonURI() {
+    def public static String getCommonURI() {
         return "http://${getCommonHost()}"
     }
 
-    public static String getJenkinsHost() {
+    def public static String getJenkinsHost() {
         return "${getCommonURI()}:8080"
     }
 
-    public static String getSonarHost() {
+    def public static String getSonarHost() {
         return "${getCommonURI()}:9000"
     }
 
-    public static String getDockerRepository () {
+    def public static String getDockerRepository () {
         return "${getCommonHost()}:5000"
     }
 
-    public static String getDockerRepositoryDev () {
+    def public static String getDockerRepositoryDev () {
         return getDockerRepository ()
     }
 
-    public static String getDockerRepositoryStage () {
+    def public static String getDockerRepositoryStage () {
         return getDockerRepository ()
     }
 
-    public static String getDockerRepositoryProd () {
+    def public static String getDockerRepositoryProd () {
         return getDockerRepository ()
     }
 

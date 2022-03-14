@@ -1,15 +1,17 @@
-def commitAndPushRepo (remote, branche, message) {
+import org.mauro.Constants
+
+def public commitAndPushRepo (remote, branche, message) {
     sh "git add -A"
     sh "git commit -m \"${message}\""
     sh "git branch -M ${branche}"
     pushRepo("${remote}", "${branche}")
 }
 
-def pushRepo (remote, branche) {
+def public pushRepo (remote, branche) {
     sh "git push -u ${remote} ${branche}"
 }
 
-def validateEnvVars (type) {
+def public validateEnvVars (type) {
     sh "echo 'validating env vars in ${type}'"
     if ("${type}" == 'gitHub') {
         def gitHub = new org.mauro.git.GitHub()
@@ -20,7 +22,7 @@ def validateEnvVars (type) {
     }
 }
 
-def createProjectIfNotExitsIfAppl (type, projectName) {
+def public createProjectIfNotExitsIfAppl (type, projectName) {
     sh "echo 'creating project if not exists in ${type}'"
     if ("${type}" == 'gitHub') {
         sh "echo 'ignoring project abstraction, it is not supported in github'"
@@ -30,7 +32,7 @@ def createProjectIfNotExitsIfAppl (type, projectName) {
     }
 }
 
-def isRepositoryExits (type, repo) {
+def public isRepositoryExits (type, repo) {
     sh "echo 'validating is repository exists in ${type}'"
     if ("${type}" == 'gitHub') {
         def gitHub = new org.mauro.git.GitHub()
@@ -41,20 +43,18 @@ def isRepositoryExits (type, repo) {
     }
 }
 
-def cloneRepoWithBranch (branche, repository) {
+def public cloneRepoWithBranch (branche, repository) {
     sh "rm -rf ${repository}"
-    def constants = new org.mauro.Constants()
-    sh "git clone -b '${branche}' '${constants.getRepoTemplate()}/${repository}'"
+    sh "git clone -b '${branche}' '${Constants.getRepoTemplate()}/${repository}'"
     return
 }
 
-def cloneRepo (repository) {
+def public cloneRepo (repository) {
     sh "rm -rf ${repository}"
-    def constants = new org.mauro.Constants()
-    sh "git clone '${constants.getRepoTemplate()}/${repository}'"
+    sh "git clone '${Constants.getRepoTemplate()}/${repository}'"
 }
 
-def createRepo (type, repository, projectName) {
+def public createRepo (type, repository, projectName) {
     sh "echo 'creating repo in ${type}'"
     if ("${type}" == 'gitHub') {
         def gitHub = new org.mauro.git.GitHub()
@@ -65,7 +65,7 @@ def createRepo (type, repository, projectName) {
     }
 }
 
-def initRepo (type, email, name, repository, remote) {
+def public initRepo (type, email, name, repository, remote) {
     sh "git config --global user.email \"${email}\""
     sh "git config --global user.name \"${name}\""
     sh "rm -rf .git"
@@ -80,7 +80,7 @@ def initRepo (type, email, name, repository, remote) {
     }
 }
 
-def getRepos (type, projectName) {
+def public getRepos (type, projectName) {
     sh "echo 'getting list of repos in ${type}'"
     if ("${type}" == 'gitHub') {
         def gitHub = new org.mauro.git.GitHub()
@@ -91,7 +91,7 @@ def getRepos (type, projectName) {
     }
 }
 
-def getPathRepo(type, repository) {
+def public getPathRepo(type, repository) {
     sh "echo 'getting repo path in ${type}'"
     if ("${type}" == 'gitHub') {
         def gitHub = new org.mauro.git.GitHub()
@@ -102,7 +102,7 @@ def getPathRepo(type, repository) {
     }
 }
 
-def getRepoOwner(type) {
+def public getRepoOwner(type) {
     sh "echo 'repository owner in ${type}'"
     if ("${type}" == 'gitHub') {
         def gitHub = new org.mauro.git.GitHub()
