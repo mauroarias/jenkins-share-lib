@@ -1,49 +1,54 @@
 package org.mauro.git
 
-class BitBucket implements Serializable {
-    def validateEnvVars () {
-        if ("${BITBUCKET_PASSWD}" == '') {   
-            error("gitHub password not defined...!")
-        }
-        if ("${BITBUCKET_USER}" == '') {   
-            error("gitHub user must be not defined...!")
-        }
-    }
+class BitBucket implements Serializable, GitInterface {
+
+    def String baseApiPath = 'https://api.bitbucket.org/2.0/'
 
     def createProjectIfNotExits (projectName) {
         sh "echo 'checking project name: ${projectName}'"
         projectNameKey = "${projectName}".toString().toUpperCase()
         if (!isProjectExits("${projectName}")) {
-            sh "curl --user ${getAuth()} -X POST -H \"Content-Type: application/json\" ${getProjectApiPath()} --data '{\"key\":\"${projectNameKey}\",\"name\":\"${projectName}\",\"description\":\"${projectName}\",\"is_private\": false}'"
+            sh "curl --user '${getAuth()}' -X POST -H \"Content-Type: application/json\" ${getProjectApiPath()} --data '{\"key\":\"${projectNameKey}\",\"name\":\"${projectName}\",\"description\":\"${projectName}\",\"is_private\": false}'"
         }
     }
 
     def getAuth () {
-        return "${BITBUCKET_USER}:${BITBUCKET_PASSWD}"
+        return "${biBucketuser}:${biBucketPassword}"
     }
 
     def getProjectApiPath () {
-        return "${getBaseApiPath()}workspaces/${BITBUCKET_USER}/projects/"
-    }
-
-    def getBaseApiPath () {
-        return "https://api.bitbucket.org/2.0/"
-    }
-
-    def isProjectExits (projectName) {
-        int status = sh(script: "curl -sLI -w '%{http_code}' --user ${getAuth()} -X GET -H \"Content-Type: application/json\" ${getProjectApiPath()}${projectName} -o /dev/null", returnStdout: true)
-        echo "project status code was ${status}"
-        return status == 200
+        return "${baseApiPath}workspaces/${biBucketuser}/projects/"
     }
 
     def isRepositoryExits (repo) {
-        int status = sh(script: "curl -sLI -w '%{http_code}' --user ${getAuth()} -X GET -H \"Content-Type: application/json\" ${getRepositoryApiPath()}${repo} -o /dev/null", returnStdout: true)
+        int status = sh(script: "curl -sLI -w '%{http_code}' --user '${getAuth()}' -X GET -H \"Content-Type: application/json\" ${getRepositoryApiPath()}${repo} -o /dev/null", returnStdout: true)
         echo "repository status code was ${status}"
         return status == 200
     }
 
     def getRepositoryApiPath () {
-        return "${getBaseApiPath()}repositories/${BITBUCKET_USER}/"
+        return "${baseApiPath}repositories/${biBucketuser}/"
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    def isProjectExits (projectName) {
+        int status = sh(script: "curl -sLI -w '%{http_code}' --user ${getAuth()} -X GET -H \"Content-Type: application/json\" ${getProjectApiPath()}${projectName} -o /dev/null", returnStdout: true)
+        echo "project status code was ${status}"
+        return status == 200
     }
 
     def getPath () {

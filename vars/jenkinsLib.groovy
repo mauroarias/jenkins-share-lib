@@ -1,9 +1,4 @@
 import org.mauro.config.Constants
-import org.mauro.Tools
-import org.mauro.Vault
-import org.mauro.templating.Maven
-import org.mauro.git.GitHub
-import org.mauro.git.BitBucket
 
 def public downloadJenkinsCli () {
     sh "wget '${Constants.getJenkinsHost()}/jnlpJars/jenkins-cli.jar'"

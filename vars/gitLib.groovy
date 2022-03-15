@@ -1,4 +1,26 @@
 import org.mauro.config.Constants
+import org.mauro.config.ConfigLib
+
+def public configGitRep (remote) {
+    GitRetriever.configGitRep(remote)
+}
+
+def public createProjectIfNotExitsIfAppl (projectName) {
+    sh "echo 'creating project ${projectName} if not exists'"
+    GitRetriever.getGitInst().createProjectIfNotExits(projectName)
+}
+
+def public isRepositoryExits (repo) {
+    sh "echo 'validating is repository exists in ${type}'"
+    GitRetriever.getGitInst().isRepositoryExits(repo)
+}
+
+
+
+
+
+
+
 
 def public commitAndPushRepo (remote, branche, message) {
     sh "git add -A"
@@ -22,26 +44,6 @@ def public validateEnvVars (type) {
     }
 }
 
-def public createProjectIfNotExitsIfAppl (type, projectName) {
-    sh "echo 'creating project if not exists in ${type}'"
-    if ("${type}" == 'gitHub') {
-        sh "echo 'ignoring project abstraction, it is not supported in github'"
-    } else if ("${type}" == 'bitBucket') {
-        def bitBucket = new org.mauro.git.BitBucket()
-        bitBucket.createProjectIfNotExits("${projectName}")
-    }
-}
-
-def public isRepositoryExits (type, repo) {
-    sh "echo 'validating is repository exists in ${type}'"
-    if ("${type}" == 'gitHub') {
-        def gitHub = new org.mauro.git.GitHub()
-        gitHub.isRepositoryExits("${repo}")
-    } else if ("${type}" == 'bitBucket') {
-        def bitBucket = new org.mauro.git.BitBucket()
-        bitBucket.isRepositoryExits("${repo}")
-    }
-}
 
 def public cloneRepoWithBranch (branche, repository) {
     sh "rm -rf ${repository}"

@@ -1,22 +1,11 @@
 package org.mauro.git
 
-class GitHub implements Serializable {
+class GitHub implements Serializable, GitInterface {
 
-    def getApiUri ='https://api.github.com/user/repos'
+    def String getApiUri ='https://api.github.com/user/repos'
 
-    def validateEnvVars () {
-        withCredentials([
-            usernamePassword(credentialsId: 'github-credentials',
-              usernameVariable: 'username',
-              passwordVariable: 'password')
-          ]) {
-            if ("${username}" == '') {   
-                error("gitHub used not defined...!")
-            }
-            if ("${password}" == '') {   
-                error("gitHub token not defined...!")
-            }
-        }
+    def createProjectIfNotExits (projectName) {
+        sh "echo 'ignoring project abstraction, it is not supported in github'"
     }
 
     def isRepositoryExits (projectName) {
@@ -26,8 +15,17 @@ class GitHub implements Serializable {
     }
 
     def getPath () {
-        return "https://${GIT_HUB_USER}:${GIT_HUB_TOKEN}@github.com/${GIT_HUB_USER}/"
+        return "https://${gitHubUser}:${gitHubPassword}@github.com/${gitHubUser}/"
     }
+
+
+
+
+
+
+
+
+
 
     def createRepo (repository) {
         sh "curl -H \"Authorization: token ${GIT_HUB_TOKEN}\" --data '{\"name\":\"${repository}\"}' ${getApiUri}"
