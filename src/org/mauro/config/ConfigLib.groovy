@@ -2,6 +2,7 @@ package org.mauro.config
 
 import org.mauro.git.GitHub
 import org.mauro.git.BitBucket
+import org.mauro.git.GitInterface
 
 class ConfigLib implements Serializable {
 
