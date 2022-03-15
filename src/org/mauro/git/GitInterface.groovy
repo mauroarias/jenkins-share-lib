@@ -2,8 +2,6 @@ package org.mauro.git
 
 interface GitInterface {
 
-    def public configurate (user, password)
-
     def public createProjectIfNotExits(projectName)
 
     def public isRepositoryExits (projectName)
@@ -12,20 +10,20 @@ interface GitInterface {
 
 
 
-    def public createRepo (repository)
+    // def public createRepo (repository)
 
 
-    // def addRemote (repository, remote) {
-    //     sh "git remote add ${remote} ${getPath()}${repository}.git"
-    // }
+    // // def addRemote (repository, remote) {
+    // //     sh "git remote add ${remote} ${getPath()}${repository}.git"
+    // // }
 
-    def public getRepos ()
+    // def public getRepos ()
 
-    // def getPathRepo(repository) {
-    //     return "https://github.com/${GIT_HUB_USER}/${repository}"
-    // }
+    // // def getPathRepo(repository) {
+    // //     return "https://github.com/${GIT_HUB_USER}/${repository}"
+    // // }
 
-    // def getRepoOwner() {
-    //     return "${GIT_HUB_USER}"
-    // }
+    // // def getRepoOwner() {
+    // //     return "${GIT_HUB_USER}"
+    // // }
 }
