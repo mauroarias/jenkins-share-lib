@@ -1,5 +1,6 @@
 import org.mauro.config.Constants
 import org.mauro.config.ConfigLib
+import org.mauro.git.GitRetriever
 
 def public configGitRep (remote) {
     GitRetriever.configGitRep(remote)
