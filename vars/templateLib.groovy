@@ -11,7 +11,7 @@ def public getTemplates () {
 
 def public getTemplateParameter (templateFullName, parameter) {
     def templateTypeList = libraryResource 'org/mauro/templates/templates.yaml'
-    return sh(script: "echo '${templateTypeList}' | yq eval \'.types[] | select(.fullName == \"${templateFullName}\") | .${parameter}\'", returnStdout: true)
+    return sh(script: "echo '${templateTypeList}' | yq eval '.types[] | select(.fullName == \"${templateFullName}\") | .${parameter}'", returnStdout: true)
 }
 
 def public getTemplate (templateFullName) {
@@ -37,6 +37,8 @@ def public gettingGitRepository (dstRemote, projectName, serviceName) {
 def public applyGitRepository (dstRemote, serviceName, templateFullName) {
     branch=getTemplatebranch(templateFullName)
     template=getTemplate(templateFullName)
+    sh "echo 'template ${template}p'"
+    sh "echo 'branch ${branch}p'"
     sh "strategyHandler.sh -r ${dstRemote} -c applyTemplate -t ${template} -s ${serviceName} -b ${branch}"
 }
 
