@@ -42,6 +42,25 @@ def public applyGitRepository (dstRemote, serviceName, templateFullName) {
     sh "strategyHandler.sh -r ${dstRemote} -c applyTemplate -t ${template} -s ${serviceName} -b ${branch}"
 }
 
+def getCiType () {
+    sh "ls -ls"
+    type = sh(script: "cat ./manifest.yaml | yq -o=x '.ci.type'", returnStdout: true)
+    return "${type}"
+}
+
+def getCiVersion () {
+    sh "ls -ls"
+    return sh(script: "cat ./manifest.yaml | yq -o=x '.ci.version'", returnStdout: true)
+}
+
+def getCdType () {
+    type = sh(script: "cat ./manifest.yaml | yq -o=x '.cd.type'", returnStdout: true)
+    return "${type}"
+}
+
+def getCdVersion () {
+    return sh(script: "cat ./manifest.yaml | yq -o=x '.cd.version'", returnStdout: true)
+}
 
 
 
@@ -98,23 +117,6 @@ def getgroupId (type) {
     }
 }
 
-def getCiType () {
-    type = sh(script: "cat ./manifest.yaml | yq -o=x '.ci.type'", returnStdout: true)
-    return "${type}"
-}
-
-def getCiVersion () {
-    return sh(script: "cat ./manifest.yaml | yq -o=x '.ci.version'", returnStdout: true)
-}
-
-def getCdType () {
-    type = sh(script: "cat ./manifest.yaml | yq -o=x '.cd.type'", returnStdout: true)
-    return "${type}"
-}
-
-def getCdVersion () {
-    return sh(script: "cat ./manifest.yaml | yq -o=x '.cd.version'", returnStdout: true)
-}
 
 def getCiPipeline () {
     return 'pipelineCi'
