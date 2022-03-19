@@ -11,7 +11,7 @@ def public getTemplates () {
 
 def public getTemplateParameter (templateFullName, parameter) {
     def templateTypeList = libraryResource 'org/mauro/templates/templates.yaml'
-    return sh(script: "echo '${templateTypeList}' | yq eval '.types[] | select(.fullName == \"${templateFullName}\") | .${parameter}'", returnStdout: true)
+    return sh(script: "echo '${templateTypeList}' | yq eval \'.types[] | select(.fullName == \"${templateFullName}\") | .${parameter}\'", returnStdout: true)
 }
 
 def public getTemplate (templateFullName) {
@@ -31,13 +31,13 @@ def public getTemplatebranch (templateFullName) {
 }
 
 def public gettingGitRepository (dstRemote, projectName, serviceName) {
-    sh "strategyHandler.sh -r ${dstRemote} -ugh ${gitHubUser} -pgh ${gitHubPassword} -ubb ${biBucketuser} -pbb ${biBucketPassword} -c gettingRepository -j ${projectName} -s ${serviceName}"
+    sh "strategyHandler.sh -r ${dstRemote} -c gettingRepository -j ${projectName} -s ${serviceName}"
 }
 
 def public applyGitRepository (dstRemote, serviceName, templateFullName) {
     branch=getTemplatebranch(templateFullName)
     template=getTemplate(templateFullName)
-    sh "strategyHandler.sh -r ${dstRemote} -ugh ${gitHubUser} -pgh ${gitHubPassword} -ubb ${biBucketuser} -pbb ${biBucketPassword} -c applyTemplate -t ${template} -s ${serviceName} -b ${branch}"
+    sh "strategyHandler.sh -r ${dstRemote} -c applyTemplate -t ${template} -s ${serviceName} -b ${branch}"
 }
 
 
