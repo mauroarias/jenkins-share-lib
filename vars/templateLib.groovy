@@ -1,20 +1,43 @@
 import org.mauro.config.Constants
 
-def public getDefaultAgent () {
-    return Constants.getDefaultAgent()
-}
+// def public getDefaultAgent () {
+//     return Constants.getDefaultAgent()
+// }
 
 def public getTemplates () {
     def templateTypeList = libraryResource 'org/mauro/templates/templates.yaml'
     return sh(script: "echo '${templateTypeList}' | yq '.types[] | .fullName'", returnStdout: true)
 }
 
+def public getTemplateParameter (templateFullName, parameter) {
+    def templateTypeList = libraryResource 'org/mauro/templates/templates.yaml'
+    return sh(script: "echo '${templateTypeList}' | yq eval '.types[] | select(.fullName == \"${templateFullName}\") | .${parameter}'", returnStdout: true)
+}
+
+def public getTemplate (templateFullName) {
+    return getTemplateParameter(templateFullName, "template")
+}
+
+def public getTemplateName (templateFullName) {
+    return getTemplateParameter(templateFullName, "name")
+}
+
+def public getTemplateAgent (templateFullName) {
+    return getTemplateParameter(templateFullName, "agent")
+}
+
+def public getTemplatebranch (templateFullName) {
+    return getTemplateParameter(templateFullName, "branch")
+}
+
 def public gettingGitRepository (dstRemote, projectName, serviceName) {
     sh "strategyHandler.sh -r ${dstRemote} -ugh ${gitHubUser} -pgh ${gitHubPassword} -ubb ${biBucketuser} -pbb ${biBucketPassword} -c gettingRepository -j ${projectName} -s ${serviceName}"
 }
 
-def public applyGitRepository () {
-    sh "strategyHandler.sh -r ${dstRemote} -ugh ${gitHubUser} -pgh ${gitHubPassword} -ubb ${biBucketuser} -pbb ${biBucketPassword} -c applyTemplate -t template-maven-app -s ${serviceName} -b wip-0.1.0"
+def public applyGitRepository (dstRemote, serviceName, templateFullName) {
+    branch=getTemplatebranch(templateFullName)
+    template=getTemplate(templateFullName)
+    sh "strategyHandler.sh -r ${dstRemote} -ugh ${gitHubUser} -pgh ${gitHubPassword} -ubb ${biBucketuser} -pbb ${biBucketPassword} -c applyTemplate -t ${template} -s ${serviceName} -b ${branch}"
 }
 
 
@@ -68,53 +91,6 @@ def getgroupId (type) {
         case 'maven':
             def maven = new org.mauro.templating.Maven()
             return maven.getgroupId()
-        default:
-            error('template no supported...!')
-    }
-}
-
-def getAgent (type) {
-    sh "echo 'get Agent with type ${type}'"
-    switch(type) {
-        case 'maven':
-            def maven = new org.mauro.templating.Maven()
-            return maven.getAgent()
-        default:
-            error('template no supported...!')
-    }
-}
-
-def getAgentByTemplate (type) {
-    sh "echo 'get Agent with type ${type}'"
-    switch(type) {
-        case 'maven java8':
-        case 'maven java11':
-            def maven = new org.mauro.templating.Maven()
-            return maven.getAgent()
-        default:
-            error('template no supported...!')
-    }
-}
-
-def getBranch (type) {
-    sh "echo 'get branch with type ${type}'"
-    switch(type) {
-        case 'maven java8':
-            return 'wip-0.1.0'//'java8'
-        case 'maven java11':
-            return 'java11'
-        default:
-            error('template no supported...!')
-    }
-}
-
-def getTemplateType (type) {
-    sh "echo 'get template with type ${type}'"
-    switch(type) {
-        case 'maven java8':
-        case 'maven java11':
-            def maven = new org.mauro.templating.Maven()
-            return maven.getTemplate()
         default:
             error('template no supported...!')
     }
