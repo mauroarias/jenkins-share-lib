@@ -18,6 +18,26 @@ def public createProjectIfNotExits (projectName) {
     sh "rm ${configFileName}"
 }
 
+def public createJenkinsPipelineFileWithLib (library, version) {
+    if ("${library}" == null || "${library}".equals('')) {
+        error('new library must be defined...!')
+    }
+    if ("${version}" == null || "${version}".equals('')) {
+        error('new version must be defined...!')
+    }
+    def template = libraryResource 'org/mauro/templates/JenkinsfilePipelineJobWithLibTemplate'
+    jenkinsFile='./Jenkinsfile'
+    sh "rm -f ${jenkinsFile}"
+    sh "echo 'building jenkins file'"
+    sh "echo '${template}' > ${jenkinsFile}"
+    sh "sed -i 's/__PIPELINE__/${library}/; s/__version__/${version}/' ${jenkinsFile}"
+    return "${jenkinsFile}"
+}
+
+
+
+
+
 
 
 
@@ -38,22 +58,6 @@ def public createJenkinsMultibranchJobWithLib (gitDstRemote, repository, project
     sh "sed -i 's!__name__!${name}!g; s!__repository__!${repository}!g; s!__repository_owner__!${repoOwner}!g; s!__repository_url__!${repoUrl}!g' ${configName}"
     sh "java -jar jenkins-cli.jar -s ${Constants.getJenkinsHost()}/ -webSocket create-job PRJ-${project}/${repository} < ${configName}"
     sh "rm ${configName}"
-}
-
-def public createJenkinsPipelineFileWithLib (library, version) {
-    if ("${library}" == null || "${library}".equals('')) {
-        error('new library must be defined...!')
-    }
-    if ("${version}" == null || "${version}".equals('')) {
-        error('new version must be defined...!')
-    }
-    def template = libraryResource 'org/mauro/templates/JenkinsfilePipelineJobWithLibTemplate'
-    jenkinsFile='./Jenkinsfile'
-    sh "rm -f ${jenkinsFile}"
-    sh "echo 'building jenkins file'"
-    sh "echo '${template}' > ${jenkinsFile}"
-    sh "sed -i 's/__PIPELINE__/${library}/; s/__version__/${version}/' ${jenkinsFile}"
-    return "${jenkinsFile}"
 }
 
 def public createPipelineJobWithLib (name, library, version, project, repository) {
