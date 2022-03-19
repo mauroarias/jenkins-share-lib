@@ -10,12 +10,10 @@ def public getTemplates () {
 }
 
 def public gettingGitRepository (dstRemote, projectName, serviceName) {
-    handlerImage=Constants.getStrategyHandleimage()
     sh "strategyHandler.sh -r ${dstRemote} -ugh ${gitHubUser} -pgh ${gitHubPassword} -ubb ${biBucketuser} -pbb ${biBucketPassword} -c gettingRepository -j ${projectName} -s ${serviceName}"
 }
 
 def public applyGitRepository () {
-    handlerImage=Constants.getStrategyHandleimage()
     sh "strategyHandler.sh -r ${dstRemote} -ugh ${gitHubUser} -pgh ${gitHubPassword} -ubb ${biBucketuser} -pbb ${biBucketPassword} -c applyTemplate -t template-maven-app -s ${serviceName} -b wip-0.1.0"
 }
 
