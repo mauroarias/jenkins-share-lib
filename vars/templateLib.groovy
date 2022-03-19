@@ -6,7 +6,7 @@ import org.mauro.config.Constants
 
 def public getTemplates () {
     def templateTypeList = libraryResource 'org/mauro/templates/templates.yaml'
-    return sh(script: "echo '${templateTypeList}' | yq -o=x '.types[] | .fullName'", returnStdout: true)
+    return sh(script: "echo '${templateTypeList}' | yq '.types[] | .fullName'", returnStdout: true)
 }
 
 def public getTemplateParameter (templateFullName, parameter) {
