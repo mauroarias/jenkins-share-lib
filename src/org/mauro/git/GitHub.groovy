@@ -11,13 +11,13 @@ class GitHub implements Serializable {
     }
 
     def isRepositoryExits (steps, projectName) {
-        int status = steps.sh(script: "curl -sLI -w '%{http_code}' -H \"Accept: application/vnd.github.v3+json\" ${getPath()}${projectName} -o /dev/null", returnStdout: true)
+        int status = steps.sh(script: "curl -sLI -w '%{http_code}' -H \"Accept: application/vnd.github.v3+json\" ${getPath(steps)}${projectName} -o /dev/null", returnStdout: true)
         echo "repository status code was ${status}"
         return status == 200
     }
 
-    def getPath () {
-        return "https://${GIT_HUB_CRED_USR}:${GIT_HUB_CRED_PSW}@github.com/${GIT_HUB_CRED_USR}/"
+    def getPath (steps) {
+        return "https://${steps.ENV.GIT_HUB_CRED_USR}:${steps.ENV.GIT_HUB_CRED_PSW}@github.com/${steps.ENV.GIT_HUB_CRED_USR}/"
     }
 
     def cloneRepo (steps, branche, repoTemplate, template, serviceName) {
@@ -37,7 +37,7 @@ class GitHub implements Serializable {
     }
 
     def addRemote (steps, serviceName) {
-        steps.sh "git remote add origin ${getPath()}${serviceName}.git"
+        steps.sh "git remote add origin ${getPath(steps)}${serviceName}.git"
     }
 
     def public commitAndPushRepo (steps) {
