@@ -53,12 +53,4 @@ class Constants implements Serializable {
     def public static String getPipelineCi () {
         return 'pipelineCi'
     }
-
-    def public static String getGitHubUrl (serviceName) {
-        return "https://github.com/${GIT_HUB_CRED_USR}/${serviceName}"
-    }
-
-    def public static String getBitBucketUrl (serviceName) {
-        return "https://bitbucket.org/${BIT_BUCKET_CRED_USR}/${serviceName}"
-    }
 }

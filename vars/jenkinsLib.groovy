@@ -41,11 +41,11 @@ def public createJenkinsMultibranchJobWithLib (gitDstRemote, repository, project
     if ("${gitDstRemote}" == 'gitHub') {
         template = libraryResource 'org/mauro/templates/createMultibranchJobWithLibGitHub.xml'
         owner=$GIT_HUB_CRED_USR
-        url=Constants.getGitHubUrl("${serviceName}")
+        url="https://github.com/${GIT_HUB_CRED_USR}/${serviceName}"
     } else if ("${gitDstRemote}" == 'bitBucket') {
         template = libraryResource 'org/mauro/templates/createMultibranchJobWithLibBitBucket.xml'
         owner=$BIT_BUCKET_CRED_USR
-        url=Constants.getBitBucketUrl("${serviceName}")
+        url="https://bitbucket.org/${BIT_BUCKET_CRED_USR}/${serviceName}"
     } else {
         error("git remote not supported")
     }
