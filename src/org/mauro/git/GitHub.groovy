@@ -44,8 +44,8 @@ class GitHub implements Serializable {
         def branch=Constants.getGitBranch()
         steps.sh "git add -A"
         steps.sh "git commit -m 'first draft from template'"
-        steps.sh "git branch -M ${branche}"
-        steps.sh "git push -u origin ${branche}"
+        steps.sh "git branch -M ${branch}"
+        steps.sh "git push -u origin ${branch}"
     }
 
 
