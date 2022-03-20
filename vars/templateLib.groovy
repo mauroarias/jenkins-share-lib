@@ -6,6 +6,10 @@ def public getTemplates () {
     return sh(script: "echo '${templateTypeList}' | yq '.types[] | .fullName'", returnStdout: true)
 }
 
+def public getDefaultAgent () {
+    return Constants.getDefaultAgent()
+}
+
 def public gettingGitRepository (gitDstRemote, projectName, serviceName) {
     GitRetriever.configGitRep(gitDstRemote)
     GitRetriever.getGitInst().createProjectIfNotExits(this, projectName)
@@ -198,9 +202,6 @@ def publishTestCoverageReport (type) {
             error('template no supported...!')
     }
 
-// def public getDefaultAgent () {
-//     return Constants.getDefaultAgent()
-// }
 
 
 }

@@ -10,22 +10,18 @@ class Constants implements Serializable {
         return 'develop'
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     def public static String getDefaultAgent () {
         return 'alpine'
     }
+
+
+
+
+
+
+
+
+
 
     def public static String getMavenAgent() {
         return 'maven:3.8.1-adoptopenjdk-11'
