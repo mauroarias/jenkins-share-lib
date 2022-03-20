@@ -2,8 +2,7 @@ package org.mauro
 
 class Tools {
 
-    def public static createJenkinsPipelineFileWithLib (steps, library, version) {
-        def template = libraryResource 'org/mauro/templates/JenkinsfilePipelineJobWithLibTemplate'
+    def public static createJenkinsPipelineFileWithLib (steps, template, library, version) {
         def jenkinsFile='./Jenkinsfile'
         steps.sh "rm -f ${jenkinsFile}"
         steps.sh "echo 'building jenkins file'"
