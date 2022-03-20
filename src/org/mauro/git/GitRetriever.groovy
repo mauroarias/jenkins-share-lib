@@ -9,8 +9,8 @@ class GitRetriever implements Serializable {
     def static String gitDstRemote
 
     def public static configGitRep (gitDstRemote) {
-        gitInst.add[gitHub: new GitHub()]
-        gitInst.add[bitBucket: new BitBucket()]
+        gitInst.put["gitHub": new GitHub()]
+        gitInst.put["bitBucket": new BitBucket()]
         this.gitDstRemote = gitDstRemote
         return gitInst[gitDstRemote]
     }
