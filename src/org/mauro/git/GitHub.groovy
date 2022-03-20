@@ -20,7 +20,7 @@ class GitHub implements Serializable {
         return "https://${steps.env.GIT_HUB_CRED_USR}:${steps.env.GIT_HUB_CRED_PSW}@github.com/${steps.env.GIT_HUB_CRED_USR}/"
     }
 
-    def public cloneRepo (steps, branche, repoTemplate, template, serviceName) {
+    def public cloneRepo (steps, branch, repoTemplate, template, serviceName) {
         steps.sh "git clone -b ${branch} ${repoTemplate}/${template} ./${serviceName}"
     }
 
