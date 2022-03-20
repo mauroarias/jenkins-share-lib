@@ -19,6 +19,6 @@ class GitRetriever implements Serializable {
     }
 
     def public static GitInterface getGitInst (gitDstRemote) {
-        return gitInst[gitDstRemote]
+        return gitInst
     }
 }
