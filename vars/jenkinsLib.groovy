@@ -1,4 +1,9 @@
 import org.mauro.config.Constants
+import org.mauro.Tools
+
+def public config (scriptRunner) {
+    Tools.setRunner(scriptRunner)
+}
 
 def public downloadJenkinsCli () {
     sh "wget '${Constants.getJenkinsHost()}/jnlpJars/jenkins-cli.jar'"
