@@ -12,7 +12,7 @@ class GitHub implements Serializable {
 
     def public isRepositoryExits (steps, projectName) {
         def status = steps.sh(script: "curl -sLI -w '%{http_code}' -H \"Accept: application/vnd.github.v3+json\" ${getPath(steps)}${projectName} -o /dev/null", returnStdout: true)
-        echo "repository status code was ${status}"
+        steps.sh "echo 'repository status code was ${status}'"
         return status == '200'
     }
 
@@ -29,10 +29,10 @@ class GitHub implements Serializable {
     }
 
     def public initRepo (steps, serviceName) {
-        sh "git config --global user.email \"$GIT_EMAIL\""
-        sh "git config --global user.name \"$GIT_USER\""
-        sh "rm -rf .git"
-        sh "git init"
+        steps.sh "git config --global user.email \"$GIT_EMAIL\""
+        steps.sh "git config --global user.name \"$GIT_USER\""
+        steps.sh "rm -rf .git"
+        steps.sh "git init"
         addRemote(steps, serviceName)
     }
 
