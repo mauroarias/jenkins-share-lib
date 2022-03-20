@@ -25,7 +25,7 @@ class GitHub implements Serializable {
     }
 
     def public createRepo (steps, serviceName, projectName) {
-        steps.sh "curl -H \"Authorization: token ${GIT_HUB_TOKEN}\" --data '{\"name\":\"${serviceName}\"}' ${getApiUri}"
+        steps.sh "curl -H \"Authorization: token ${steps.env.GIT_HUB_CRED_PSW}\" --data '{\"name\":\"${serviceName}\"}' ${getApiUri}"
     }
 
     def public initRepo (steps, serviceName) {
@@ -58,8 +58,8 @@ class GitHub implements Serializable {
 
 
 
-    def public getRepos () {
-        return sh(script: "curl -H \"Authorization: token ${GIT_HUB_TOKEN}\" -X GET ${getApiUri} | jq -r '.[] | .name'", returnStdout: true)
+    def public getRepos (steps) {
+        return sh(script: "curl -H \"Authorization: token ${steps.env.GIT_HUB_CRED_PSW}\" -X GET ${getApiUri} | jq -r '.[] | .name'", returnStdout: true)
     }
 
     def public getPathRepo(repository) {
