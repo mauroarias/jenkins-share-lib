@@ -7,7 +7,7 @@ def public configGitRep (remote) {
 
 def public createProjectIfNotExitsIfAppl (projectName) {
     sh "echo 'creating project ${projectName} if not exists'"
-    GitRetriever.getGitInst().createProjectIfNotExits(projectName)
+    GitRetriever.getGitInst().createProjectIfNotExits("${projectName}")
 }
 
 def public isRepositoryExits (repo) {
