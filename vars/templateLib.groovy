@@ -43,17 +43,16 @@ def public applyGitRepository (dstRemote, serviceName, templateFullName) {
 }
 
 def getCiType () {
-    type = sh(script: "cat ./manifest.yaml | yq -o=x '.ci.type'", returnStdout: true)
-    return "${type}"
+    return sh(script: "cat ./manifest.yaml | yq -o=x '.ci.type'", returnStdout: true)
 }
 
 def getCiVersion () {
+    sh "ls -ls"
     return sh(script: "cat ./manifest.yaml | yq -o=x '.ci.version'", returnStdout: true)
 }
 
 def getCdType () {
-    type = sh(script: "cat ./manifest.yaml | yq -o=x '.cd.type'", returnStdout: true)
-    return "${type}"
+    return sh(script: "cat ./manifest.yaml | yq -o=x '.cd.type'", returnStdout: true)
 }
 
 def getCdVersion () {
