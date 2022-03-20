@@ -4,7 +4,7 @@ import org.mauro.Tools
 
 class GitHub implements Serializable {
 
-    def static String getApiUri ='https://api.github.com/user/repos'
+    def String getApiUri ='https://api.github.com/user/repos'
 
     def public createProjectIfNotExits (steps, projectName) {
         steps.sh "echo 'ignoring project abstraction, it is not supported in github'"

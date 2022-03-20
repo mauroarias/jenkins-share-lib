@@ -11,7 +11,7 @@ def public getDefaultAgent () {
 }
 
 def public gettingGitRepository (gitDstRemote, projectName, serviceName) {
-    GitRetriever.configGitRep(gitDstRemote, projectName)
+    GitRetriever.configGitRep(gitDstRemote)
     GitRetriever.getGitInst().createProjectIfNotExits(this, projectName)
     if (GitRetriever.getGitInst().isRepositoryExits(this, serviceName)) {
         error('repository already exits...!')
