@@ -11,9 +11,9 @@ class GitHub implements Serializable {
     }
 
     def public isRepositoryExits (steps, projectName) {
-        int status = steps.sh(script: "curl -sLI -w '%{http_code}' -H \"Accept: application/vnd.github.v3+json\" ${getPath(steps)}${projectName} -o /dev/null", returnStdout: true)
+        def status = steps.sh(script: 'curl -sLI -w '%{http_code}' -H \"Accept: application/vnd.github.v3+json\" ${getPath(steps)}${projectName} -o /dev/null', returnStdout: true)
         echo "repository status code was ${status}"
-        return status == 200
+        return status == '200'
     }
 
     def public getPath (steps) {
