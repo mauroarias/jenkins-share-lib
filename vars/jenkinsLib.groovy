@@ -34,31 +34,42 @@ def public createJenkinsPipelineFileWithLib (library, version) {
     return "${jenkinsFile}"
 }
 
-
-
-
-
-
-
-
-
-
-
-
-def public createJenkinsMultibranchJobWithLib (gitDstRemote, repository, project, name, repoOwner, repoUrl) {
-    def template = ""
+def public createJenkinsMultibranchJobWithLib (gitDstRemote, repository, projectName, serviceName) {
+    template = ''
+    owner=''
+    url=''
     if ("${gitDstRemote}" == 'gitHub') {
         template = libraryResource 'org/mauro/templates/createMultibranchJobWithLibGitHub.xml'
+        owner=$GIT_HUB_CRED_USR
+        url=Constants.getGitHubUrl("${serviceName}")
     } else if ("${gitDstRemote}" == 'bitBucket') {
         template = libraryResource 'org/mauro/templates/createMultibranchJobWithLibBitBucket.xml'
+        owner=$BIT_BUCKET_CRED_USR
+        url=Constants.getBitBucketUrl("${serviceName}")
+    } else {
+        error("git remote not supported")
     }
     configName="./config${currentBuild.startTimeInMillis}.xml"
     sh "echo 'creating multibranch job ${repository}'"
     sh "echo '${template}' > ${configName}"
-    sh "sed -i 's!__name__!${name}!g; s!__repository__!${repository}!g; s!__repository_owner__!${repoOwner}!g; s!__repository_url__!${repoUrl}!g' ${configName}"
-    sh "java -jar jenkins-cli.jar -s ${Constants.getJenkinsHost()}/ -webSocket create-job PRJ-${project}/${repository} < ${configName}"
+    sh "sed -i 's!__name__!${serviceName}!g; s!__repository__!${repository}!g; s!__repository_owner__!${owner}!g; s!__repository_url__!${url}!g' ${configName}"
+    sh "java -jar jenkins-cli.jar -s ${Constants.getJenkinsHost()}/ -webSocket create-job PRJ-${projectName}/${repository} < ${configName}"
     sh "rm ${configName}"
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def public createPipelineJobWithLib (name, library, version, project, repository) {
     file = createJenkinsPipelineFileWithLib("${library}", "${version}")

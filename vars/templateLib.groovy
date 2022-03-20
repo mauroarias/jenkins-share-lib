@@ -74,6 +74,9 @@ def getCiPipeline () {
 
 
 
+
+
+
 def getAppVersion (type) {
     sh "echo 'get App Version with ${type}'"
     switch(type) {
