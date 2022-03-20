@@ -2,19 +2,6 @@ package org.mauro
 
 class Tools {
 
-    def static scriptRunner
-
-    def public static setRunner (scriptRunner) {
-        this.scriptRunner = scriptRunner
-    }
-
-    def public static getRunner () {
-        if (scriptRunner == null) {
-            error ("script runner must be initilised to use the jekins lib")
-        }
-        return scriptRunner
-    }
-
     def hideTrace(cmd) {
         sh (script: '#!/bin/sh -e\n'+ cmd, returnStdout: true)
     }

@@ -5,14 +5,13 @@ import org.mauro.Tools
 class GitHub implements Serializable {
 
     def String getApiUri ='https://api.github.com/user/repos'
-    def runner = Tools.getRunner()
 
-    def createProjectIfNotExits (projectName) {
-        runner.sh "echo 'ignoring project abstraction, it is not supported in github'"
+    def createProjectIfNotExits (steps, projectName) {
+        steps.sh "echo 'ignoring project abstraction, it is not supported in github'"
     }
 
-    def isRepositoryExits (projectName) {
-        int status = runner.sh(script: "curl -sLI -w '%{http_code}' -H \"Accept: application/vnd.github.v3+json\" ${getPath()}${projectName} -o /dev/null", returnStdout: true)
+    def isRepositoryExits (steps, projectName) {
+        int status = steps.sh(script: "curl -sLI -w '%{http_code}' -H \"Accept: application/vnd.github.v3+json\" ${getPath()}${projectName} -o /dev/null", returnStdout: true)
         echo "repository status code was ${status}"
         return status == 200
     }
