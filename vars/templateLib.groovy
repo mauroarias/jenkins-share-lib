@@ -26,7 +26,7 @@ def public applyGitRepository (gitDstRemote, serviceName, templateFullName, proj
     sh "echo 'branch ${branch}'"
     sh "echo 'cloning ${serviceName} from repo ${repoTemplate}'"
     sh "rm -rf ./${serviceName}"
-    GitRetriever.getGitInst().cloneRepo(this, branch, repoTemplate, template, serviceName)
+    GitRetriever.getGitInst().cloneRepo(this, "${branch}", "${repoTemplate}", "${template}", serviceName)
     sh "./${template}/prepare.sh ${serviceName}"
     sh "rm ./${serviceName}/prepare.sh"
     GitRetriever.getGitInst().createRepo(this, serviceName, projectName)
