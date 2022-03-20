@@ -29,7 +29,7 @@ def public applyGitRepository (gitDstRemote, serviceName, templateFullName, proj
     sh "strategyHandler.sh -r ${gitDstRemote} -c applyTemplate -t ${template} -s ${serviceName} -b ${branch}"
 
     sh "rm -rf ./${serviceName}"
-    GitRetriever.getGitInst().cloneRepo(this, branche, repoTemplate, template, serviceName)
+    GitRetriever.getGitInst().cloneRepo(this, branch, repoTemplate, template, serviceName)
     sh "./${template}/prepare.sh ${serviceName}"
     sh "rm ./${serviceName}/prepare.sh"
     GitRetriever.getGitInst().createRepo(this, serviceName, projectName)
