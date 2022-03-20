@@ -3,7 +3,7 @@ import org.mauro.git.GitRetriever
 
 def public getRepos (gitDstRemote, projectName) {
     GitRetriever.configGitRep(gitDstRemote)
-    return GitRetriever.getGitInst().getRepos(projectName)
+    return GitRetriever.getGitInst().getRepos(this, projectName)
 }
 
 
