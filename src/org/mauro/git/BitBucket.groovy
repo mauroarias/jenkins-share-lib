@@ -86,10 +86,6 @@ class BitBucket implements Serializable {
 
 
 
-    def addRemote (repository, remote) {
-        sh "git remote add ${remote} ${getPath()}${repository}.git"
-    }
-
     def getRepos (projectName) {
         projectNameKey = "${projectName}".toString().toUpperCase()
         return sh(script: "curl --user ${getAuth()} -X GET --url '${getRepositoryApiPath()}?q=project.key%3D+%22${projectNameKey}%22&pagelen=100' --header 'Accept: application/json' | jq -r '.values[] | .name'", returnStdout: true)
