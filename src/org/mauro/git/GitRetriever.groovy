@@ -6,9 +6,9 @@ class GitRetriever implements Serializable {
 
     def public static configGitRep (gitDstRemote) {
         if ("${gitDstRemote}" == 'gitHub') {
-            gitInst = new GitHub()
+            gitInst = GitHub
         } else if ("${gitDstRemote}" == 'bitBucket') {
-            gitInst = new BitBucket()
+            gitInst = BitBucket
         } else {
             error('remote not configured')
         }
