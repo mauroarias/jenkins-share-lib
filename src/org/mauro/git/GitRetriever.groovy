@@ -5,9 +5,9 @@ import org.mauro.git.BitBucket
 
 class GitRetriever implements Serializable {
 
-    def static gitInst
+    def static GitInterface gitInst
 
-    def public static configGitRep (gitDstRemote) {
+    def public static GitInterface configGitRep (gitDstRemote) {
         if ("${gitDstRemote}" == 'gitHub') {
             gitInst = new GitHub()
         } else if ("${gitDstRemote}" == 'bitBucket') {
@@ -18,7 +18,7 @@ class GitRetriever implements Serializable {
         return gitInst
     }
 
-    def public static getGitInst (gitDstRemote) {
+    def public static GitInterface getGitInst (gitDstRemote) {
         return gitInst[gitDstRemote]
     }
 }

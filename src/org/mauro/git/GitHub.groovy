@@ -1,6 +1,6 @@
 package org.mauro.git
 
-class GitHub implements Serializable {
+class GitHub implements Serializable, GitInterface {
 
     def String getApiUri ='https://api.github.com/user/repos'
 

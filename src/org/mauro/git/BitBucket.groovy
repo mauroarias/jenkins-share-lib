@@ -1,6 +1,6 @@
 package org.mauro.git
 
-class BitBucket implements Serializable {
+class BitBucket implements Serializable, GitInterface {
 
     def String baseApiPath = 'https://api.bitbucket.org/2.0/'
 
