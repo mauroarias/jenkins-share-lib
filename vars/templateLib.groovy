@@ -31,10 +31,15 @@ def public applyGitRepository (gitDstRemote, serviceName, templateFullName, proj
         sh "./prepare.sh ${serviceName}"
         sh "rm ./prepare.sh"
         GitRetriever.getGitInst().createRepo(this, serviceName, projectName)
+        Tools.createJenkinsPipelineFileWithLib(this, getCiType(), getCiVersion())
         GitRetriever.getGitInst().initRepo(this, serviceName)
         GitRetriever.getGitInst().commitAndPushRepo(this)
     }
 }
+
+    jenkinsLib.createJenkinsPipelineFileWithLib("${templateLib.getCiPipeline()}", "${templateLib.getCiVersion()}")
+
+
 
 def public getTemplateParameter (templateFullName, parameter) {
     def templateTypeList = libraryResource 'org/mauro/templates/templates.yaml'

@@ -59,16 +59,6 @@ def public createJenkinsMultibranchJobWithLib (gitDstRemote, repository, project
     sh "rm ${configName}"
 }
 
-def public createJenkinsPipelineFileWithLib (library, version) {
-    def template = libraryResource 'org/mauro/templates/JenkinsfilePipelineJobWithLibTemplate'
-    jenkinsFile='./Jenkinsfile'
-    sh "rm -f ${jenkinsFile}"
-    sh "echo 'building jenkins file'"
-    sh "echo '${template}' > ${jenkinsFile}"
-    sh "sed -i 's/__PIPELINE__/${library}/; s/__version__/${version}/' ${jenkinsFile}"
-    return "${jenkinsFile}"
-}
-
 
 
 
@@ -85,7 +75,7 @@ def public createJenkinsPipelineFileWithLib (library, version) {
 
 
 def public createPipelineJobWithLib (name, library, version, project, repository) {
-    file = createJenkinsPipelineFileWithLib("${library}", "${version}")
+    file = createJenkinsPipelineFileWithLib(this, library, version)
     createPipelineJob("${name}", "${file}", "${project}", "${repository}")
 }
 
