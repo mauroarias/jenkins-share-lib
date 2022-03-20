@@ -49,4 +49,8 @@ class Constants implements Serializable {
     def public static String getDockerRepositoryProd () {
         return getDockerRepository ()
     }
+
+    def public static String getPipelineCi () {
+        return 'pipelineCi'
+    }
 }

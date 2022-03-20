@@ -43,13 +43,11 @@ def public applyGitRepository (dstRemote, serviceName, templateFullName) {
 }
 
 def getCiType () {
-    sh "ls -ls"
     type = sh(script: "cat ./manifest.yaml | yq -o=x '.ci.type'", returnStdout: true)
     return "${type}"
 }
 
 def getCiVersion () {
-    sh "ls -ls"
     return sh(script: "cat ./manifest.yaml | yq -o=x '.ci.version'", returnStdout: true)
 }
 
@@ -60,6 +58,10 @@ def getCdType () {
 
 def getCdVersion () {
     return sh(script: "cat ./manifest.yaml | yq -o=x '.cd.version'", returnStdout: true)
+}
+
+def getCiPipeline () {
+    return Constants.getPipelineCi()
 }
 
 
@@ -117,10 +119,6 @@ def getgroupId (type) {
     }
 }
 
-
-def getCiPipeline () {
-    return 'pipelineCi'
-}
 
 def build (type) {
     sh "echo 'build with type ${type}'"
