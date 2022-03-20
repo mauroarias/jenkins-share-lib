@@ -5,14 +5,17 @@ import org.mauro.git.BitBucket
 
 class GitRetriever implements Serializable {
 
-    def static gitInst = [:]
-    def static String gitDstRemote
+    def static gitInst
 
     def public static configGitRep (gitDstRemote) {
-        gitInst.put("gitHub": new GitHub())
-        gitInst.put("bitBucket": new BitBucket())
-        this.gitDstRemote = gitDstRemote
-        return gitInst[gitDstRemote]
+        if ("${remote}" == 'gitHub') {
+            gitInst = new GitHub()
+        } else if ("${remote}" == 'bitBucket') {
+            gitInst = new BitBucket()
+        } else {
+            error('remote not configured')
+        }
+        return gitInst
     }
 
     def public static getGitInst (gitDstRemote) {
