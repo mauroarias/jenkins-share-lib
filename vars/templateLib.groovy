@@ -1,12 +1,36 @@
 import org.mauro.config.Constants
-
-// def public getDefaultAgent () {
-//     return Constants.getDefaultAgent()
-// }
+import org.mauro.git.GitRetriever
 
 def public getTemplates () {
     def templateTypeList = libraryResource 'org/mauro/templates/templates.yaml'
     return sh(script: "echo '${templateTypeList}' | yq '.types[] | .fullName'", returnStdout: true)
+}
+
+def public gettingGitRepository (gitDstRemote, projectName, serviceName) {
+    GitRetriever.configGitRep(gitDstRemote)
+    GitRetriever.getGitInst().createProjectIfNotExits(this, projectName)
+    if (GitRetriever.getGitInst().isRepositoryExits(this, serviceName)) {
+        error('repository already exits...!')
+    }
+}
+
+def public applyGitRepository (gitDstRemote, serviceName, templateFullName, projectName) {
+    branch=getTemplatebranch(templateFullName)
+    template=getTemplate(templateFullName)
+    repoTemplate=Constants.getRepoTemplate()
+    sh "echo 'template ${template}'"
+    sh "echo 'branch ${branch}'"
+    sh "echo 'cloning ${serviceName} from repo ${repoTemplate}'"
+
+    sh "strategyHandler.sh -r ${gitDstRemote} -c applyTemplate -t ${template} -s ${serviceName} -b ${branch}"
+
+    sh "rm -rf ./${serviceName}"
+    GitRetriever.getGitInst().cloneRepo(this, branche, repoTemplate, template, serviceName)
+    sh "./${template}/prepare.sh ${serviceName}"
+    sh "rm ./${serviceName}/prepare.sh"
+    GitRetriever.getGitInst().createRepo(this, serviceName, projectName)
+    GitRetriever.getGitInst().initRepo(this, serviceName)
+    GitRetriever.getGitInst().commitAndPushRepo(this)
 }
 
 def public getTemplateParameter (templateFullName, parameter) {
@@ -30,34 +54,54 @@ def public getTemplatebranch (templateFullName) {
     return getTemplateParameter(templateFullName, "branch")
 }
 
-def public gettingGitRepository (dstRemote, projectName, serviceName) {
-    sh "strategyHandler.sh -r ${dstRemote} -c gettingRepository -j ${projectName} -s ${serviceName}"
-}
-
-def public applyGitRepository (dstRemote, serviceName, templateFullName) {
-    branch=getTemplatebranch(templateFullName)
-    template=getTemplate(templateFullName)
-    sh "echo 'template ${template}'"
-    sh "echo 'branch ${branch}'"
-    sh "strategyHandler.sh -r ${dstRemote} -c applyTemplate -t ${template} -s ${serviceName} -b ${branch}"
-}
-
 def getCiType () {
-    return sh(script: "cat ./manifest.yaml | yq -o=x '.ci.type'", returnStdout: true)
+    def ciLibrary=sh(script: "cat ./manifest.yaml | yq -o=x '.ci.type'", returnStdout: true)
+    if ("${ciLibrary}" == null || "${ciLibrary}".equals('')) {
+        error('ci library must be defined...!')
+    }
+    return "${ciLibrary}"
 }
 
 def getCiVersion () {
-    sh "ls -ls"
-    return sh(script: "cat ./manifest.yaml | yq -o=x '.ci.version'", returnStdout: true)
+    def ciVersion=sh(script: "cat ./manifest.yaml | yq -o=x '.ci.version'", returnStdout: true)
+    if ("${ciVersion}" == null || "${ciVersion}".equals('')) {
+        error('ci version must be defined...!')
+    }
+    return "${ciVersion}"
 }
 
 def getCdType () {
-    return sh(script: "cat ./manifest.yaml | yq -o=x '.cd.type'", returnStdout: true)
+    def cdLibrary=sh(script: "cat ./manifest.yaml | yq -o=x '.cd.type'", returnStdout: true)
+    if ("${cdLibrary}" == null || "${cdLibrary}".equals('')) {
+        error('ci library must be defined...!')
+    }
+    return "${cdLibrary}"
 }
 
 def getCdVersion () {
-    return sh(script: "cat ./manifest.yaml | yq -o=x '.cd.version'", returnStdout: true)
+    def cdVersion=sh(script: "cat ./manifest.yaml | yq -o=x '.cd.version'", returnStdout: true)
+    if ("${cdVersion}" == null || "${cdVersion}".equals('')) {
+        error('ci version must be defined...!')
+    }
+    return "${cdVersion}"
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def getCiPipeline () {
     return Constants.getPipelineCi()
@@ -153,4 +197,10 @@ def publishTestCoverageReport (type) {
         default:
             error('template no supported...!')
     }
+
+// def public getDefaultAgent () {
+//     return Constants.getDefaultAgent()
+// }
+
+
 }

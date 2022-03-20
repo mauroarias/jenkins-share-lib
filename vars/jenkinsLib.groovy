@@ -1,10 +1,6 @@
 import org.mauro.config.Constants
 import org.mauro.Tools
 
-def public configRunner (scriptRunner) {
-    Tools.setRunner(scriptRunner)
-}
-
 def public downloadJenkinsCli () {
     sh "wget '${Constants.getJenkinsHost()}/jnlpJars/jenkins-cli.jar'"
 }
@@ -23,21 +19,22 @@ def public createProjectIfNotExits (projectName) {
     sh "rm ${configFileName}"
 }
 
-def public createJenkinsPipelineFileWithLib (library, version) {
-    if ("${library}" == null || "${library}".equals('')) {
-        error('new library must be defined...!')
-    }
-    if ("${version}" == null || "${version}".equals('')) {
-        error('new version must be defined...!')
-    }
-    def template = libraryResource 'org/mauro/templates/JenkinsfilePipelineJobWithLibTemplate'
-    jenkinsFile='./Jenkinsfile'
-    sh "rm -f ${jenkinsFile}"
-    sh "echo 'building jenkins file'"
-    sh "echo '${template}' > ${jenkinsFile}"
-    sh "sed -i 's/__PIPELINE__/${library}/; s/__version__/${version}/' ${jenkinsFile}"
-    return "${jenkinsFile}"
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def public createJenkinsMultibranchJobWithLib (gitDstRemote, repository, projectName, serviceName) {
     template = ''
@@ -61,6 +58,17 @@ def public createJenkinsMultibranchJobWithLib (gitDstRemote, repository, project
     sh "java -jar jenkins-cli.jar -s ${Constants.getJenkinsHost()}/ -webSocket create-job PRJ-${projectName}/${repository} < ${configName}"
     sh "rm ${configName}"
 }
+
+def public createJenkinsPipelineFileWithLib (library, version) {
+    def template = libraryResource 'org/mauro/templates/JenkinsfilePipelineJobWithLibTemplate'
+    jenkinsFile='./Jenkinsfile'
+    sh "rm -f ${jenkinsFile}"
+    sh "echo 'building jenkins file'"
+    sh "echo '${template}' > ${jenkinsFile}"
+    sh "sed -i 's/__PIPELINE__/${library}/; s/__version__/${version}/' ${jenkinsFile}"
+    return "${jenkinsFile}"
+}
+
 
 
 

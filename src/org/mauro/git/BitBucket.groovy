@@ -4,61 +4,87 @@ class BitBucket implements Serializable {
 
     def String baseApiPath = 'https://api.bitbucket.org/2.0/'
 
-    def createProjectIfNotExits (projectName) {
-        sh "echo 'checking project name: ${projectName}'"
+    def createProjectIfNotExits (steps, projectName) {
+        steps.sh "echo 'checking project name: ${projectName}'"
         projectNameKey = "${projectName}".toString().toUpperCase()
-        if (!isProjectExits("${projectName}")) {
+        if (!isProjectExits(steps, projectName)) {
             sh "curl --user '${getAuth()}' -X POST -H \"Content-Type: application/json\" ${getProjectApiPath()} --data '{\"key\":\"${projectNameKey}\",\"name\":\"${projectName}\",\"description\":\"${projectName}\",\"is_private\": false}'"
         }
     }
 
     def getAuth () {
-        return "${biBucketuser}:${biBucketPassword}"
+        return "${BIT_BUCKET_CRED_USR}:${BIT_BUCKET_CRED_PSW}"
     }
 
     def getProjectApiPath () {
-        return "${baseApiPath}workspaces/${biBucketuser}/projects/"
+        return "${baseApiPath}workspaces/${BIT_BUCKET_CRED_USR}/projects/"
     }
 
-    def isRepositoryExits (repo) {
-        int status = sh(script: "curl -sLI -w '%{http_code}' --user '${getAuth()}' -X GET -H \"Content-Type: application/json\" ${getRepositoryApiPath()}${repo} -o /dev/null", returnStdout: true)
+    def isProjectExits (steps, projectName) {
+        int status = steps.sh(script: "curl -sLI -w '%{http_code}' --user ${getAuth()} -X GET -H \"Content-Type: application/json\" ${getProjectApiPath()}${projectName} -o /dev/null", returnStdout: true)
+        echo "project status code was ${status}"
+        return status == 200
+    }
+
+    def isRepositoryExits (steps, repo) {
+        int status = steps.sh(script: "curl -sLI -w '%{http_code}' --user '${getAuth()}' -X GET -H \"Content-Type: application/json\" ${getRepositoryApiPath()}${repo} -o /dev/null", returnStdout: true)
         echo "repository status code was ${status}"
         return status == 200
     }
 
     def getRepositoryApiPath () {
-        return "${baseApiPath}repositories/${biBucketuser}/"
+        return "${baseApiPath}repositories/${BIT_BUCKET_CRED_USR}/"
     }
 
+    def cloneRepo (steps, branche, repoTemplate, template, serviceName) {
+        steps.sh "git clone -b ${branch} ${repoTemplate}/${template} ./${serviceName}"
+    }
 
+    def createRepo (steps, serviceName, projectName) {
+        projectNameKey = "${projectName}".toString().toUpperCase()
+        steps.sh "curl --user ${getAuth()} -X POST -H \"Content-Type: application/json\" --data '{\"scm\":\"git\",\"project\":{\"key\":\"${projectNameKey}\"}}' ${getRepositoryApiPath()}${serviceName}"
+    }
 
+    def public initRepo (steps, serviceName) {
+        sh "git config --global user.email \"$GIT_EMAIL\""
+        sh "git config --global user.name \"$GIT_USER\""
+        sh "rm -rf .git"
+        sh "git init"
+        addRemote(steps, serviceName)
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-    def isProjectExits (projectName) {
-        int status = sh(script: "curl -sLI -w '%{http_code}' --user ${getAuth()} -X GET -H \"Content-Type: application/json\" ${getProjectApiPath()}${projectName} -o /dev/null", returnStdout: true)
-        echo "project status code was ${status}"
-        return status == 200
+    def addRemote (steps, serviceName) {
+        steps.sh "git remote add origin ${getPath()}${serviceName}.git"
     }
 
     def getPath () {
-        return "https://${getAuth()}@bitbucket.org/${BITBUCKET_USER}/"
+        return "https://${getAuth()}@bitbucket.org/${BIT_BUCKET_CRED_USR}/"
     }
 
-    def createRepo (repository, projectName) {
-        projectNameKey = "${projectName}".toString().toUpperCase()
-        sh "curl --user ${getAuth()} -X POST -H \"Content-Type: application/json\" --data '{\"scm\":\"git\",\"project\":{\"key\":\"${projectNameKey}\"}}' ${getRepositoryApiPath()}${repository}"
+    def public commitAndPushRepo (steps) {
+        def branch=Constants.getGitBranch()
+        steps.sh "git add -A"
+        steps.sh "git commit -m 'first draft from template'"
+        steps.sh "git branch -M ${branche}"
+        steps.sh "git push -u origin ${branche}"
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def addRemote (repository, remote) {
         sh "git remote add ${remote} ${getPath()}${repository}.git"
@@ -70,10 +96,10 @@ class BitBucket implements Serializable {
     }
 
     def getPathRepo(repository) {
-        return "https://bitbucket.org/${BITBUCKET_USER}/${repository}"
+        return "https://bitbucket.org/${BIT_BUCKET_CRED_USR}/${repository}"
     }
 
     def getRepoOwner() {
-        return "${BITBUCKET_USER}"
+        return "${BIT_BUCKET_CRED_USR}"
     }
 }

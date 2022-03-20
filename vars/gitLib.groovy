@@ -1,9 +1,34 @@
 import org.mauro.config.Constants
 import org.mauro.git.GitRetriever
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def public configGitRep (remote) {
     GitRetriever.configGitRep(remote)
 }
+
+
+
+
+
+
+
 
 def public createProjectIfNotExitsIfAppl (steps, projectName) {
     sh "echo 'creating project ${projectName} if not exists'"
@@ -43,7 +68,6 @@ def public validateEnvVars (type) {
         bitBucket.validateEnvVars()
     }
 }
-
 
 def public cloneRepoWithBranch (branche, repository) {
     sh "rm -rf ${repository}"

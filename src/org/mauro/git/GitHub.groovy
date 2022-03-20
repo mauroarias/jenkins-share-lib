@@ -17,7 +17,35 @@ class GitHub implements Serializable {
     }
 
     def getPath () {
-        return "https://${gitHubUser}:${gitHubPassword}@github.com/${gitHubUser}/"
+        return "https://${GIT_HUB_CRED_USR}:${GIT_HUB_CRED_PSW}@github.com/${GIT_HUB_CRED_USR}/"
+    }
+
+    def cloneRepo (steps, branche, repoTemplate, template, serviceName) {
+        steps.sh "git clone -b ${branch} ${repoTemplate}/${template} ./${serviceName}"
+    }
+
+    def createRepo (steps, serviceName, projectName) {
+        steps.sh "curl -H \"Authorization: token ${GIT_HUB_TOKEN}\" --data '{\"name\":\"${serviceName}\"}' ${getApiUri}"
+    }
+
+    def public initRepo (steps, serviceName) {
+        sh "git config --global user.email \"$GIT_EMAIL\""
+        sh "git config --global user.name \"$GIT_USER\""
+        sh "rm -rf .git"
+        sh "git init"
+        addRemote(steps, serviceName)
+    }
+
+    def addRemote (steps, serviceName) {
+        steps.sh "git remote add origin ${getPath()}${serviceName}.git"
+    }
+
+    def public commitAndPushRepo (steps) {
+        def branch=Constants.getGitBranch()
+        steps.sh "git add -A"
+        steps.sh "git commit -m 'first draft from template'"
+        steps.sh "git branch -M ${branche}"
+        steps.sh "git push -u origin ${branche}"
     }
 
 
@@ -29,13 +57,6 @@ class GitHub implements Serializable {
 
 
 
-    def createRepo (repository) {
-        sh "curl -H \"Authorization: token ${GIT_HUB_TOKEN}\" --data '{\"name\":\"${repository}\"}' ${getApiUri}"
-    }
-
-    def addRemote (repository, remote) {
-        sh "git remote add ${remote} ${getPath()}${repository}.git"
-    }
 
     def getRepos () {
         return sh(script: "curl -H \"Authorization: token ${GIT_HUB_TOKEN}\" -X GET ${getApiUri} | jq -r '.[] | .name'", returnStdout: true)

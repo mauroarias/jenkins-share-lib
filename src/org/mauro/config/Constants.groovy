@@ -2,9 +2,26 @@ package org.mauro.config
 
 class Constants implements Serializable {
 
-    def public static String getRepoTemplate() {
+    def public static String getRepoTemplate () {
         return 'https://github.com/mauroarias'
     }
+
+    def public static String getGitBranch () {
+        return 'develop'
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def public static String getDefaultAgent () {
         return 'alpine'
