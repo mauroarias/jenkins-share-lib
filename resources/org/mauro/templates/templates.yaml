@@ -12,5 +12,5 @@ types:
   - template: template-maven-app
     name: maven
     fullName: maven wip
-    agent: universal-agent:0.1.0
+    agent: maven3.8.1-java11:0.1.0
     branch: wip-0.1.0
