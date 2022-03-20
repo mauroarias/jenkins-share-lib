@@ -1,6 +1,6 @@
 package org.mauro.git
 
-import org.mauro.Tools
+import org.mauro.config.Constants
 
 class GitHub implements Serializable {
 

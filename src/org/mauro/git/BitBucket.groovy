@@ -1,5 +1,7 @@
 package org.mauro.git
 
+import org.mauro.config.Constants
+
 class BitBucket implements Serializable {
 
     def static String baseApiPath = 'https://api.bitbucket.org/2.0/'
