@@ -1,7 +1,7 @@
 import org.mauro.config.Constants
 import org.mauro.Tools
 
-def public config (scriptRunner) {
+def public configRunner (scriptRunner) {
     Tools.setRunner(scriptRunner)
 }
 
