@@ -60,9 +60,9 @@ def public createJenkinsMultibranchJobWithLib (gitDstRemote, repository, project
 
 
 
-def public createPipelineJobWithLib (name, library, version, project, repository) {
+def public createPipelineJobWithLib (name, version, project, repository) {
     def template = libraryResource 'org/mauro/templates/JenkinsfilePipelineJobWithLibTemplate'
-    file = createJenkinsPipelineFileWithLib(this, template, library, version)
+    file = createJenkinsPipelineFileWithLib(this, template, version)
     createPipelineJob("${name}", "${file}", "${project}", "${repository}")
 }
 

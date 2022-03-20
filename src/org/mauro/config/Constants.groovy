@@ -14,6 +14,10 @@ class Constants implements Serializable {
         return 'alpine'
     }
 
+    def public static String getPipelineCi () {
+        return 'pipelineCi'
+    }
+
 
 
 
@@ -61,9 +65,5 @@ class Constants implements Serializable {
 
     def public static String getDockerRepositoryProd () {
         return getDockerRepository ()
-    }
-
-    def public static String getPipelineCi () {
-        return 'pipelineCi'
     }
 }

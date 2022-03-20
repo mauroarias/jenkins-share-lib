@@ -33,7 +33,7 @@ def public applyGitRepository (gitDstRemote, serviceName, templateFullName, proj
         sh "rm ./prepare.sh"
         GitRetriever.getGitInst().createRepo(this, serviceName, projectName)
         def template = libraryResource 'org/mauro/templates/JenkinsfilePipelineJobWithLibTemplate'
-        Tools.createJenkinsPipelineFileWithLib(this, template, getCiType(), getCiVersion())
+        Tools.createJenkinsPipelineFileWithLib(this, template, getCiVersion())
         GitRetriever.getGitInst().initRepo(this, serviceName)
         GitRetriever.getGitInst().commitAndPushRepo(this)
     }
