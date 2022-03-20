@@ -29,8 +29,8 @@ class GitHub implements Serializable {
     }
 
     def public initRepo (steps, serviceName) {
-        steps.sh "git config --global user.email \"$GIT_EMAIL\""
-        steps.sh "git config --global user.name \"$GIT_USER\""
+        steps.sh "git config --global user.email \"${steps.env.GIT_EMAIL}\""
+        steps.sh "git config --global user.name \"${steps.env.$GIT_USER}\""
         steps.sh "rm -rf .git"
         steps.sh "git init"
         addRemote(steps, serviceName)
