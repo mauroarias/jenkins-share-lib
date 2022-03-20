@@ -1,5 +1,6 @@
 import org.mauro.config.Constants
 import org.mauro.git.GitRetriever
+import org.mauro.Tools
 
 def public getTemplates () {
     def templateTypeList = libraryResource 'org/mauro/templates/templates.yaml'
@@ -36,10 +37,6 @@ def public applyGitRepository (gitDstRemote, serviceName, templateFullName, proj
         GitRetriever.getGitInst().commitAndPushRepo(this)
     }
 }
-
-    jenkinsLib.createJenkinsPipelineFileWithLib("${templateLib.getCiPipeline()}", "${templateLib.getCiVersion()}")
-
-
 
 def public getTemplateParameter (templateFullName, parameter) {
     def templateTypeList = libraryResource 'org/mauro/templates/templates.yaml'
