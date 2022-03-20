@@ -1,6 +1,15 @@
 import org.mauro.config.Constants
 import org.mauro.git.GitRetriever
 
+def public getRepos (gitDstRemote, projectName) {
+    GitRetriever.configGitRep(gitDstRemote)
+    return GitRetriever.getGitInst().getRepos(projectName)
+}
+
+
+
+
+
 
 
 
@@ -39,6 +48,14 @@ def public isRepositoryExits (repo) {
     sh "echo 'validating is repository exists in ${type}'"
     GitRetriever.getGitInst().isRepositoryExits(repo)
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -103,17 +120,6 @@ def public initRepo (type, email, name, repository, remote) {
     } else if ("${type}" == 'bitBucket') {
         def bitBucket = new org.mauro.git.BitBucket()
         bitBucket.addRemote("${repository}", "${remote}")
-    }
-}
-
-def public getRepos (type, projectName) {
-    sh "echo 'getting list of repos in ${type}'"
-    if ("${type}" == 'gitHub') {
-        def gitHub = new org.mauro.git.GitHub()
-        return gitHub.getRepos()
-    } else if ("${type}" == 'bitBucket') {
-        def bitBucket = new org.mauro.git.BitBucket()
-        return bitBucket.getRepos("${projectName}")
     }
 }
 

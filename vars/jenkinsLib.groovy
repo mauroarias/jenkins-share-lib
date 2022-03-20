@@ -19,23 +19,6 @@ def public createProjectIfNotExits (projectName) {
     sh "rm ${configFileName}"
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 def public createJenkinsMultibranchJobWithLib (gitDstRemote, repository, projectName, serviceName) {
     template = ''
     owner=''
@@ -58,6 +41,9 @@ def public createJenkinsMultibranchJobWithLib (gitDstRemote, repository, project
     sh "java -jar jenkins-cli.jar -s ${Constants.getJenkinsHost()}/ -webSocket create-job PRJ-${projectName}/${repository} < ${configName}"
     sh "rm ${configName}"
 }
+
+
+
 
 
 

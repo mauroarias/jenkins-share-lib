@@ -10,32 +10,32 @@ class BitBucket implements Serializable {
         steps.sh "echo 'checking project name: ${projectName}'"
         projectNameKey = "${projectName}".toString().toUpperCase()
         if (!isProjectExits(steps, projectName)) {
-            sh "curl --user '${getAuth()}' -X POST -H \"Content-Type: application/json\" ${getProjectApiPath()} --data '{\"key\":\"${projectNameKey}\",\"name\":\"${projectName}\",\"description\":\"${projectName}\",\"is_private\": false}'"
+            sh "curl --user '${getAuth(steps)}' -X POST -H \"Content-Type: application/json\" ${getProjectApiPath(steps)} --data '{\"key\":\"${projectNameKey}\",\"name\":\"${projectName}\",\"description\":\"${projectName}\",\"is_private\": false}'"
         }
     }
 
-    def public getAuth () {
-        return "${BIT_BUCKET_CRED_USR}:${BIT_BUCKET_CRED_PSW}"
+    def public getAuth (steps) {
+        return "${steps.env.BIT_BUCKET_CRED_USR}:${steps.env.BIT_BUCKET_CRED_PSW}"
     }
 
-    def public getProjectApiPath () {
-        return "${baseApiPath}workspaces/${BIT_BUCKET_CRED_USR}/projects/"
+    def public getProjectApiPath (steps) {
+        return "${baseApiPath}workspaces/${steps.env.BIT_BUCKET_CRED_USR}/projects/"
     }
 
     def public isProjectExits (steps, projectName) {
-        int status = steps.sh(script: "curl -sLI -w '%{http_code}' --user ${getAuth()} -X GET -H \"Content-Type: application/json\" ${getProjectApiPath()}${projectName} -o /dev/null", returnStdout: true)
+        int status = steps.sh(script: "curl -sLI -w '%{http_code}' --user ${getAuth(steps)} -X GET -H \"Content-Type: application/json\" ${getProjectApiPath(steps)}${projectName} -o /dev/null", returnStdout: true)
         echo "project status code was ${status}"
         return status == 200
     }
 
     def public isRepositoryExits (steps, repo) {
-        int status = steps.sh(script: "curl -sLI -w '%{http_code}' --user '${getAuth()}' -X GET -H \"Content-Type: application/json\" ${getRepositoryApiPath()}${repo} -o /dev/null", returnStdout: true)
+        int status = steps.sh(script: "curl -sLI -w '%{http_code}' --user '${getAuth(steps)}' -X GET -H \"Content-Type: application/json\" ${getRepositoryApiPath(steps)}${repo} -o /dev/null", returnStdout: true)
         echo "repository status code was ${status}"
         return status == 200
     }
 
-    def public getRepositoryApiPath () {
-        return "${baseApiPath}repositories/${BIT_BUCKET_CRED_USR}/"
+    def public getRepositoryApiPath (steps) {
+        return "${baseApiPath}repositories/${steps.env.BIT_BUCKET_CRED_USR}/"
     }
 
     def public cloneRepo (steps, branche, repoTemplate, template, serviceName) {
@@ -44,7 +44,7 @@ class BitBucket implements Serializable {
 
     def public createRepo (steps, serviceName, projectName) {
         projectNameKey = "${projectName}".toString().toUpperCase()
-        steps.sh "curl --user ${getAuth()} -X POST -H \"Content-Type: application/json\" --data '{\"scm\":\"git\",\"project\":{\"key\":\"${projectNameKey}\"}}' ${getRepositoryApiPath()}${serviceName}"
+        steps.sh "curl --user ${getAuth(steps)} -X POST -H \"Content-Type: application/json\" --data '{\"scm\":\"git\",\"project\":{\"key\":\"${projectNameKey}\"}}' ${getRepositoryApiPath(steps)}${serviceName}"
     }
 
     def public initRepo (steps, serviceName) {
@@ -56,11 +56,11 @@ class BitBucket implements Serializable {
     }
 
     def public addRemote (steps, serviceName) {
-        steps.sh "git remote add origin ${getPath()}${serviceName}.git"
+        steps.sh "git remote add origin ${getPath(steps)}${serviceName}.git"
     }
 
-    def public getPath () {
-        return "https://${getAuth()}@bitbucket.org/${BIT_BUCKET_CRED_USR}/"
+    def public getPath (steps) {
+        return "https://${getAuth(steps)}@bitbucket.org/${steps.env.BIT_BUCKET_CRED_USR}/"
     }
 
     def public commitAndPushRepo (steps) {
@@ -71,33 +71,33 @@ class BitBucket implements Serializable {
         steps.sh "git push -u origin ${branche}"
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    def public getRepos (projectName) {
+    def public getRepos (steps, projectName) {
         projectNameKey = "${projectName}".toString().toUpperCase()
-        return sh(script: "curl --user ${getAuth()} -X GET --url '${getRepositoryApiPath()}?q=project.key%3D+%22${projectNameKey}%22&pagelen=100' --header 'Accept: application/json' | jq -r '.values[] | .name'", returnStdout: true)
+        return steps.sh(script: "curl --user ${getAuth(steps)} -X GET --url '${getRepositoryApiPath(steps)}?q=project.key%3D+%22${projectNameKey}%22&pagelen=100' --header 'Accept: application/json' | jq -r '.values[] | .name'", returnStdout: true)
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     def public getPathRepo(repository) {
-        return "https://bitbucket.org/${BIT_BUCKET_CRED_USR}/${repository}"
+        return "https://bitbucket.org/${steps.env.BIT_BUCKET_CRED_USR}/${repository}"
     }
 
     def public getRepoOwner() {
-        return "${BIT_BUCKET_CRED_USR}"
+        return "${steps.env.BIT_BUCKET_CRED_USR}"
     }
 }

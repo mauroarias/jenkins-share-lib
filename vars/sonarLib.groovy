@@ -1,5 +1,26 @@
 import org.mauro.config.Constants
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def public validateEnvVars () {
     if ("${SONAR_USER}" == '') {   
         error("sonar used not defined...!")

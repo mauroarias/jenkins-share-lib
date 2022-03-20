@@ -48,19 +48,28 @@ class GitHub implements Serializable {
         steps.sh "git push -u origin ${branch}"
     }
 
-
-
-
-
-
-
-
-
-
-
     def public getRepos (steps) {
-        return sh(script: "curl -H \"Authorization: token ${steps.env.GIT_HUB_CRED_PSW}\" -X GET ${getApiUri} | jq -r '.[] | .name'", returnStdout: true)
+        return steps.sh(script: "curl -H \"Authorization: token ${steps.env.GIT_HUB_CRED_PSW}\" -X GET ${getApiUri} | jq -r '.[] | .name'", returnStdout: true)
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def public getPathRepo(repository) {
         return "https://github.com/${GIT_HUB_USER}/${repository}"

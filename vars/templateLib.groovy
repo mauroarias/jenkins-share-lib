@@ -109,23 +109,14 @@ def getCdVersion () {
 
 
 
+
+
+
+
+
 def getCiPipeline () {
     return Constants.getPipelineCi()
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 def getAppVersion (type) {
     sh "echo 'get App Version with ${type}'"
@@ -203,7 +194,4 @@ def publishTestCoverageReport (type) {
         default:
             error('template no supported...!')
     }
-
-
-
 }
