@@ -4,7 +4,7 @@ class Tools {
 
     def public static createJenkinsPipelineFileWithLib (steps, library, version) {
         def template = libraryResource 'org/mauro/templates/JenkinsfilePipelineJobWithLibTemplate'
-        jenkinsFile='./Jenkinsfile'
+        def jenkinsFile='./Jenkinsfile'
         steps.sh "rm -f ${jenkinsFile}"
         steps.sh "echo 'building jenkins file'"
         steps.sh "echo '${template}' > ${jenkinsFile}"
