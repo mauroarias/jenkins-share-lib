@@ -64,15 +64,15 @@ def public isRepositoryExits (repo) {
 
 
 
-def public commitAndPushRepo (remote, branche, message) {
+def public commitAndPushRepo (remote, branch, message) {
     sh "git add -A"
     sh "git commit -m \"${message}\""
-    sh "git branch -M ${branche}"
-    pushRepo("${remote}", "${branche}")
+    sh "git branch -M ${branch}"
+    pushRepo("${remote}", "${branch}")
 }
 
-def public pushRepo (remote, branche) {
-    sh "git push -u ${remote} ${branche}"
+def public pushRepo (remote, branch) {
+    sh "git push -u ${remote} ${branch}"
 }
 
 def public validateEnvVars (type) {
@@ -86,9 +86,9 @@ def public validateEnvVars (type) {
     }
 }
 
-def public cloneRepoWithBranch (branche, repository) {
+def public cloneRepoWithBranch (branch, repository) {
     sh "rm -rf ${repository}"
-    sh "git clone -b '${branche}' '${Constants.getRepoTemplate()}/${repository}'"
+    sh "git clone -b '${branch}' '${Constants.getRepoTemplate()}/${repository}'"
     return
 }
 

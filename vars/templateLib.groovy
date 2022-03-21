@@ -1,3 +1,4 @@
+import org.mauro.config.Config
 import org.mauro.config.Constants
 import org.mauro.git.GitRetriever
 import org.mauro.Tools
@@ -20,8 +21,8 @@ def public gettingGitRepository (gitDstRemote, projectName, serviceName) {
 }
 
 def public applyGitRepository (gitDstRemote, serviceName, templateFullName, projectName) {
-    branch=getTemplatebranch(templateFullName)
-    template=getTemplate(templateFullName)
+    branch=Config.getBranch()
+    template=Config.getTemplate()
     repoTemplate=Constants.getRepoTemplate()
     sh "echo 'template ${template}'"
     sh "echo 'branch ${branch}'"
@@ -33,48 +34,39 @@ def public applyGitRepository (gitDstRemote, serviceName, templateFullName, proj
         sh "rm ./prepare.sh"
         GitRetriever.getGitInst().createRepo(this, serviceName, projectName)
         def template = libraryResource 'org/mauro/templates/JenkinsfilePipelineJobWithLibTemplate'
-        Tools.createJenkinsPipelineFileWithLib(this, template, getCiVersion())
+        Tools.createJenkinsPipelineFileWithLib(this, template, Config.getVersion())
         GitRetriever.getGitInst().initRepo(this, serviceName)
         GitRetriever.getGitInst().commitAndPushRepo(this)
     }
 }
 
-def public getTemplateParameter (templateFullName, parameter) {
+def public config (templateFullName) {
     def templateTypeList = libraryResource 'org/mauro/templates/templates.yaml'
-    return sh(script: "echo '${templateTypeList}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .${parameter}'", returnStdout: true)
+    Config.configByTemplate(this, templateTypeList, templateFullName)
 }
 
-def public getTemplate (templateFullName) {
-    return getTemplateParameter(templateFullName, "template")
+def public configUsingManifest () {
+    def templateTypeList = libraryResource 'org/mauro/templates/templates.yaml'
+    Config.configByTemplate(this, templateTypeList)
 }
 
-def public getTemplateName (templateFullName) {
-    return getTemplateParameter(templateFullName, "name")
+def public getTemplateAgent () {
+    return Config.getAgent()
 }
 
-def public getTemplateAgent (templateFullName) {
-    return getTemplateParameter(templateFullName, "agent")
-}
 
-def public getTemplatebranch (templateFullName) {
-    return getTemplateParameter(templateFullName, "branch")
-}
 
-def getCiType () {
-    def ciLibrary=sh(script: "cat ./manifest.yaml | yq -o=x '.ci.type'", returnStdout: true)
-    if ("${ciLibrary}" == null || "${ciLibrary}".equals('')) {
-        error('ci library must be defined...!')
-    }
-    return "${ciLibrary}"
-}
 
-def getCiVersion () {
-    def ciVersion=sh(script: "cat ./manifest.yaml | yq -o=x '.ci.version'", returnStdout: true)
-    if ("${ciVersion}" == null || "${ciVersion}".equals('')) {
-        error('ci version must be defined...!')
-    }
-    return "${ciVersion}"
-}
+
+
+
+
+
+
+
+
+
+
 
 def getCdType () {
     def cdLibrary=sh(script: "cat ./manifest.yaml | yq -o=x '.cd.type'", returnStdout: true)
