@@ -1,6 +1,6 @@
 package org.mauro.config
 
-class config implements Serializable {
+class Config implements Serializable {
 
     def static steps
     def static template
