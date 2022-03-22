@@ -1,13 +1,13 @@
 import org.mauro.config.Constants
 import org.mauro.templating.BuilderRetriever
 
-def public createProjetIfNotExists (projectName, artifactId) {
-    if (!isprojectExists(projectName, artifactId)) {
-        createProject(projectName, artifactId)
+def public createProjetIfNotExists (artifactId) {
+    if (!isprojectExists(artifactId)) {
+        createProject(artifactId)
     }
 }
 
-def public isprojectExists (projectName, artifactId) {
+def public isprojectExists (artifactId) {
     found = sh(script: "curl -X GET -H 'Content-Type: application/json' -u ${getCredentials()} '${Constants.getJenkinsHost()}/api/projects/search?projects=${projectName}' | jq -r '.components[] | .name' | grep '${artifactId}'", returnStdout: true)
     return found != ''
 }
