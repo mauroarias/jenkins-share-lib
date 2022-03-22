@@ -4,79 +4,77 @@ import org.mauro.templating.BuilderRetriever
 
 class Config implements Serializable {
 
-    def static steps
-    def static template
-    def static templateName
-    def static fullName
-    def static agent
-    def static ciBranch
-    def static ciVersion
+    def static configSteps
+    def static configTemplate
+    def static configTemplateName
+    def static configFullName
+    def static configAgent
+    def static configCiBranch
+    def static configCiVersion
 
-    def public static configByTemplate (stepsValue, templateFile, templateFullName) {
-        Config.steps = stepsValue
-        Config.template = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .template'", returnStdout: true)
-        Config.templateName = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .name'", returnStdout: true)
-        Config.fullName = templateFullName
-        Config.agent = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .agent'", returnStdout: true)
-        Config.ciBranch = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .branch'", returnStdout: true)
-        Config.ciVersion = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .version'", returnStdout: true)
+    def public static configByconfigTemplate (stepsValue, templateFile, templateFullName) {
+        configSteps = stepsValue
+        configTemplate = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.configFullName == \"${templateFullName}\") | .configTemplate'", returnStdout: true)
+        configTemplateName = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.configFullName == \"${templateFullName}\") | .name'", returnStdout: true)
+        configFullName = templateFullName
+        configAgent = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.configFullName == \"${templateFullName}\") | .configAgent'", returnStdout: true)
+        configCiBranch = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.configFullName == \"${templateFullName}\") | .branch'", returnStdout: true)
+        configCiVersion = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.configFullName == \"${templateFullName}\") | .version'", returnStdout: true)
         BuilderRetriever.configBuider(stepsValue)
     }
 
     def public static configByManifest (stepsValue, templateFile) {
-        Config.steps = stepsValue
-        Config.templateName = getCiType(stepsValue)
-        Config.ciVersion = getConfig(stepsValue)
-        Config.template = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${Config.templateName}\")  | select(.version == \"${Config.ciVersion}\") | .template'", returnStdout: true)
-        Config.fullName = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${Config.templateName}\")  | select(.version == \"${Config.ciVersion}\") | .fullName'", returnStdout: true)
-        Config.agent = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${Config.templateName}\")  | select(.version == \"${Config.ciVersion}\") | .agent'", returnStdout: true)
-        Config.ciBranch = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${Config.templateName}\")  | select(.version == \"${Config.ciVersion}\") | .branch'", returnStdout: true)
+        configSteps = stepsValue
+        configTemplateName = getCiType()
+        configCiVersion = getConfig()
+        configTemplate = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${configTemplateName}\")  | select(.version == \"${configCiVersion}\") | .configTemplate'", returnStdout: true)
+        configFullName = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${configTemplateName}\")  | select(.version == \"${configCiVersion}\") | .configFullName'", returnStdout: true)
+        configAgent = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${configTemplateName}\")  | select(.version == \"${configCiVersion}\") | .configAgent'", returnStdout: true)
+        configCiBranch = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${configTemplateName}\")  | select(.version == \"${configCiVersion}\") | .branch'", returnStdout: true)
         BuilderRetriever.configBuider(stepsValue)
     }
 
     def static errorIfNotConfig (value, name) {
         if ("${value}".equals('')|| "${value}" == null) {
-            steps.error("${name} must be define...!")
+            configSteps.error("${name} must be define...!")
         }
     }
 
-    def static getCiType (steps) {
-        def ciLibrary = steps.sh(script: "cat ./manifest.yaml | yq -o=x '.ci.type'", returnStdout: true)
-        return "${ciLibrary}"
+    def static getCiType () {
+        return configSteps.sh(script: "cat ./manifest.yaml | yq -o=x '.ci.type'", returnStdout: true)
     }
 
-    def static getConfig (steps) {
-        def ciVersion=steps.sh(script: "cat ./manifest.yaml | yq -o=x '.ci.version'", returnStdout: true)
-        return "${ciVersion}"
+    def static getConfig () {
+        return configSteps.sh(script: "cat ./manifest.yaml | yq -o=x '.ci.version'", returnStdout: true)
     }
 
     def public static getTemplate () {
-        errorIfNotConfig(Config.template, "template")
-        return Config.template
+        errorIfNotConfig(configTemplate, "configTemplate")
+        return configTemplate
     }
 
     def public static getTemplateName () {
-        errorIfNotConfig(Config.templateName, "template name")
-        return Config.templateName
+        errorIfNotConfig(configTemplateName, "configTemplate name")
+        return configTemplateName
     }
 
     def public static getFullname () {
-        errorIfNotConfig(Config.fullName, "full name")
-        return Config.fullName
+        errorIfNotConfig(configFullName, "full name")
+        return configFullName
     }
 
     def public static getAgent () {
-        errorIfNotConfig(Config.agent, "agent")
-        return Config.agent
+        errorIfNotConfig(configAgent, "configAgent")
+        return configAgent
     }
 
     def public static getBranch () {
-        errorIfNotConfig(Config.ciBranch, "branch")
-        return Config.ciBranch
+        errorIfNotConfig(configCiBranch, "branch")
+        return configCiBranch
     }
 
     def public static getVersion () {
-        errorIfNotConfig(Config.ciVersion, "version")
-        return Config.ciVersion
+        errorIfNotConfig(configCiVersion, "version")
+        return configCiVersion
     }
 }
