@@ -56,6 +56,6 @@ class Maven implements Serializable {
     }
 
     def public pushSonarArtifact (artifactId) {
-        steps.sh "mvn clean verify sonar:sonar -Dsonar.projectKey=${artifactId} -Dsonar.host.url=${Constants.getSonarHost()} -Dsonar.login=${steps.env.SONAR_TOKEN} -Dsonar.projectName=${artifactId}"
+        steps.sh "mvn clean verify sonar:sonar -Dsonar.projectKey=${artifactId} -Dsonar.host.url='${Constants.getSonarHost()}' -Dsonar.login=${steps.env.SONAR_TOKEN} -Dsonar.projectName=${artifactId}"
     }
 }

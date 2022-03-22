@@ -18,8 +18,12 @@ class Constants implements Serializable {
         return 'pipelineCi'
     }
 
-    def public static String getSonarHost() {
+    def public static String getSonarHost () {
         return 'http://sonarqube:9000'
+    }
+
+    def public static String getAgentArguments () {
+        return '--network devops'
     }
 
     def public static String getCommonURI() {

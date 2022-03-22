@@ -50,7 +50,9 @@ def public archivingArtifacts (artifacts) {
     archiveArtifacts(allowEmptyArchive: false, artifacts: "${artifacts}", onlyIfSuccessful: false)
 }
  
-
+def public getAgentArguments () {
+    return Constants.getAgentArguments()
+}
 
 
 
