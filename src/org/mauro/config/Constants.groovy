@@ -23,7 +23,8 @@ class Constants implements Serializable {
     }
 
     def public static String getAgentArguments () {
-        return '--network devops'
+        def network = steps.sh(script: 'docker network ls | grep devops | awk "{print $1}"', returnStdout: true).trim()
+        return "--network ${network}"
     }
 
     def public static String getCommonURI() {
