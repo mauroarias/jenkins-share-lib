@@ -14,12 +14,12 @@ class Config implements Serializable {
 
     def public static configByTemplate (stepsValue, templateFile, templateFullName) {
         configSteps = stepsValue
-        configTemplate = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.configFullName == \"${templateFullName}\") | .template'", returnStdout: true)
-        configTemplateName = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.configFullName == \"${templateFullName}\") | .name'", returnStdout: true)
+        configTemplate = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .template'", returnStdout: true)
+        configTemplateName = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .name'", returnStdout: true)
         configFullName = templateFullName
-        configAgent = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.configFullName == \"${templateFullName}\") | .agent'", returnStdout: true)
-        configCiBranch = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.configFullName == \"${templateFullName}\") | .branch'", returnStdout: true)
-        configCiVersion = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.configFullName == \"${templateFullName}\") | .version'", returnStdout: true)
+        configAgent = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .agent'", returnStdout: true)
+        configCiBranch = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .branch'", returnStdout: true)
+        configCiVersion = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .version'", returnStdout: true)
         printConfig()
         BuilderRetriever.configBuider(stepsValue)
     }
