@@ -16,7 +16,7 @@ def public config (templateFullName) {
 
 def public configUsingManifest () {
     def templateTypeList = libraryResource 'org/mauro/templates/templates.yaml'
-    Config.configByTemplate(this, templateTypeList)
+    Config.configByManifest(this, templateTypeList)
 }
 
 def public getDefaultAgent () {

@@ -23,7 +23,7 @@ class Config implements Serializable {
         BuilderRetriever.configBuider(stepsValue)
     }
 
-    def public static configBymanifest (stepsValue, templateFile) {
+    def public static configByManifest (stepsValue, templateFile) {
         steps = stepsValue
         templateName = getCiType(stepsValue)
         ciVersion = getCiVersion(stepsValue)
