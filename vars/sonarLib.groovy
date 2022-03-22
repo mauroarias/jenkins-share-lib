@@ -8,13 +8,14 @@ def public createProjetIfNotExists (artifactId) {
 }
 
 def public isprojectExists (artifactId) {
-    found = sh(script: "curl -X GET -H 'Content-Type: application/json' -u ${getCredentials()} '${Constants.getSonarHost()}/api/projects/search?projects=${artifactId}' | jq -r '.components[] | .name' | grep '${artifactId}'", returnStdout: true)
+    sh "echo 'curl -X GET -H Content-Type: application/json -u ${getCredentials()} ${Constants.getSonarHost()}/api/projects/search?projects=${artifactId} | jq -r .components[] | .name | grep ${artifactId}'"
+    found = sh(script: "curl -X GET -H 'Content-Type: application/json' -u '${getCredentials()}' '${Constants.getSonarHost()}/api/projects/search?projects=${artifactId}' | jq -r '.components[] | .name' | grep '${artifactId}'", returnStdout: true)
     return found != ''
 }
 
 def public getCredentials () {
     validateEnvVars()
-    return "'${SONAR_CRED_USR}:${SONAR_CRED_PSW}'"
+    return "${SONAR_CRED_USR}:${SONAR_CRED_PSW}"
 }
 
 def validateEnvVars () {
@@ -27,7 +28,7 @@ def validateEnvVars () {
 }
 
 def public createProject (artifactId) {
-    sh "curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' -u ${getCredentials()} -d 'project=${artifactId}&name=${artifactId}' '${Constants.getSonarHost()}/api/projects/create?'"
+    sh "curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' -u '${getCredentials()}' -d 'project=${artifactId}&name=${artifactId}' '${Constants.getSonarHost()}/api/projects/create?'"
 }
 
 def public pushSonarArtifact (artifactId) {
@@ -35,7 +36,7 @@ def public pushSonarArtifact (artifactId) {
 }
 
 def public qualityGate (artifactId) {
-    def qualityGateStatus = sh(script: "curl -X GET -H 'Content-Type: application/json' -u ${getCredentials()} '${Constants.getSonarHost()}/api/qualitygates/project_status?projectKey=${artifactId}' | jq -r '.projectStatus.status'", returnStdout: true)
+    def qualityGateStatus = sh(script: "curl -X GET -H 'Content-Type: application/json' -u '${getCredentials()}' '${Constants.getSonarHost()}/api/qualitygates/project_status?projectKey=${artifactId}' | jq -r '.projectStatus.status'", returnStdout: true)
     if (!"${qualityGateStatus}".equals('OK')) {
         error('Quality gate fail...!')
     }
