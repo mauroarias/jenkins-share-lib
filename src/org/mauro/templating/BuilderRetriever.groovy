@@ -8,10 +8,11 @@ class BuilderRetriever implements Serializable {
 
     def public static configBuider (steps) {
         if (Config.getTemplateName().equals('maven')) {
-            builderInst = new Maven().setSteps(steps)
+            builderInst = new Maven()
         } else {
             error('Builder engine not supported...!')
         }
+        builderInst.setSteps(steps)
         return builderInst
     }
 
