@@ -27,7 +27,8 @@ class Config implements Serializable {
         steps = stepsValue
         def xxx = getCiType(stepsValue)
         def vvv = getCiVersion(stepsValue)
-        templateName = xxx
+        stepsValue.sh "echo ${xxx}, ${vvv}"
+        Config.templateName = xxx
         ciVersion = vvv
         template = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${templateName}\")  | select(.version == \"${ciVersion}\") | .template'", returnStdout: true)
         fullName = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${templateName}\")  | select(.version == \"${ciVersion}\") | .fullName'", returnStdout: true)
