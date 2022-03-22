@@ -19,10 +19,10 @@ def public getCredentials () {
 
 def validateEnvVars () {
     if ("${SONAR_CRED_USR}" == '') {   
-        error("sonar used not defined...!")
+        error('sonar used not defined...!')
     }
     if ("${SONAR_CRED_PSW}" == '') {   
-        error("sonar password not defined...!")
+        error('sonar password not defined...!')
     }
 }
 
@@ -34,6 +34,9 @@ def public pushSonarArtifact (artifactId) {
     BuilderRetriever.getBuilderInst().pushSonarArtifact(artifactId)
 }
 
-def public qualityGate (projectName) {
-    return sh(script: "curl -X GET -H 'Content-Type: application/json' -u ${getCredentials()} '${Constants.getJenkinsHost()}/api/qualitygates/project_status?projectKey=${projectName}' | jq -r '.projectStatus.status'", returnStdout: true)
+def public qualityGate (artifactId) {
+    def qualityGateStatus = sh(script: "curl -X GET -H 'Content-Type: application/json' -u ${getCredentials()} '${Constants.getJenkinsHost()}/api/qualitygates/project_status?projectKey=${artifactId}' | jq -r '.projectStatus.status'", returnStdout: true)
+    if (!"${qualityGateStatus}".equals('OK')) {
+        error('Quality gate fail...!')
+    }
 }
