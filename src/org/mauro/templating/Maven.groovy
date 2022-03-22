@@ -52,7 +52,7 @@ class Maven implements Serializable {
     }
 
     def public publishTestCoverageReport () {
-        Tools.publishingHTML('code coverage', 'code coverage report', 'target/jacoco-report/', 'index.html', true)
+        Tools.publishingHTML(steps, 'code coverage', 'code coverage report', 'target/jacoco-report/', 'index.html', true)
     }
 
     def public pushSonarArtifact (projectName, artifactId) {
