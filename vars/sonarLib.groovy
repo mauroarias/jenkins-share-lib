@@ -3,7 +3,6 @@ import org.mauro.templating.BuilderRetriever
 
 def public createProjetIfNotExists (artifactId) {
     if (!isprojectExists(artifactId)) {
-        sh "echo 'locura'"
         createProject(artifactId)
     }
 }
