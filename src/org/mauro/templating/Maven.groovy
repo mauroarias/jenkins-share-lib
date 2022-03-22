@@ -44,7 +44,7 @@ class Maven implements Serializable {
     }
 
     def public build () {
-        steps.sh 'mvn mvn clean package'
+        steps.sh 'mvn clean package'
     }
 
     def public getOutFolder () {
