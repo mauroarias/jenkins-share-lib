@@ -8,7 +8,7 @@ def public createProjetIfNotExists (artifactId) {
 }
 
 def public isprojectExists (artifactId) {
-    found = sh(script: "curl -X GET -H 'Content-Type: application/json' -u ${getCredentials()} '${Constants.getJenkinsHost()}/api/projects/search?projects=${projectName}' | jq -r '.components[] | .name' | grep '${artifactId}'", returnStdout: true)
+    found = sh(script: "curl -X GET -H 'Content-Type: application/json' -u ${getCredentials()} '${Constants.getJenkinsHost()}/api/projects/search?projects=${artifactId}' | jq -r '.components[] | .name' | grep '${artifactId}'", returnStdout: true)
     return found != ''
 }
 
