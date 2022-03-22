@@ -19,7 +19,7 @@ class Constants implements Serializable {
     }
 
     def public static String getSonarHost() {
-        return "${getCommonURI()}:9000"
+        return 'http://sonarqube:9000'
     }
 
     def public static String getCommonURI() {
