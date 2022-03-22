@@ -3,17 +3,14 @@ import org.mauro.templating.BuilderRetriever
 
 def public createProjetIfNotExists (artifactId) {
     if (!isprojectExists(artifactId)) {
+        sh "echo 'locura'"
         createProject(artifactId)
     }
 }
 
 def public isprojectExists (artifactId) {
-    sh "echo 'curl -X GET -H Content-Type: application/json -u ${getCredentials()} ${Constants.getSonarHost()}/api/projects/search?projects=${artifactId} | jq -r .components[] | .name | grep ${artifactId}'"
-    sh "curl -v -X GET -H 'Content-Type: application/json' -u '${getCredentials()}' '${Constants.getSonarHost()}/api/projects/search?projects=${artifactId}'"
-    sh "curl -v -X GET -H 'Content-Type: application/json' -u '${getCredentials()}' '${Constants.getSonarHost()}/api/projects/search?projects=${artifactId}' | jq"
-    sh "curl -v -X GET -H 'Content-Type: application/json' -u '${getCredentials()}' '${Constants.getSonarHost()}/api/projects/search?projects=${artifactId}' | jq -r '.components[] | .name' | grep '${artifactId}'"
-    found = sh(script: "curl -X GET -H 'Content-Type: application/json' -u '${getCredentials()}' '${Constants.getSonarHost()}/api/projects/search?projects=${artifactId}' | jq -r '.components[] | .name' | grep '${artifactId}'", returnStdout: true)
-    return found != null
+    items = sh(script: "curl -X GET -H 'Content-Type: application/json' -u '${getCredentials()}' '${Constants.getSonarHost()}/api/projects/search?projects=${artifactId}' | jq -r '.components | length'", returnStdout: true)
+    return items == 0
 }
 
 def public getCredentials () {
