@@ -1,4 +1,4 @@
-package org.mauro.git
+package org.mauro.templating
 
 import org.mauro.config.Config
 
