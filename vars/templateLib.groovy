@@ -56,32 +56,32 @@ def public getTemplateAgent () {
 }
 
 def public getAppVersion () {
-    return BuilderRetriever.getBuilderInst().getAppVersion()
+    return BuilderRetriever.getBuilder().getAppVersion()
 }
 
 def public getAppServiceName () {
-    return BuilderRetriever.getBuilderInst().getAppServiceName()
+    return BuilderRetriever.getBuilder().getAppServiceName()
 }
 
 def public getArtifactId () {
-    return BuilderRetriever.getBuilderInst().getArtifactId()
+    return BuilderRetriever.getBuilder().getArtifactId()
 }
 
 def public getgroupId () {
-    return BuilderRetriever.getBuilderInst().getgroupId()
+    return BuilderRetriever.getBuilder().getgroupId()
 }
 
 
 def public build () {
-    BuilderRetriever.getBuilderInst().build()
+    BuilderRetriever.getBuilder().build()
 }
 
 def public getOutFolder () {
-    return BuilderRetriever.getBuilderInst().getOutFolder()
+    return BuilderRetriever.getBuilder().getOutFolder()
 }
 
 def public publishTestCoverageReport () {
-    return BuilderRetriever.getBuilderInst().publishTestCoverageReport()
+    return BuilderRetriever.getBuilder().publishTestCoverageReport()
 }
 
 

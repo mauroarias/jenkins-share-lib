@@ -31,7 +31,7 @@ def public createProject (artifactId) {
 }
 
 def public pushSonarArtifact (artifactId) {
-    BuilderRetriever.getBuilderInst().pushSonarArtifact(artifactId)
+    BuilderRetriever.getBuilder().pushSonarArtifact(artifactId)
 }
 
 def public qualityGate (artifactId) {

@@ -4,22 +4,22 @@ import org.mauro.config.Config
 
 class BuilderRetriever implements Serializable {
 
-    def static builderInst
+    def static builderInstance
 
     def public static configBuider (steps) {
         if (Config.getTemplateName().equals('maven')) {
-            builderInst = new Maven()
+            builderInstance = new Maven()
         } else {
             error('Builder engine not supported...!')
         }
-        builderInst.setSteps(steps)
-        return builderInst
+        builderInstance.setSteps(steps)
+        return builderInstance
     }
 
-    def public static getBuilderInst () {
-        if (builderInst == null) {
+    def public static getBuilder () {
+        if (builderInstance == null) {
             error('remote not configured...!')
         }
-        return builderInst
+        return builderInstance
     }
 }
