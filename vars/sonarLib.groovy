@@ -10,7 +10,7 @@ def public createProjetIfNotExists (artifactId) {
 def public isprojectExists (artifactId) {
     sh "echo 'curl -X GET -H Content-Type: application/json -u ${getCredentials()} ${Constants.getSonarHost()}/api/projects/search?projects=${artifactId} | jq -r .components[] | .name | grep ${artifactId}'"
     found = sh(script: "curl -X GET -H 'Content-Type: application/json' -u '${getCredentials()}' '${Constants.getSonarHost()}/api/projects/search?projects=${artifactId}' | jq -r '.components[] | .name' | grep '${artifactId}'", returnStdout: true)
-    return found != ''
+    return found != null
 }
 
 def public getCredentials () {
