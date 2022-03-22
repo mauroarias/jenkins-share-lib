@@ -51,7 +51,7 @@ def public archivingArtifacts (artifacts) {
 }
  
 def public getAgentArguments () {
-    return Constants.getAgentArguments()
+    return Constants.getAgentArguments(this)
 }
 
 
