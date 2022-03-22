@@ -26,17 +26,14 @@ def validateEnvVars () {
     }
 }
 
-def public createProject (projectName, artifactId) {
-    sh "curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' -u ${getCredentials()} -d 'project=${projectName}&name=${artifactId}' '${Constants.getJenkinsHost()}/api/projects/create?'"
+def public createProject (artifactId) {
+    sh "curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' -u ${getCredentials()} -d 'project=${artifactId}&name=${artifactId}' '${Constants.getJenkinsHost()}/api/projects/create?'"
 }
 
-def public pushSonarArtifact (projectName, artifactId) {
-    token = getToken()
-    BuilderRetriever.getBuilderInst().pushSonarArtifact(projectName, token, artifactId)
+def public pushSonarArtifact (artifactId) {
+    BuilderRetriever.getBuilderInst().pushSonarArtifact(artifactId)
 }
 
-def getToken () {
-    return sh(script: "curl -X POST -H 'Content-Type: application/json' -u ${getCredentials()} '${Constants.getJenkinsHost()}/api/user_tokens/generate?name=token1' | jq -r '.token'", returnStdout: true)
+def public qualityGate (projectName) {
+    return sh(script: "curl -X GET -H 'Content-Type: application/json' -u ${getCredentials()} '${Constants.getJenkinsHost()}/api/qualitygates/project_status?projectKey=${projectName}' | jq -r '.projectStatus.status'", returnStdout: true)
 }
-
-

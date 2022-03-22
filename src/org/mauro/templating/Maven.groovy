@@ -55,7 +55,7 @@ class Maven implements Serializable {
         Tools.publishingHTML('code coverage', 'code coverage report', 'target/jacoco-report/', 'index.html', true)
     }
 
-    def public pushSonarArtifact (projectName, token, artifactId) {
-        sh "mvn clean verify sonar:sonar -Dsonar.projectKey=${projectName} -Dsonar.host.url=${Constants.getSonarHost()} -Dsonar.login=${token} -Dsonar.projectName=${artifactId}"
+    def public pushSonarArtifact (projectName, artifactId) {
+        sh "mvn clean verify sonar:sonar -Dsonar.projectKey=${projectName} -Dsonar.host.url=${Constants.getSonarHost()} -Dsonar.login=${steps.env.SONAR_TOKEN} -Dsonar.projectName=${artifactId}"
     }
 }
