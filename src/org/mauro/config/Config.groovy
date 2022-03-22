@@ -20,8 +20,8 @@ class Config implements Serializable {
         configAgent = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.configFullName == \"${templateFullName}\") | .agent'", returnStdout: true)
         configCiBranch = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.configFullName == \"${templateFullName}\") | .branch'", returnStdout: true)
         configCiVersion = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.configFullName == \"${templateFullName}\") | .version'", returnStdout: true)
-        BuilderRetriever.configBuider(stepsValue)
         printConfig()
+        BuilderRetriever.configBuider(stepsValue)
     }
 
     def public static configByManifest (stepsValue, templateFile) {
@@ -32,8 +32,8 @@ class Config implements Serializable {
         configFullName = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${configTemplateName}\")  | select(.version == \"${configCiVersion}\") | .fullName'", returnStdout: true)
         configAgent = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${configTemplateName}\")  | select(.version == \"${configCiVersion}\") | .agent'", returnStdout: true)
         configCiBranch = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${configTemplateName}\")  | select(.version == \"${configCiVersion}\") | .branch'", returnStdout: true)
-        BuilderRetriever.configBuider(stepsValue)
         printConfig()
+        BuilderRetriever.configBuider(stepsValue)
     }
 
     def static printConfig () {
