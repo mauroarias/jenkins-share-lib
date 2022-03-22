@@ -12,7 +12,7 @@ class Config implements Serializable {
     def static configCiBranch
     def static configCiVersion
 
-    def public static configByconfigTemplate (stepsValue, templateFile, templateFullName) {
+    def public static configByTemplate (stepsValue, templateFile, templateFullName) {
         configSteps = stepsValue
         configTemplate = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.configFullName == \"${templateFullName}\") | .template'", returnStdout: true)
         configTemplateName = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.configFullName == \"${templateFullName}\") | .name'", returnStdout: true)
