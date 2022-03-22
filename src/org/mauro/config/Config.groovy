@@ -13,27 +13,24 @@ class Config implements Serializable {
     def static ciVersion
 
     def public static configByTemplate (stepsValue, templateFile, templateFullName) {
-        steps = stepsValue
-        template = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .template'", returnStdout: true)
-        templateName = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .name'", returnStdout: true)
-        fullName = templateFullName
-        agent = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .agent'", returnStdout: true)
-        ciBranch = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .branch'", returnStdout: true)
-        ciVersion = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .version'", returnStdout: true)
+        Config.steps = stepsValue
+        Config.template = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .template'", returnStdout: true)
+        Config.templateName = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .name'", returnStdout: true)
+        Config.fullName = templateFullName
+        Config.agent = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .agent'", returnStdout: true)
+        Config.ciBranch = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .branch'", returnStdout: true)
+        Config.ciVersion = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .version'", returnStdout: true)
         BuilderRetriever.configBuider(stepsValue)
     }
 
     def public static configByManifest (stepsValue, templateFile) {
-        steps = stepsValue
-        def xxx = getCiType(stepsValue)
-        def vvv = getCiVersion(stepsValue)
-        stepsValue.sh "echo ${xxx}, ${vvv}"
-        Config.templateName = xxx
-        ciVersion = vvv
-        template = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${templateName}\")  | select(.version == \"${ciVersion}\") | .template'", returnStdout: true)
-        fullName = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${templateName}\")  | select(.version == \"${ciVersion}\") | .fullName'", returnStdout: true)
-        agent = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${templateName}\")  | select(.version == \"${ciVersion}\") | .agent'", returnStdout: true)
-        ciBranch = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${templateName}\")  | select(.version == \"${ciVersion}\") | .branch'", returnStdout: true)
+        Config.steps = stepsValue
+        Config.templateName = getCiType(stepsValue)
+        Config.ciVersion = getConfig(stepsValue)
+        Config.template = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${Config.templateName}\")  | select(.version == \"${Config.ciVersion}\") | .template'", returnStdout: true)
+        Config.fullName = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${Config.templateName}\")  | select(.version == \"${Config.ciVersion}\") | .fullName'", returnStdout: true)
+        Config.agent = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${Config.templateName}\")  | select(.version == \"${Config.ciVersion}\") | .agent'", returnStdout: true)
+        Config.ciBranch = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${Config.templateName}\")  | select(.version == \"${Config.ciVersion}\") | .branch'", returnStdout: true)
         BuilderRetriever.configBuider(stepsValue)
     }
 
@@ -48,38 +45,38 @@ class Config implements Serializable {
         return "${ciLibrary}"
     }
 
-    def static getCiVersion (steps) {
+    def static getConfig (steps) {
         def ciVersion=steps.sh(script: "cat ./manifest.yaml | yq -o=x '.ci.version'", returnStdout: true)
         return "${ciVersion}"
     }
 
     def public static getTemplate () {
-        errorIfNotConfig(template, "template")
-        return template
+        errorIfNotConfig(Config.template, "template")
+        return Config.template
     }
 
     def public static getTemplateName () {
-        errorIfNotConfig(templateName, "template name")
-        return templateName
+        errorIfNotConfig(Config.templateName, "template name")
+        return Config.templateName
     }
 
     def public static getFullname () {
-        errorIfNotConfig(fullName, "full name")
-        return fullName
+        errorIfNotConfig(Config.fullName, "full name")
+        return Config.fullName
     }
 
     def public static getAgent () {
-        errorIfNotConfig(agent, "agent")
-        return agent
+        errorIfNotConfig(Config.agent, "agent")
+        return Config.agent
     }
 
     def public static getBranch () {
-        errorIfNotConfig(ciBranch, "branch")
-        return ciBranch
+        errorIfNotConfig(Config.ciBranch, "branch")
+        return Config.ciBranch
     }
 
     def public static getVersion () {
-        errorIfNotConfig(ciVersion, "version")
-        return ciVersion
+        errorIfNotConfig(Config.ciVersion, "version")
+        return Config.ciVersion
     }
 }
