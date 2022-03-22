@@ -25,8 +25,10 @@ class Config implements Serializable {
 
     def public static configByManifest (stepsValue, templateFile) {
         steps = stepsValue
-        templateName = getCiType(stepsValue)
-        ciVersion = getCiVersion(stepsValue)
+        def xxx = getCiType(stepsValue)
+        def vvv = getCiVersion(stepsValue)
+        templateName = xxx
+        ciVersion = vvv
         template = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${templateName}\")  | select(.version == \"${ciVersion}\") | .template'", returnStdout: true)
         fullName = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${templateName}\")  | select(.version == \"${ciVersion}\") | .fullName'", returnStdout: true)
         agent = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${templateName}\")  | select(.version == \"${ciVersion}\") | .agent'", returnStdout: true)
