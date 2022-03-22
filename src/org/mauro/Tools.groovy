@@ -14,6 +14,26 @@ class Tools {
         return "${jenkinsFile}"
     }
 
+    def public static publishingHTML (steps, name, title, reportDir, files, allowMissing = false) {
+        steps.publishHTML([allowMissing: "${allowMissing}", 
+                           alwaysLinkToLastBuild: false, 
+                           keepAll: true,
+                           reportDir: "${reportDir}",
+                           reportFiles: "${files}",
+                           reportName: "${name}",
+                           reportTitles: "${title}"])
+    }
+
+
+
+
+
+
+
+
+
+
+
     def hideTrace(cmd) {
         sh (script: '#!/bin/sh -e\n'+ cmd, returnStdout: true)
     }
@@ -22,13 +42,4 @@ class Tools {
         sh 'rm -rf * *.git*'
     }
 
-    def publishingHTML (name, title, reportDir, files, allowMissing = false) {
-        publishHTML([allowMissing: "${allowMissing}", 
-                     alwaysLinkToLastBuild: false, 
-                     keepAll: true,
-                     reportDir: "${reportDir}",
-                     reportFiles: "${files}",
-                     reportName: "${name}",
-                     reportTitles: "${title}"])
-    }
 }

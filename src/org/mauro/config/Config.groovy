@@ -1,5 +1,7 @@
 package org.mauro.config
 
+import org.mauro.templating.BuilderRetriever
+
 class Config implements Serializable {
 
     def static steps
@@ -18,6 +20,7 @@ class Config implements Serializable {
         agent = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .agent'", returnStdout: true)
         ciBranch = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .branch'", returnStdout: true)
         ciVersion = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .version'", returnStdout: true)
+        BuilderRetriever.configBuider(stepsValue)
     }
 
     def public static configBymanifest (stepsValue, templateFile) {
@@ -28,6 +31,7 @@ class Config implements Serializable {
         fullName = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${templateName}\")  | select(.version == \"${ciVersion}\") | .fullName'", returnStdout: true)
         agent = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${templateName}\")  | select(.version == \"${ciVersion}\") | .agent'", returnStdout: true)
         ciBranch = steps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${templateName}\")  | select(.version == \"${ciVersion}\") | .branch'", returnStdout: true)
+        BuilderRetriever.configBuider(stepsValue)
     }
 
     def static errorIfNotConfig (value, name) {

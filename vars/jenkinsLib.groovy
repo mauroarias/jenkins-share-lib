@@ -42,6 +42,15 @@ def public createJenkinsMultibranchJobWithLib (gitDstRemote, repository, project
     sh "rm ${configName}"
 }
 
+def public stash (name, imports, excludes, useDefaultExcludes = true) {
+    stash name: "${name}" , imports: "${imports}" , excludes: "${excludes}" , allowEmpty: false , useDefaultExcludes: "${useDefaultExcludes}" 
+}
+
+def public archivingArtifacts (artifacts) {
+    archiveArtifacts(allowEmptyArchive: false, artifacts: "${artifacts}", onlyIfSuccessful: false)
+}
+ 
+
 
 
 
@@ -85,14 +94,6 @@ def public cleanWorkSpace () {
     tools.cleanWorkSpace()
 }
 
-def public stash (name, imports, excludes, useDefaultExcludes = true) {
-    stash name: "${name}" , imports: "${imports}" , excludes: "${excludes}" , allowEmpty: false , useDefaultExcludes: "${useDefaultExcludes}" 
-}
-
-def public archivingArtifacts (artifacts) {
-    archiveArtifacts(allowEmptyArchive: false, artifacts: "${artifacts}", onlyIfSuccessful: false)
-}
- 
 def public publishingHTML(name, title, reportDir, files, allowMissing = false) {
     def tools = new org.mauro.Tools()
     tools.publishingHTML(name, title, reportDir, files, allowMissing)

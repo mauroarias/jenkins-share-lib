@@ -18,6 +18,19 @@ class Constants implements Serializable {
         return 'pipelineCi'
     }
 
+    def public static String getSonarHost() {
+        return "${getCommonURI()}:9000"
+    }
+
+    def public static String getCommonURI() {
+        return "http://${getCommonHost()}"
+    }
+
+    def public static String getCommonHost() {
+        return 'localhost'
+    }
+
+
 
 
 
@@ -35,20 +48,8 @@ class Constants implements Serializable {
         return 'template-maven-app'
     }
 
-    def public static String getCommonHost() {
-        return 'localhost'
-    }
-
-    def public static String getCommonURI() {
-        return "http://${getCommonHost()}"
-    }
-
     def public static String getJenkinsHost() {
         return "${getCommonURI()}:8080"
-    }
-
-    def public static String getSonarHost() {
-        return "${getCommonURI()}:9000"
     }
 
     def public static String getDockerRepository () {

@@ -1,15 +1,19 @@
 import org.mauro.config.Constants
 
-
-
-
-
-
-
-
 def public getDockerRepositoryDev () {
     return constants.getDockerRepositoryDev()
 }
+
+
+
+
+
+
+
+
+
+
+
 
 def public getDockerRepositoryStage () {
     return Constants.getDockerRepositoryStage()
