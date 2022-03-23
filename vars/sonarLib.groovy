@@ -37,8 +37,7 @@ def public pushSonarArtifact (artifactId) {
 def public qualityGate (artifactId) {
     def qualityGateStatus = sh(script: "curl -X GET -H 'Content-Type: application/json' -u '${getCredentials()}' '${Constants.getSonarHost()}/api/qualitygates/project_status?projectKey=${artifactId}' | jq -r '.projectStatus.status'", returnStdout: true)
     sh "echo 'status ${qualityGateStatus}'"
-    sh "curl -X GET -H 'Content-Type: application/json' -u '${getCredentials()}' '${Constants.getSonarHost()}/api/qualitygates/project_status?projectKey=${artifactId}' | jq "
-    if (!"${qualityGateStatus}".equals('OK')) {
+    if ("${qualityGateStatus}" != 'OK') {
         error('Quality gate fail...!')
     }
 }
