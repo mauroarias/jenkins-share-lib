@@ -55,9 +55,8 @@ class Maven implements Serializable {
     }
 
     def public runMutationTests () {
-        steps.sh 'mvn package -Pmutation'
-        pitDir=steps.sh(script: "ls target/pit-reports/ | sort | head -1", returnStdout: true).trim()
-        Tools.publishingHTML(steps, 'mutation test', 'mutation test report', "target/pit-reports/${pitDir}", 'index.html', true)
+        steps.sh 'mvn package -Pmutation -DtimestampedReports=false'
+        Tools.publishingHTML(steps, 'mutation test', 'mutation test report', "target/pit-reports/", 'index.html', true)
     }
 
     def public runDependencyCheck () {
