@@ -73,7 +73,7 @@ def public getgroupId () {
 
 
 def public build (app) {
-    BuilderRetriever.getBuilder().build()
+    BuilderRetriever.getBuilder().build(app)
 }
 
 
