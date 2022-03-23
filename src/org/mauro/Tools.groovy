@@ -24,6 +24,14 @@ class Tools {
                            reportTitles: "${title}"])
     }
 
+    def public static stash (steps, name, imports, excludes, useDefaultExcludes = true) {
+        steps.stash name: "${name}" , imports: "${imports}" , excludes: "${excludes}" , allowEmpty: false , useDefaultExcludes: "${useDefaultExcludes}" 
+    }
+
+    def public static archivingArtifacts (steps, artifacts) {
+        steps.archiveArtifacts(allowEmptyArchive: false, artifacts: "${artifacts}", onlyIfSuccessful: false)
+    }
+
 
 
 

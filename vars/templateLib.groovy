@@ -72,17 +72,10 @@ def public getgroupId () {
 }
 
 
-def public build () {
+def public build (app) {
     BuilderRetriever.getBuilder().build()
 }
 
-def public getOutFolder () {
-    return BuilderRetriever.getBuilder().getOutFolder()
-}
-
-def public publishTestCoverageReport () {
-    return BuilderRetriever.getBuilder().publishTestCoverageReport()
-}
 
 
 

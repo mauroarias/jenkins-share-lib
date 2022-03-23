@@ -30,6 +30,10 @@ class Constants implements Serializable {
         return 'localhost'
     }
 
+    def public static String getStashName () {
+        return 'codeBuilt'
+    }
+
 
 
 

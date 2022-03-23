@@ -42,13 +42,6 @@ def public createJenkinsMultibranchJobWithLib (gitDstRemote, repository, project
     sh "rm ${configName}"
 }
 
-def public stash (name, imports, excludes, useDefaultExcludes = true) {
-    stash name: "${name}" , imports: "${imports}" , excludes: "${excludes}" , allowEmpty: false , useDefaultExcludes: "${useDefaultExcludes}" 
-}
-
-def public archivingArtifacts (artifacts) {
-    archiveArtifacts(allowEmptyArchive: false, artifacts: "${artifacts}", onlyIfSuccessful: false)
-}
  
 
 

@@ -43,19 +43,25 @@ class Maven implements Serializable {
         return groupId
     }
 
-    def public build () {
+    def public build (app) {
         steps.sh 'mvn clean package'
-    }
-
-    def public getOutFolder () {
-        return 'target/'
-    }
-
-    def public publishTestCoverageReport () {
+        Tools.stash(steps, Constants.getStashName(), "target/**/*", '')
+        Tools.archivingArtifacts(steps, "target/${app}.jar")
         Tools.publishingHTML(steps, 'code coverage', 'code coverage report', 'target/jacoco-report/', 'index.html', true)
     }
 
-    def public pushSonarArtifact (artifactId) {
+    def public pushSonarAnalysis (artifactId) {
         steps.sh "mvn clean verify sonar:sonar -Dsonar.projectKey=${artifactId} -Dsonar.host.url='${Constants.getSonarHost()}' -Dsonar.login=${steps.env.SONAR_TOKEN} -Dsonar.projectName=${artifactId}"
+    }
+
+    def public runMutationTests () {
+        steps.sh 'mvn package -Pmutation'
+        pitDir=steps.sh(script: "ls target/pit-reports/ | sort | head -1", returnStdout: true).trim()
+        Tools.publishingHTML(steps, 'mutation test', 'mutation test report', "target/pit-reports/${pitDir}", 'index.html', true)
+    }
+
+    def public runDependencyCheck () {
+        steps.sh 'mvn verify -Powasp'
+        Tools.publishingHTML(steps, 'dependency check', 'dependency check report', "target/owasp-report", 'dependency-check-report.html', true)
     }
 }

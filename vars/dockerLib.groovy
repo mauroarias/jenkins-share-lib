@@ -4,6 +4,14 @@ def public getDockerRepositoryDev () {
     return Constants.getDockerRepositoryDev()
 }
 
+def public buildDockerImage (image) {
+    unstash Constants.getStashName()
+    sh "docker build -t ${getDockerRepositoryDev()}/${image} ." 
+}
+
+
+
+
 
 
 

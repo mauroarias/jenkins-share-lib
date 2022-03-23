@@ -30,8 +30,8 @@ def public createProject (artifactId) {
     sh "curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' -u '${getCredentials()}' -d 'project=${artifactId}&name=${artifactId}' '${Constants.getSonarHost()}/api/projects/create?'"
 }
 
-def public pushSonarArtifact (artifactId) {
-    BuilderRetriever.getBuilder().pushSonarArtifact(artifactId)
+def public pushSonarAnalysis (artifactId) {
+    BuilderRetriever.getBuilder().pushSonarAnalysis(artifactId)
 }
 
 def public qualityGate (artifactId) {
