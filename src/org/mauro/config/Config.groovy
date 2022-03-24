@@ -108,12 +108,12 @@ class Config implements Serializable {
         return configCiVersion
     }
 
-    def public static getCdType () {
+    def public static getDeploymentType () {
         errorIfNotConfig(configCdType, "cd type")
         return configCdType
     }
 
-    def public static getCdVersion () {
+    def public static getDeploymentVersion () {
         errorIfNotConfig(configCdVersion, "cd version")
         return configCdVersion
     }
