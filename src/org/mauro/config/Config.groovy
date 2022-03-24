@@ -13,6 +13,7 @@ class Config implements Serializable {
     def static configCiVersion
     def static configCdType
     def static configCdVersion
+    def static jenkinsCliDir
 
     def public static configByTemplate (stepsValue, templateFile, templateFullName) {
         configSteps = stepsValue
@@ -24,15 +25,6 @@ class Config implements Serializable {
         configCiVersion = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .version'", returnStdout: true).trim()
         configCdType = getCdType()
         configCdVersion = getCdVersion()
-
-        // def configCiBranchFromManifest = getCiType()
-        // if (configCiBranch != configCiBranchFromManifest) {
-        //     configSteps.error("template doesn't match with manifest")
-        // }
-        // def configCiVersionFromManifest = getCiType()
-        // if (configCiVersion != configCiVersionFromManifest) {
-        //     configSteps.error("version doesn't match with manifest")
-        // }
 
         printConfig()
         BuilderRetriever.configBuider(stepsValue)
@@ -116,5 +108,13 @@ class Config implements Serializable {
     def public static getDeploymentVersion () {
         errorIfNotConfig(configCdVersion, "cd version")
         return configCdVersion
+    }
+
+    def public static setJenkinsCliDir (cliDir) {
+        jenkinsCliDir = cliDir
+    }
+
+    def public static getJenkinsCliDir () {
+        return jenkinsCliDir
     }
 }
