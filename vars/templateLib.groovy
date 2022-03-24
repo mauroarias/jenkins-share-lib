@@ -45,7 +45,7 @@ def public applyGitRepository (gitDstRemote, serviceName, templateFullName, proj
         sh "rm ./prepare.sh"
         GitRetriever.getGitInst().createRepo(this, serviceName, projectName)
         def template = libraryResource 'org/mauro/templates/JenkinsfilePipelineJobWithLibTemplate'
-        Tools.createJenkinsPipelineFileWithLib(this, template, Config.getVersion())
+        Tools.createJenkinsPipelineFileWithLib(this, template, Config.getVersion(), Constants.getPipelineCi())
         GitRetriever.getGitInst().initRepo(this, serviceName)
         GitRetriever.getGitInst().commitAndPushRepo(this)
     }
@@ -71,64 +71,6 @@ def public getgroupId () {
     return BuilderRetriever.getBuilder().getgroupId()
 }
 
-
 def public build (app) {
     BuilderRetriever.getBuilder().build(app)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def getCdType () {
-    def cdLibrary=sh(script: "cat ./manifest.yaml | yq -o=x '.cd.type'", returnStdout: true)
-    if ("${cdLibrary}" == null || "${cdLibrary}".equals('')) {
-        error('ci library must be defined...!')
-    }
-    return "${cdLibrary}"
-}
-
-def getCdVersion () {
-    def cdVersion=sh(script: "cat ./manifest.yaml | yq -o=x '.cd.version'", returnStdout: true)
-    if ("${cdVersion}" == null || "${cdVersion}".equals('')) {
-        error('ci version must be defined...!')
-    }
-    return "${cdVersion}"
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def getCiPipeline () {
-    return Constants.getPipelineCi()
-}
-
-

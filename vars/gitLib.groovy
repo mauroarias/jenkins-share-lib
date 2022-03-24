@@ -6,6 +6,11 @@ def public getRepos (gitDstRemote, projectName) {
     return GitRetriever.getGitInst().getRepos(this, projectName)
 }
 
+def public cloneRepo (serviceName) {
+    sh "rm -rf ${serviceName}"
+    sh "git clone '${Constants.getRepoTemplate()}/${serviceName}'"
+}
+
 
 
 
@@ -90,11 +95,6 @@ def public cloneRepoWithBranch (branch, repository) {
     sh "rm -rf ${repository}"
     sh "git clone -b '${branch}' '${Constants.getRepoTemplate()}/${repository}'"
     return
-}
-
-def public cloneRepo (repository) {
-    sh "rm -rf ${repository}"
-    sh "git clone '${Constants.getRepoTemplate()}/${repository}'"
 }
 
 def public createRepo (type, repository, projectName) {

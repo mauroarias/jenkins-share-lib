@@ -1,3 +1,4 @@
+import org.mauro.config.Config
 import org.mauro.config.Constants
 import org.mauro.Tools
 
@@ -42,6 +43,22 @@ def public createJenkinsMultibranchJobWithLib (gitDstRemote, repository, project
     sh "rm ${configName}"
 }
 
+def public createPipelineJobWithLib (name, projectName, serviceName) {
+    def pipepileTemplate = libraryResource 'org/mauro/templates/JenkinsfilePipelineJobWithLibTemplate'
+    file = Tools.createJenkinsPipelineFileWithLib(this, pipepileTemplate, Config.getCdVersion(), Config.getCdType())
+    configName="./config${currentBuild.startTimeInMillis}.xml" 
+    def template = libraryResource 'org/mauro/templates/createPipelineJobTemplate.xml'
+    sh "echo 'creating pipeline job ${name}'"
+    sh "echo '${template}' | grep -B 100 '__PIPELINE__' | head -n -1 > ${configName}"
+    sh "echo '<script>' >> ${configName}"
+    sh "cat '${file}' >> ${configName}"
+    sh "echo '</script>' >> ${configName}"
+    sh "echo '${template}' | grep -A 100 '__PIPELINE__' | tail -n +2 >> ${configName}"
+    sh "sed -i 's!__name__!${name}!g; s!__repository__!${serviceName}!g' ${configName}"
+    sh "java -jar jenkins-cli.jar -s ${Constants.getJenkinsHost()}/ -webSocket create-job PRJ-${projectName}/${name} < ${configName}"
+    sh "rm ${configName}"
+}
+
  
 
 
@@ -59,26 +76,6 @@ def public createJenkinsMultibranchJobWithLib (gitDstRemote, repository, project
 
 
 
-
-def public createPipelineJobWithLib (name, version, project, repository) {
-    def template = libraryResource 'org/mauro/templates/JenkinsfilePipelineJobWithLibTemplate'
-    file = createJenkinsPipelineFileWithLib(this, template, version)
-    createPipelineJob("${name}", "${file}", "${project}", "${repository}")
-}
-
-def public createPipelineJob (name, file, project, repository) {
-    configName="./config${currentBuild.startTimeInMillis}.xml" 
-    def template = libraryResource 'org/mauro/templates/createPipelineJobTemplate.xml'
-    sh "echo 'creating pipeline job ${name}'"
-    sh "echo '${template}' | grep -B 100 '__PIPELINE__' | head -n -1 > ${configName}"
-    sh "echo '<script>' >> ${configName}"
-    sh "cat '${file}' >> ${configName}"
-    sh "echo '</script>' >> ${configName}"
-    sh "echo '${template}' | grep -A 100 '__PIPELINE__' | tail -n +2 >> ${configName}"
-    sh "sed -i 's!__name__!${name}!g; s!__repository__!${repository}!g' ${configName}"
-    sh "java -jar jenkins-cli.jar -s ${Constants.getJenkinsHost()}/ -webSocket create-job PRJ-${project}/${name} < ${configName}"
-    sh "rm ${configName}"
-}
 
 def public cleanWorkSpace () {
     def tools = new org.mauro.Tools()

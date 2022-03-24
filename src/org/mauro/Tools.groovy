@@ -4,9 +4,8 @@ import org.mauro.config.Constants
 
 class Tools {
 
-    def public static createJenkinsPipelineFileWithLib (steps, template, version) {
+    def public static createJenkinsPipelineFileWithLib (steps, template, version, library) {
         def jenkinsFile='./Jenkinsfile'
-        def library=Constants.getPipelineCi()
         steps.sh "rm -f ${jenkinsFile}"
         steps.sh "echo 'building jenkins file'"
         steps.sh "echo '${template}' > ${jenkinsFile}"

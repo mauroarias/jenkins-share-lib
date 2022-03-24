@@ -9,6 +9,11 @@ def public buildDockerImage (image) {
     sh "docker build -t ${getDockerRepositoryDev()}/${image} ." 
 }
 
+def public pushDockerImageDev (image) {
+    sh "docker push ${getDockerRepositoryDev()}/${image}"
+    sh "docker image tag ${getDockerRepositoryDev()}/${image} ${getDockerRepositoryDev()}/${image}-dev"
+}
+
 
 
 
