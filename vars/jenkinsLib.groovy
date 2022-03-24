@@ -47,7 +47,7 @@ def public createJenkinsMultibranchJobWithLib (gitDstRemote, repository, project
 
 def public createPipelineJobWithLib (name, projectName, serviceName) {
     def pipepileTemplate = libraryResource 'org/mauro/templates/JenkinsfilePipelineJobWithLibTemplate'
-    file = Tools.createJenkinsPipelineFileWithLib(this, pipepileTemplate, Config.getDeploymentVersion(), Config.getDeploymentType())
+    file = Tools.createJenkinsPipelineFileWithLib(this, pipepileTemplate, Config.getDeploymentVersion(), Constants.getPipelineCd())
     configName="./config${currentBuild.startTimeInMillis}.xml" 
     def template = libraryResource 'org/mauro/templates/createPipelineJobTemplate.xml'
     sh "echo 'creating pipeline job ${name}'"
