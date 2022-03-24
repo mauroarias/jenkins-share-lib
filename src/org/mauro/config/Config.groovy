@@ -25,14 +25,14 @@ class Config implements Serializable {
         configCdType = getCdType()
         configCdVersion = getCdVersion()
 
-        def configCiBranchFromManifest = getCiType()
-        if (configCiBranch != configCiBranchFromManifest) {
-            error("template doesn't match with manifest")
-        }
-        def configCiVersionFromManifest = getCiType()
-        if (configCiVersion != configCiVersionFromManifest) {
-            error("version doesn't match with manifest")
-        }
+        // def configCiBranchFromManifest = getCiType()
+        // if (configCiBranch != configCiBranchFromManifest) {
+        //     configSteps.error("template doesn't match with manifest")
+        // }
+        // def configCiVersionFromManifest = getCiType()
+        // if (configCiVersion != configCiVersionFromManifest) {
+        //     configSteps.error("version doesn't match with manifest")
+        // }
 
         printConfig()
         BuilderRetriever.configBuider(stepsValue)
