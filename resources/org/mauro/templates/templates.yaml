@@ -11,9 +11,3 @@ types:
     agent: maven:3.8.1-adoptopenjdk-11
     branch: java11
     version: java11
-  - template: template-maven-app
-    name: maven
-    fullName: maven wip
-    agent: maven3.8.1-java11:0.1.0
-    branch: wip-0.1.0
-    version: wip-0.1.0
