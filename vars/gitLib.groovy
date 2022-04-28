@@ -1,15 +1,86 @@
-def commitAndPushRepo (remote, branche, message) {
+import org.mauro.config.Constants
+import org.mauro.git.GitRetriever
+
+def public getRepos (gitDstRemote, projectName) {
+    GitRetriever.configGitRep(gitDstRemote)
+    return GitRetriever.getGitInst().getRepos(this, projectName)
+}
+
+def public cloneRepo (serviceName) {
+    sh "rm -rf ${serviceName}"
+    sh "git clone '${Constants.getRepoTemplate()}/${serviceName}'"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def public configGitRep (remote) {
+    GitRetriever.configGitRep(remote)
+}
+
+
+
+
+
+
+
+
+def public createProjectIfNotExitsIfAppl (steps, projectName) {
+    sh "echo 'creating project ${projectName} if not exists'"
+    GitRetriever.getGitInst().createProjectIfNotExits(steps, projectName)
+}
+
+def public isRepositoryExits (repo) {
+    sh "echo 'validating is repository exists in ${type}'"
+    GitRetriever.getGitInst().isRepositoryExits(repo)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def public commitAndPushRepo (remote, branch, message) {
     sh "git add -A"
     sh "git commit -m \"${message}\""
-    sh "git branch -M ${branche}"
-    pushRepo("${remote}", "${branche}")
+    sh "git branch -M ${branch}"
+    pushRepo("${remote}", "${branch}")
 }
 
-def pushRepo (remote, branche) {
-    sh "git push -u ${remote} ${branche}"
+def public pushRepo (remote, branch) {
+    sh "git push -u ${remote} ${branch}"
 }
 
-def validateEnvVars (type) {
+def public validateEnvVars (type) {
     sh "echo 'validating env vars in ${type}'"
     if ("${type}" == 'gitHub') {
         def gitHub = new org.mauro.git.GitHub()
@@ -20,53 +91,13 @@ def validateEnvVars (type) {
     }
 }
 
-def createProjectIfNotExitsIfAppl (type, projectName) {
-    sh "echo 'creating project if not exists in ${type}'"
-    if ("${type}" == 'gitHub') {
-        sh "echo 'ignoring project abstraction, it is not supported in github'"
-    } else if ("${type}" == 'bitBucket') {
-        def bitBucket = new org.mauro.git.BitBucket()
-        bitBucket.createProjectIfNotExits("${projectName}")
-    }
-}
-
-def isRepositoryExits (type, repo) {
-    sh "echo 'validating is repository exists in ${type}'"
-    if ("${type}" == 'gitHub') {
-        def gitHub = new org.mauro.git.GitHub()
-        gitHub.isRepositoryExits("${repo}")
-    } else if ("${type}" == 'bitBucket') {
-        def bitBucket = new org.mauro.git.BitBucket()
-        bitBucket.isRepositoryExits("${repo}")
-    }
-}
-
-def cloneRepoWithBranch (type, branche, repository) {
+def public cloneRepoWithBranch (branch, repository) {
     sh "rm -rf ${repository}"
-    sh "echo 'cloning repo in ${type}'"
-    if ("${type}" == 'gitHub') {
-        def gitHub = new org.mauro.git.GitHub()
-        gitHub.cloneRepoWithBranch("${branche}", "${repository}")
-    } else if ("${type}" == 'bitBucket') {
-        def bitBucket = new org.mauro.git.BitBucket()
-        bitBucket.cloneRepoWithBranch("${branche}", "${repository}")
-    }
+    sh "git clone -b '${branch}' '${Constants.getRepoTemplate()}/${repository}'"
     return
 }
 
-def cloneRepo (type, repository) {
-    sh "rm -rf ${repository}"
-    sh "echo 'cloning repo in ${type}'"
-    if ("${type}" == 'gitHub') {
-        def gitHub = new org.mauro.git.GitHub()
-        gitHub.cloneRepo("${repository}")
-    } else if ("${type}" == 'bitBucket') {
-        def bitBucket = new org.mauro.git.BitBucket()
-        bitBucket.cloneRepo("${repository}")
-    }
-}
-
-def createRepo (type, repository, projectName) {
+def public createRepo (type, repository, projectName) {
     sh "echo 'creating repo in ${type}'"
     if ("${type}" == 'gitHub') {
         def gitHub = new org.mauro.git.GitHub()
@@ -77,7 +108,7 @@ def createRepo (type, repository, projectName) {
     }
 }
 
-def initRepo (type, email, name, repository, remote) {
+def public initRepo (type, email, name, repository, remote) {
     sh "git config --global user.email \"${email}\""
     sh "git config --global user.name \"${name}\""
     sh "rm -rf .git"
@@ -92,18 +123,7 @@ def initRepo (type, email, name, repository, remote) {
     }
 }
 
-def getRepos (type, projectName) {
-    sh "echo 'getting list of repos in ${type}'"
-    if ("${type}" == 'gitHub') {
-        def gitHub = new org.mauro.git.GitHub()
-        return gitHub.getRepos()
-    } else if ("${type}" == 'bitBucket') {
-        def bitBucket = new org.mauro.git.BitBucket()
-        return bitBucket.getRepos("${projectName}")
-    }
-}
-
-def getPathRepo(type, repository) {
+def public getPathRepo(type, repository) {
     sh "echo 'getting repo path in ${type}'"
     if ("${type}" == 'gitHub') {
         def gitHub = new org.mauro.git.GitHub()
@@ -114,7 +134,7 @@ def getPathRepo(type, repository) {
     }
 }
 
-def getRepoOwner(type) {
+def public getRepoOwner(type) {
     sh "echo 'repository owner in ${type}'"
     if ("${type}" == 'gitHub') {
         def gitHub = new org.mauro.git.GitHub()

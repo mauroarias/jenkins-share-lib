@@ -1,26 +1,49 @@
-def getDockerRepositoryDev () {
-    def constants = new org.mauro.Constants()
-    return constants.getDockerRepositoryDev()
+import org.mauro.config.Constants
+
+def public getDockerRepositoryDev () {
+    return Constants.getDockerRepositoryDev()
 }
 
-def getDockerRepositoryStage () {
-    def constants = new org.mauro.Constants()
-    return constants.getDockerRepositoryStage()
+def public buildDockerImage (image) {
+    unstash Constants.getStashName()
+    sh "docker build -t ${getDockerRepositoryDev()}/${image} ." 
 }
 
-def getDockerRepositoryProd () {
-    def constants = new org.mauro.Constants()
-    return constants.getDockerRepositoryProd()
+def public pushDockerImageDev (image) {
+    sh "docker push ${getDockerRepositoryDev()}/${image}"
+    sh "docker image tag ${getDockerRepositoryDev()}/${image} ${getDockerRepositoryDev()}/${image}-dev"
 }
 
-def getDockerTagSufixDev () {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def public getDockerRepositoryStage () {
+    return Constants.getDockerRepositoryStage()
+}
+
+def public getDockerRepositoryProd () {
+    return Constants.getDockerRepositoryProd()
+}
+
+def public getDockerTagSufixDev () {
     return '-dev'
 }
 
-def getDockerTagSufixStage () {
+def public getDockerTagSufixStage () {
     return '-stage'
 }
 
-def getDockerTagSufixProd () {
+def public getDockerTagSufixProd () {
     return '-prod'
 }
