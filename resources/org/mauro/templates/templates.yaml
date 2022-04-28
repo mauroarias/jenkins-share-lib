@@ -4,10 +4,10 @@ types:
     fullName: maven java8
     agent: maven:3.8.1-adoptopenjdk-11
     branch: java8
-    version: java8
+    version: 0.1.0
   - template: template-maven-app
     name: maven
     fullName: maven java11
     agent: maven:3.8.1-adoptopenjdk-11
     branch: java11
-    version: java11
+    version: 0.1.0
