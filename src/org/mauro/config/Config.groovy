@@ -65,7 +65,7 @@ class Config implements Serializable {
     }
 
     def static getCiCategory () {
-        return configSteps.sh(script: "cat ./manifest.yaml | yq -o=x '.category'", returnStdout: true).trim()
+        return configSteps.sh(script: "cat ./manifest.yaml | yq -o=x '.ci.category'", returnStdout: true).trim()
     }
 
     def static getCdType () {
