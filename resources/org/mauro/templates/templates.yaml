@@ -17,6 +17,6 @@ types:
     name: maven
     category: java11
     fullName: maven wip
-    agent: maven3.8.1-java11:0.2.0
+    agent: maven:3.8.1-adoptopenjdk-11
     branch: wip-0.2.0
     version: wip-0.2.0
