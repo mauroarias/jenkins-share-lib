@@ -1,49 +1,30 @@
 import org.mauro.config.Constants
+import org.mauro.config.DockerConfig
 
-def public getDockerRepositoryDev () {
-    return Constants.getDockerRepositoryDev()
+def public configRepository () {
+    DockerConfig.configByTemplate(this, credentials('registry-server'), credentials('registry-repo-dev'), credentials('registry-repo-stage'), credentials('registry-repo-prod'))
+}
+
+def public getRepositoryDev () {
+    return DockerConfig.getRepositoryDev()
 }
 
 def public buildDockerImage (image) {
     unstash Constants.getStashName()
-    sh "docker build -t ${getDockerRepositoryDev()}/${image} ." 
+    sh "docker build -t ${getRepositoryDev()}${image} ." 
 }
 
 def public pushDockerImageDev (image) {
-    sh "docker push ${getDockerRepositoryDev()}/${image}"
-    sh "docker image tag ${getDockerRepositoryDev()}/${image} ${getDockerRepositoryDev()}/${image}-dev"
+    if ("${REGISTRY_CRED_USR}" != '') {
+        sh "docker login ${DockerConfig.getRegistryServer} -u ${REGISTRY_CRED_USR} -p ${REGISTRY_CRED_PSW}"
+    }
+    sh "docker push ${getRepositoryDev()}${image}"
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def public getDockerRepositoryStage () {
-    return Constants.getDockerRepositoryStage()
+def public getRepositoryStage () {
+    return DockerConfig.getRepositoryStage()
 }
 
-def public getDockerRepositoryProd () {
-    return Constants.getDockerRepositoryProd()
-}
-
-def public getDockerTagSufixDev () {
-    return '-dev'
-}
-
-def public getDockerTagSufixStage () {
-    return '-stage'
-}
-
-def public getDockerTagSufixProd () {
-    return '-prod'
+def public getRepositoryProd () {
+    return DockerConfig.getRepositoryProd()
 }

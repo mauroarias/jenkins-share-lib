@@ -59,20 +59,4 @@ class Constants implements Serializable {
     def public static String getJenkinsHost() {
         return "${getCommonURI()}:8080"
     }
-
-    def public static String getDockerRepository () {
-        return "${getCommonHost()}:5000"
-    }
-
-    def public static String getDockerRepositoryDev () {
-        return getDockerRepository ()
-    }
-
-    def public static String getDockerRepositoryStage () {
-        return getDockerRepository ()
-    }
-
-    def public static String getDockerRepositoryProd () {
-        return getDockerRepository ()
-    }
 }
