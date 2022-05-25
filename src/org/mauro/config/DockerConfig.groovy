@@ -14,6 +14,11 @@ class DockerConfig implements Serializable {
         configRegistryRepoDev = repoDev
         configRegistryRepoStage = repoStage
         configRegistryRepoProd = repoProd
+        printConfig()
+    }
+
+    def static printConfig () {
+        configSteps.sh "echo 'configRegistryServer: ${configRegistryServer}, configRegistryRepoDev: ${configRegistryRepoDev}, configRegistryRepoStage: ${configRegistryRepoStage}, configRegistryRepoProd: ${configRegistryRepoProd}'"
     }
 
     def static errorIfNotConfig (value, name) {
