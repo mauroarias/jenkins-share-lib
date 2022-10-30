@@ -3,20 +3,20 @@ types:
     name: maven
     category: java8
     fullName: maven java8
-    agent: maven:3.8.1-adoptopenjdk-11
+    agent: ghcr.io/mauroarias/java-inbound-agent:0.0.1
     branch: java8
     version: 0.1.0
   - template: template-maven-app
     name: maven
     category: java11
     fullName: maven java11
-    agent: maven:3.8.1-adoptopenjdk-11
+    agent: ghcr.io/mauroarias/java-inbound-agent:0.0.1
     branch: java11
     version: 0.1.0
   - template: template-maven-app
     name: maven
     category: java11
     fullName: maven wip
-    agent: maven:3.8.1-adoptopenjdk-11
+    agent: ghcr.io/mauroarias/java-inbound-agent:0.0.1
     branch: wip-0.2.0
     version: wip-0.2.0

@@ -2,6 +2,14 @@ import org.mauro.config.Config
 import org.mauro.config.Constants
 import org.mauro.Tools
 
+
+
+
+
+
+
+
+
 def public downloadJenkinsCli () {
     sh "wget '${Constants.getJenkinsHost()}/jnlpJars/jenkins-cli.jar'"
     def folder = sh(script: "pwd", returnStdout: true).trim()    

@@ -4,6 +4,18 @@ import org.mauro.git.GitRetriever
 import org.mauro.templating.BuilderRetriever
 import org.mauro.Tools
 
+
+
+
+
+
+
+
+
+
+
+
+
 def public getTemplates () {
     def templateTypeList = libraryResource 'org/mauro/templates/templates.yaml'
     return sh(script: "echo '${templateTypeList}' | yq '.types[] | .fullName'", returnStdout: true)

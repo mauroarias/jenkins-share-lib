@@ -1,6 +1,13 @@
 import org.mauro.config.Constants
 import org.mauro.config.DockerConfig
 
+
+
+
+
+
+
+
 def public configRepository () {
     DockerConfig.config(this, credentials('registry-server'), credentials('registry-repo-dev'), credentials('registry-repo-stage'), credentials('registry-repo-prod'))
 }

@@ -1,6 +1,13 @@
 import org.mauro.config.Constants
 import org.mauro.templating.BuilderRetriever
 
+
+
+
+
+
+
+
 def public createProjetIfNotExists (artifactId) {
     if (!isprojectExists(artifactId)) {
         createProject(artifactId)
