@@ -11,7 +11,7 @@ class Constants implements Serializable {
     }
 
     def public static String getJenkinsHost() {
-        return "${getCommonURI()}:8080"
+        return 'jenkinsHost:8080'
     }
 
     def public static String getRepoTemplate () {
