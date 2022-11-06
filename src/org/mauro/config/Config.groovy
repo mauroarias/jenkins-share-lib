@@ -99,68 +99,68 @@ class Config implements Serializable {
 
     
 
-    def public static configByManifest (stepsValue, templateFile) {
-        configSteps = stepsValue
-        configTemplateName = getCiType()
-        configCiVersion = getCiVersion()
-        configCdType = getCdType()
-        configCdVersion = getCdVersion()
-        configCategory = getCiCategory()
-        configTemplate = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${configTemplateName}\") | select(.version == \"${configCiVersion}\") | select(.category == \"${configCategory}\") | .template'", returnStdout: true).trim()
-        configFullName = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${configTemplateName}\") | select(.version == \"${configCiVersion}\") | select(.category == \"${configCategory}\") | .fullName'", returnStdout: true).trim()
-        configAgent = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${configTemplateName}\") | select(.version == \"${configCiVersion}\") | select(.category == \"${configCategory}\") | .agent'", returnStdout: true).trim()
-        configCiBranch = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${configTemplateName}\") | select(.version == \"${configCiVersion}\") | select(.category == \"${configCategory}\") | .branch'", returnStdout: true).trim()
-        printConfig()
-        BuilderRetriever.configBuider(stepsValue)
-    }
+    // def public static configByManifest (stepsValue, templateFile) {
+    //     configSteps = stepsValue
+    //     configTemplateName = getCiType()
+    //     configCiVersion = getCiVersion()
+    //     configCdType = getCdType()
+    //     configCdVersion = getCdVersion()
+    //     configCategory = getCiCategory()
+    //     configTemplate = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${configTemplateName}\") | select(.version == \"${configCiVersion}\") | select(.category == \"${configCategory}\") | .template'", returnStdout: true).trim()
+    //     configFullName = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${configTemplateName}\") | select(.version == \"${configCiVersion}\") | select(.category == \"${configCategory}\") | .fullName'", returnStdout: true).trim()
+    //     configAgent = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${configTemplateName}\") | select(.version == \"${configCiVersion}\") | select(.category == \"${configCategory}\") | .agent'", returnStdout: true).trim()
+    //     configCiBranch = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${configTemplateName}\") | select(.version == \"${configCiVersion}\") | select(.category == \"${configCategory}\") | .branch'", returnStdout: true).trim()
+    //     printConfig()
+    //     BuilderRetriever.configBuider(stepsValue)
+    // }
 
-    def static getCiType () {
-        return configSteps.sh(script: "cat ./manifest.yaml | yq -o=x '.ci.type'", returnStdout: true).trim()
-    }
+    // def static getCiType () {
+    //     return configSteps.sh(script: "cat ./manifest.yaml | yq -o=x '.ci.type'", returnStdout: true).trim()
+    // }
 
-    def static getCiVersion () {
-        return configSteps.sh(script: "cat ./manifest.yaml | yq -o=x '.ci.version'", returnStdout: true).trim()
-    }
+    // def static getCiVersion () {
+    //     return configSteps.sh(script: "cat ./manifest.yaml | yq -o=x '.ci.version'", returnStdout: true).trim()
+    // }
 
-    def static getCiCategory () {
-        return configSteps.sh(script: "cat ./manifest.yaml | yq -o=x '.ci.category'", returnStdout: true).trim()
-    }
+    // def static getCiCategory () {
+    //     return configSteps.sh(script: "cat ./manifest.yaml | yq -o=x '.ci.category'", returnStdout: true).trim()
+    // }
 
-    def static getCdType () {
-        return configSteps.sh(script: "cat ./manifest.yaml | yq -o=x '.cd.type'", returnStdout: true).trim()
-    }
+    // def static getCdType () {
+    //     return configSteps.sh(script: "cat ./manifest.yaml | yq -o=x '.cd.type'", returnStdout: true).trim()
+    // }
 
-    def static getCdVersion () {
-        return configSteps.sh(script: "cat ./manifest.yaml | yq -o=x '.cd.version'", returnStdout: true).trim()
-    }
+    // def static getCdVersion () {
+    //     return configSteps.sh(script: "cat ./manifest.yaml | yq -o=x '.cd.version'", returnStdout: true).trim()
+    // }
 
-    def public static getTemplateName () {
-        errorIfNotConfig(configTemplateName, "configTemplate name")
-        return configTemplateName
-    }
+    // def public static getTemplateName () {
+    //     errorIfNotConfig(configTemplateName, "configTemplate name")
+    //     return configTemplateName
+    // }
 
-    def public static getFullname () {
-        errorIfNotConfig(configFullName, "full name")
-        return configFullName
-    }
+    // def public static getFullname () {
+    //     errorIfNotConfig(configFullName, "full name")
+    //     return configFullName
+    // }
 
-    def public static getCategoty () {
-        errorIfNotConfig(configCategory, "category")
-        return configCategory
-    }
+    // def public static getCategoty () {
+    //     errorIfNotConfig(configCategory, "category")
+    //     return configCategory
+    // }
 
-    def public static getAgent () {
-        errorIfNotConfig(configAgent, "configAgent")
-        return configAgent
-    }
+    // def public static getAgent () {
+    //     errorIfNotConfig(configAgent, "configAgent")
+    //     return configAgent
+    // }
 
-    def public static getDeploymentType () {
-        errorIfNotConfig(configCdType, "cd type")
-        return configCdType
-    }
+    // def public static getDeploymentType () {
+    //     errorIfNotConfig(configCdType, "cd type")
+    //     return configCdType
+    // }
 
-    def public static getDeploymentVersion () {
-        errorIfNotConfig(configCdVersion, "cd version")
-        return configCdVersion
-    }
+    // def public static getDeploymentVersion () {
+    //     errorIfNotConfig(configCdVersion, "cd version")
+    //     return configCdVersion
+    // }
 }

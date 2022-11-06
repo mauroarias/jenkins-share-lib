@@ -40,28 +40,26 @@ class Constants implements Serializable {
     
 
 
-    def public static String getDefaultAgent () {
-        return 'alpine'
-    }
+    // def public static String getDefaultAgent () {
+    //     return 'alpine'
+    // }
 
-    def public static String getPipelineCi () {
-        return 'pipelineCi'
-    }
+    // def public static String getPipelineCi () {
+    //     return 'pipelineCi'
+    // }
 
-    def public static String getPipelineCd () {
-        return 'pipelineCd'
-    }
+    // def public static String getPipelineCd () {
+    //     return 'pipelineCd'
+    // }
 
-    def public static String getSonarHost () {
-        return 'http://sonarqube:9000'
-    }
-
-
-    def public static String getStashName () {
-        return 'codeBuilt'
-    }
+    // def public static String getSonarHost () {
+    //     return 'http://sonarqube:9000'
+    // }
 
 
+    // def public static String getStashName () {
+    //     return 'codeBuilt'
+    // }
 
 
 
@@ -71,12 +69,14 @@ class Constants implements Serializable {
 
 
 
-    def public static String getMavenAgent() {
-        return 'maven:3.8.1-adoptopenjdk-11'
-    }
 
-    def public static String getMavenTemplate() {
-        return 'template-maven-app'
-    }
+
+    // def public static String getMavenAgent() {
+    //     return 'maven:3.8.1-adoptopenjdk-11'
+    // }
+
+    // def public static String getMavenTemplate() {
+    //     return 'template-maven-app'
+    // }
 
 }

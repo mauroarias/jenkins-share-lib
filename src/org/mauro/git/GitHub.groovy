@@ -88,11 +88,11 @@ class GitHub implements Serializable {
 
 
 
-    def public getPathRepo(repository) {
-        return "https://github.com/${GIT_HUB_USER}/${repository}"
-    }
+    // def public getPathRepo(repository) {
+    //     return "https://github.com/${GIT_HUB_USER}/${repository}"
+    // }
 
-    def public getRepoOwner() {
-        return "${GIT_HUB_USER}"
-    }
+    // def public getRepoOwner() {
+    //     return "${GIT_HUB_USER}"
+    // }
 }

@@ -34,25 +34,23 @@ class Tools {
     
 
 
-    def public static publishingHTML (steps, name, title, reportDir, files, allowMissing = false) {
-        steps.publishHTML([allowMissing: "${allowMissing}", 
-                           alwaysLinkToLastBuild: false, 
-                           keepAll: true,
-                           reportDir: "${reportDir}",
-                           reportFiles: "${files}",
-                           reportName: "${name}",
-                           reportTitles: "${title}"])
-    }
+    // def public static publishingHTML (steps, name, title, reportDir, files, allowMissing = false) {
+    //     steps.publishHTML([allowMissing: "${allowMissing}", 
+    //                        alwaysLinkToLastBuild: false, 
+    //                        keepAll: true,
+    //                        reportDir: "${reportDir}",
+    //                        reportFiles: "${files}",
+    //                        reportName: "${name}",
+    //                        reportTitles: "${title}"])
+    // }
 
-    def public static stash (steps, name, imports, excludes, useDefaultExcludes = true) {
-        steps.stash name: "${name}" , imports: "${imports}" , excludes: "${excludes}" , allowEmpty: false , useDefaultExcludes: "${useDefaultExcludes}" 
-    }
+    // def public static stash (steps, name, imports, excludes, useDefaultExcludes = true) {
+    //     steps.stash name: "${name}" , imports: "${imports}" , excludes: "${excludes}" , allowEmpty: false , useDefaultExcludes: "${useDefaultExcludes}" 
+    // }
 
-    def public static archivingArtifacts (steps, artifacts) {
-        steps.archiveArtifacts(allowEmptyArchive: false, artifacts: "${artifacts}", onlyIfSuccessful: false)
-    }
-
-
+    // def public static archivingArtifacts (steps, artifacts) {
+    //     steps.archiveArtifacts(allowEmptyArchive: false, artifacts: "${artifacts}", onlyIfSuccessful: false)
+    // }
 
 
 
@@ -62,12 +60,14 @@ class Tools {
 
 
 
-    def hideTrace(cmd) {
-        sh (script: '#!/bin/sh -e\n'+ cmd, returnStdout: true)
-    }
 
-    def cleanWorkSpace () {
-        sh 'rm -rf * *.git*'
-    }
+
+    // def hideTrace(cmd) {
+    //     sh (script: '#!/bin/sh -e\n'+ cmd, returnStdout: true)
+    // }
+
+    // def cleanWorkSpace () {
+    //     sh 'rm -rf * *.git*'
+    // }
 
 }

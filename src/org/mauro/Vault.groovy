@@ -14,12 +14,12 @@ package org.mauro
 
 
 
-def getBucket(bucket) {
+// def getBucket(bucket) {
 
-}
+// }
 
-def getSecrets() {
+// def getSecrets() {
     
-}
+// }
 
 return this

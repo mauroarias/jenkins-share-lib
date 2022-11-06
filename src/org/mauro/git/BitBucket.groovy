@@ -120,11 +120,11 @@ class BitBucket implements Serializable {
 
 
 
-    def public getPathRepo(repository) {
-        return "https://bitbucket.org/${steps.env.BIT_BUCKET_CRED_USR}/${repository}"
-    }
+    // def public getPathRepo(repository) {
+    //     return "https://bitbucket.org/${steps.env.BIT_BUCKET_CRED_USR}/${repository}"
+    // }
 
-    def public getRepoOwner() {
-        return "${steps.env.BIT_BUCKET_CRED_USR}"
-    }
+    // def public getRepoOwner() {
+    //     return "${steps.env.BIT_BUCKET_CRED_USR}"
+    // }
 }
