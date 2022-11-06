@@ -9,11 +9,14 @@ class Config implements Serializable {
     def static configTemplateName
     def static configCategory
     def static configFullName
-    def static configAgent
     def static configCiBranch
-    def static configCiVersion
-    def static configCdType
-    def static configCdVersion
+    def static configLibVersion
+    def static configTemplateVersion
+    def static configPipelineVersion
+
+
+    // def static configCdType
+    // def static configCdVersion
     def static jenkinsCliDir
 
     def public static configByTemplate (stepsValue, templateFile, templateFullName) {
@@ -22,14 +25,79 @@ class Config implements Serializable {
         configTemplateName = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .name'", returnStdout: true).trim()
         configCategory = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .category'", returnStdout: true).trim()
         configFullName = templateFullName
-        configAgent = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .agent'", returnStdout: true).trim()
         configCiBranch = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .branch'", returnStdout: true).trim()
-        configCiVersion = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .version'", returnStdout: true).trim()
-        configCdType = getCdType()
-        configCdVersion = getCdVersion()
+        configLibVersion = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .libVersion'", returnStdout: true).trim()
+        configTemplateVersion = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .templateVersion'", returnStdout: true).trim()
+        configPipelineVersion = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.fullName == \"${templateFullName}\") | .pipelineVersion'", returnStdout: true).trim()
+        // configCdType = getCdType()
+        // configCdVersion = getCdVersion()
         printConfig()
         BuilderRetriever.configBuider(stepsValue)
     }
+
+    def static printConfig () {
+        configSteps.sh "echo 'configCategory: ${configCategory}, templateName: ${templateName}, configTemplateName: ${configTemplateName}, configLibVersion: ${configLibVersion}, configTemplateVersion: ${configTemplateVersion}, configPipelineVersion: ${configPipelineVersion}, configTemplate: ${configTemplate}, configFullName: ${configFullName}, configCiBranch: ${configCiBranch}, configCdType: ${configCdType}, configCdVersion: ${configCdVersion}'"
+    }
+
+    def public static setJenkinsCliDir (cliDir) {
+        jenkinsCliDir = cliDir
+    }
+
+    def public static getJenkinsCliDir () {
+        return jenkinsCliDir
+    }
+
+    def public static getBranch () {
+        errorIfNotConfig(configCiBranch, "branch")
+        return configCiBranch
+    }
+
+    def static errorIfNotConfig (value, name) {
+        if ("${value}".equals('')|| "${value}" == null) {
+            configSteps.error("${name} must be define...!")
+        }
+    }
+
+    def public static getTemplate () {
+        errorIfNotConfig(configTemplate, "configTemplate")
+        return configTemplate
+    }
+
+    def public static getLibVersion () {
+        errorIfNotConfig(configLibVersion, "libVersion")
+        return configLibVersion
+    }
+
+    def public static getTemplateVersion () {
+        errorIfNotConfig(configTemplateVersion, "templateVersion")
+        return configTemplateVersion
+    }
+
+    def public static getPipelineVersion () {
+        errorIfNotConfig(configPipelineVersion, "pipelineVersion")
+        return configPipelineVersion
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
     def public static configByManifest (stepsValue, templateFile) {
         configSteps = stepsValue
@@ -44,16 +112,6 @@ class Config implements Serializable {
         configCiBranch = configSteps.sh(script: "echo '${templateFile}' | yq -o=x eval '.types[] | select(.name == \"${configTemplateName}\") | select(.version == \"${configCiVersion}\") | select(.category == \"${configCategory}\") | .branch'", returnStdout: true).trim()
         printConfig()
         BuilderRetriever.configBuider(stepsValue)
-    }
-
-    def static printConfig () {
-        configSteps.sh "echo 'configCategory: ${configCategory}, templateName: ${templateName}, configTemplateName: ${configTemplateName}, configCiVersion: ${configCiVersion}, configTemplate: ${configTemplate}, configFullName: ${configFullName}, configAgent: ${configAgent}, configCiBranch: ${configCiBranch}, configCdType: ${configCdType}, configCdVersion: ${configCdVersion}'"
-    }
-
-    def static errorIfNotConfig (value, name) {
-        if ("${value}".equals('')|| "${value}" == null) {
-            configSteps.error("${name} must be define...!")
-        }
     }
 
     def static getCiType () {
@@ -76,11 +134,6 @@ class Config implements Serializable {
         return configSteps.sh(script: "cat ./manifest.yaml | yq -o=x '.cd.version'", returnStdout: true).trim()
     }
 
-    def public static getTemplate () {
-        errorIfNotConfig(configTemplate, "configTemplate")
-        return configTemplate
-    }
-
     def public static getTemplateName () {
         errorIfNotConfig(configTemplateName, "configTemplate name")
         return configTemplateName
@@ -101,16 +154,6 @@ class Config implements Serializable {
         return configAgent
     }
 
-    def public static getBranch () {
-        errorIfNotConfig(configCiBranch, "branch")
-        return configCiBranch
-    }
-
-    def public static getVersion () {
-        errorIfNotConfig(configCiVersion, "version")
-        return configCiVersion
-    }
-
     def public static getDeploymentType () {
         errorIfNotConfig(configCdType, "cd type")
         return configCdType
@@ -119,13 +162,5 @@ class Config implements Serializable {
     def public static getDeploymentVersion () {
         errorIfNotConfig(configCdVersion, "cd version")
         return configCdVersion
-    }
-
-    def public static setJenkinsCliDir (cliDir) {
-        jenkinsCliDir = cliDir
-    }
-
-    def public static getJenkinsCliDir () {
-        return jenkinsCliDir
     }
 }

@@ -1,5 +1,19 @@
 package org.mauro
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def getBucket(bucket) {
 
 }

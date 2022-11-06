@@ -2,14 +2,6 @@ import org.mauro.config.Config
 import org.mauro.config.Constants
 import org.mauro.Tools
 
-
-
-
-
-
-
-
-
 def public downloadJenkinsCli () {
     sh "wget '${Constants.getJenkinsHost()}/jnlpJars/jenkins-cli.jar'"
     def folder = sh(script: "pwd", returnStdout: true).trim()    
@@ -52,6 +44,18 @@ def public createJenkinsMultibranchJobWithLib (gitDstRemote, repository, project
     sh "java -jar ${Config.getJenkinsCliDir()}/jenkins-cli.jar -s ${Constants.getJenkinsHost()}/ -webSocket create-job PRJ-${projectName}/${repository} < ${configName}"
     sh "rm ${configName}"
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 def public createPipelineJobWithLib (name, projectName, serviceName) {
     def pipepileTemplate = libraryResource 'org/mauro/templates/JenkinsfilePipelineJobWithLibTemplate'

@@ -5,6 +5,21 @@ import org.mauro.Tools
 
 class Maven implements Serializable {
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
     def steps
     def appVersion
     def appServiceName

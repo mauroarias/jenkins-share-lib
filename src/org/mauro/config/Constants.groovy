@@ -2,6 +2,18 @@ package org.mauro.config
 
 class Constants implements Serializable {
 
+    def public static String getCommonHost() {
+        return 'localhost'
+    }
+
+    def public static String getCommonURI() {
+        return "http://${getCommonHost()}"
+    }
+
+    def public static String getJenkinsHost() {
+        return "${getCommonURI()}:8080"
+    }
+
     def public static String getRepoTemplate () {
         return 'https://github.com/mauroarias'
     }
@@ -9,6 +21,24 @@ class Constants implements Serializable {
     def public static String getGitBranch () {
         return 'develop'
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
 
     def public static String getDefaultAgent () {
         return 'alpine'
@@ -26,13 +56,6 @@ class Constants implements Serializable {
         return 'http://sonarqube:9000'
     }
 
-    def public static String getCommonURI() {
-        return "http://${getCommonHost()}"
-    }
-
-    def public static String getCommonHost() {
-        return 'localhost'
-    }
 
     def public static String getStashName () {
         return 'codeBuilt'
@@ -56,7 +79,4 @@ class Constants implements Serializable {
         return 'template-maven-app'
     }
 
-    def public static String getJenkinsHost() {
-        return "${getCommonURI()}:8080"
-    }
 }

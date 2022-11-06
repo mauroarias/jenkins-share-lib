@@ -3,20 +3,23 @@ types:
     name: maven
     category: java8
     fullName: maven java8
-    agent: ghcr.io/mauroarias/java-inbound-agent:0.0.1
     branch: java8
-    version: 0.1.0
+    libVersion: 0.1.0
+    templateVersion: 0.0.1
+    pipelineVersion: 0.0.1
   - template: template-maven-app
     name: maven
     category: java11
     fullName: maven java11
-    agent: ghcr.io/mauroarias/java-inbound-agent:0.0.1
     branch: java11
-    version: 0.1.0
+    libVersion: 0.1.0
+    templateVersion: 0.0.1
+    pipelineVersion: 0.0.1
   - template: template-maven-app
     name: maven
     category: java11
     fullName: maven wip
-    agent: ghcr.io/mauroarias/java-inbound-agent:0.0.1
     branch: wip-0.2.0
-    version: wip-0.2.0
+    libVersion: wip-0.2.0
+    templateVersion: wip-0.2.0
+    pipelineVersion: wip-0.2.0

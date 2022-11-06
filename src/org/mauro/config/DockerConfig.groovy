@@ -2,6 +2,37 @@ package org.mauro.config
 
 class DockerConfig implements Serializable {
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
     def static configSteps
     def static configRegistryServer
     def static configRegistryRepoDev

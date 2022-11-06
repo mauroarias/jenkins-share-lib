@@ -1,18 +1,24 @@
 import org.mauro.config.Constants
 import org.mauro.git.GitRetriever
 
-
-
-
-
-
-
-
+def public getGitDstRepos () {
+    def templateTypeList = libraryResource 'org/mauro/templates/templates.yaml'
+    return sh(script: "x=('gitHub' 'bitBucket'); echo '${x[@]}' | tr ' ' '\n'", returnStdout: true)
+}
 
 def public getRepos (gitDstRemote, projectName) {
     GitRetriever.configGitRep(gitDstRemote)
     return GitRetriever.getGitInst().getRepos(this, projectName)
 }
+
+
+
+
+
+
+
+
+
 
 def public cloneRepo (serviceName) {
     sh "rm -rf ${serviceName}"
