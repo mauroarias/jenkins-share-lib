@@ -3,13 +3,13 @@ import org.mauro.config.Constants
 import org.mauro.Tools
 
 def public downloadJenkinsCli () {
-    sh "wget '${Constants.getJenkinsHost()}/jnlpJars/jenkins-cli.jar'"
+    sh "wget '${env.JENKINS_HOST}/jnlpJars/jenkins-cli.jar'"
     def folder = sh(script: "pwd", returnStdout: true).trim()    
     Config.setJenkinsCliDir(folder)
 }
 
 def public getprojects () {
-    return sh(script: "java -jar ${Config.getJenkinsCliDir()}/jenkins-cli.jar -auth ${JENKINS_CRED_USR}:${JENKINS_CRED_PSW} -s ${Constants.getJenkinsHost()}/ -webSocket list-jobs | grep 'PRJ-' | sed 's/PRJ-//g'", returnStdout: true)
+    return sh(script: "java -jar ${Config.getJenkinsCliDir()}/jenkins-cli.jar -auth ${JENKINS_CRED_USR}:${JENKINS_CRED_PSW} -s ${env.JENKINS_HOST}/ -webSocket list-jobs | grep 'PRJ-' | sed 's/PRJ-//g'", returnStdout: true)
 }
 
 def public createProjectIfNotExits (projectName) {
@@ -18,7 +18,7 @@ def public createProjectIfNotExits (projectName) {
     sh "echo 'creating project ${projectName}'"
     sh "echo '${template}' > ${configFileName}"
     sh "sed -i 's/<description>/<description>${projectName}/' ${configFileName}"
-    sh "java -jar ${Config.getJenkinsCliDir()}/jenkins-cli.jar -auth ${JENKINS_CRED_USR}:${JENKINS_CRED_PSW} -s ${Constants.getJenkinsHost()}/ -webSocket create-job PRJ-${projectName} < ${configFileName}"
+    sh "java -jar ${Config.getJenkinsCliDir()}/jenkins-cli.jar -auth ${JENKINS_CRED_USR}:${JENKINS_CRED_PSW} -s ${env.JENKINS_HOST}/ -webSocket create-job PRJ-${projectName} < ${configFileName}"
     sh "rm ${configFileName}"
 }
 
@@ -41,7 +41,7 @@ def public createJenkinsMultibranchJobWithLib (gitDstRemote, repository, project
     sh "echo 'creating multibranch job ${repository}'"
     sh "echo '${template}' > ${configName}"
     sh "sed -i 's!__name__!${serviceName}!g; s!__repository__!${repository}!g; s!__repository_owner__!${owner}!g; s!__repository_url__!${url}!g' ${configName}"
-    sh "java -jar ${Config.getJenkinsCliDir()}/jenkins-cli.jar -auth ${JENKINS_CRED_USR}:${JENKINS_CRED_PSW} -s ${Constants.getJenkinsHost()}/ -webSocket create-job PRJ-${projectName}/${repository} < ${configName}"
+    sh "java -jar ${Config.getJenkinsCliDir()}/jenkins-cli.jar -auth ${JENKINS_CRED_USR}:${JENKINS_CRED_PSW} -s ${env.JENKINS_HOST}/ -webSocket create-job PRJ-${projectName}/${repository} < ${configName}"
     sh "rm ${configName}"
 }
 
@@ -69,7 +69,7 @@ def public createPipelineJobWithLib (name, projectName, serviceName) {
     sh "echo '</script>' >> ${configName}"
     sh "echo '${template}' | grep -A 100 '__PIPELINE__' | tail -n +2 >> ${configName}"
     sh "sed -i 's!__name__!${name}!g; s!__repository__!${serviceName}!g' ${configName}"
-    sh "java -jar ${Config.getJenkinsCliDir()}/jenkins-cli.jar -auth ${JENKINS_CRED_USR}:${JENKINS_CRED_PSW} -s ${Constants.getJenkinsHost()}/ -webSocket create-job PRJ-${projectName}/${name} < ${configName}"
+    sh "java -jar ${Config.getJenkinsCliDir()}/jenkins-cli.jar -auth ${JENKINS_CRED_USR}:${JENKINS_CRED_PSW} -s ${env.JENKINS_HOST}/ -webSocket create-job PRJ-${projectName}/${name} < ${configName}"
     sh "rm ${configName}"
 }
 

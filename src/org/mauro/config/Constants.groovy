@@ -10,10 +10,6 @@ class Constants implements Serializable {
         return "http://${getCommonHost()}"
     }
 
-    def public static String getJenkinsHost() {
-        return 'http://jenkins.jenkins.svc.cluster.local:8080'
-    }
-
     def public static String getRepoTemplate () {
         return 'https://github.com/mauroarias'
     }
