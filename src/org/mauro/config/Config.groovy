@@ -36,7 +36,7 @@ class Config implements Serializable {
     }
 
     def static printConfig () {
-        configSteps.sh "echo 'configCategory: ${configCategory}, templateName: ${templateName}, configTemplateName: ${configTemplateName}, configLibVersion: ${configLibVersion}, configTemplateVersion: ${configTemplateVersion}, configPipelineVersion: ${configPipelineVersion}, configTemplate: ${configTemplate}, configFullName: ${configFullName}, configCiBranch: ${configCiBranch}'" //, configCdType: ${configCdType}, configCdVersion: ${configCdVersion}'"
+        configSteps.sh "echo 'configCategory: ${configCategory}, configTemplateName: ${configTemplateName}, configLibVersion: ${configLibVersion}, configTemplateVersion: ${configTemplateVersion}, configPipelineVersion: ${configPipelineVersion}, configTemplate: ${configTemplate}, configFullName: ${configFullName}, configCiBranch: ${configCiBranch}'" //, configCdType: ${configCdType}, configCdVersion: ${configCdVersion}'"
     }
 
     def public static setJenkinsCliDir (cliDir) {
