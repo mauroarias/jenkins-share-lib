@@ -3,7 +3,7 @@ import org.mauro.git.GitRetriever
 
 def public getGitDstRepos () {
     def templateTypeList = libraryResource 'org/mauro/templates/templates.yaml'
-    return sh(script: "x=('gitHub' 'bitBucket'); echo '${x[@]}' | tr ' ' '\n'", returnStdout: true)
+    return sh(script: "echo -e 'gitHub' && echo -e 'bitBucket'", returnStdout: true)
 }
 
 def public getRepos (gitDstRemote, projectName) {
