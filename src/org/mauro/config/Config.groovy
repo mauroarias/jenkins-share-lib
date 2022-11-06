@@ -32,7 +32,6 @@ class Config implements Serializable {
         // configCdType = getCdType()
         // configCdVersion = getCdVersion()
         printConfig()
-        BuilderRetriever.configBuider(stepsValue)
     }
 
     def static printConfig () {
